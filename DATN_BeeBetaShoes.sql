@@ -291,7 +291,7 @@ Create table Bill(
 	TotalPriceLast money,
 	Note nvarchar(255),
 	PayType int ,
-	PayStastus int,
+	PayStatus int,
 	CodeGHN varchar(30),
 	IdCoupon int,
 	IdAddress int foreign key references Address(Id),
