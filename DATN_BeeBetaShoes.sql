@@ -179,7 +179,7 @@ Create table ProductDetail(
     Status int,
 	IdProduct int foreign key references Product(Id),
 	IdBrand int foreign key references Brand(Id), 
-	Toe int foreign key references Toe(Id),
+	IdToe int foreign key references Toe(Id),
 	IdShoelace int foreign key references Shoelace(Id),
 	IdCategory int foreign key references Category(Id),
 	IdHeelcushion int foreign key references Heelcushion(Id),
