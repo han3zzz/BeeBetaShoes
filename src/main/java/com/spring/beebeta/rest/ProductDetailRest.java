@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/product")
-public class ProductRest {
+public class ProductDetailRest {
     @Autowired
     private ProductDetailService service;
 

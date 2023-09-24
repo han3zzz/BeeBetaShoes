@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 @ToString
-@Table(name = "ProductDetail_Size_Color")
+@Table(name = "ProductDetail_Color_Size")
 public class ProductDetail_Size_Color implements Serializable {
     @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

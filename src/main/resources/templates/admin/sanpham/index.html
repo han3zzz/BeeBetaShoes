@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Modernize Free</title>
+  <title>BeeBetaShoes</title>
   <link rel="shortcut icon" type="image/png" href="../../../static/assets/images/logos/favicon.png" />
   <link rel="stylesheet" href="../../../static/assets/css/styles.min.css" />
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
@@ -12,7 +12,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 </head>
 
-<body>
+<body ng-app="myApp" ng-controller="ctrl">
   <!--  Body Wrapper -->
   <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
     data-sidebar-position="fixed" data-header-position="fixed">
@@ -57,6 +57,7 @@
           </tbody>
         </table>
       </div>
+      <script src="sanpham.js"></script>
 <!--        footer-->
       <div th:insert="admin/layout/_footer.html"> :: footer"></div>
       </div>

@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.spring.beebeta.service;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.Blob;
@@ -37,7 +37,7 @@ public class FirebaseFileService {
             ClassPathResource serviceAccount = new ClassPathResource("firebase-service-account-key.json");
             storage = StorageOptions.newBuilder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount.getInputStream()))
-                    .setProjectId("tt-saviss").build().getService();
+                    .setProjectId("beebetashoes").build().getService();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -53,14 +53,14 @@ public class FirebaseFileService {
         String imageName = UUID.randomUUID().toString();
         Map<String, String> map = new HashMap<>();
         map.put("firebaseStorageDownloadTokens", imageName);
-        BlobId blobId = BlobId.of("tt-saviss.appspot.com", imageName);
+        BlobId blobId = BlobId.of("beebetashoes.appspot.com", imageName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
                 .setMetadata(map)
                 .setContentType(file.getContentType())
                 .build();
         storage.create(blobInfo, file.getInputStream());
         StringBuilder url = new StringBuilder();
-        url.append("https://firebasestorage.googleapis.com/v0/b/tt-saviss.appspot.com/o/");
+        url.append("https://firebasestorage.googleapis.com/v0/b/beebetashoes.appspot.com/o/");
         url.append(imageName);
         url.append("?alt=media");
         return url.toString();
@@ -69,15 +69,15 @@ public class FirebaseFileService {
     public String deleteFile(String url) {
         try {
             String fileName = 
-            url.replace("https://firebasestorage.googleapis.com/v0/b/tt-saviss.appspot.com/o/", "").replace("?alt=media", "");
+            url.replace("https://firebasestorage.googleapis.com/v0/b/beebetashoes.appspot.com/o/", "").replace("?alt=media", "");
             ClassPathResource serviceAccount = new ClassPathResource("firebase-service-account-key.json");
-            String projectId = "tt-saviss";
+            String projectId = "beebetashoes";
             Storage storage = StorageOptions.newBuilder()
                     .setProjectId(projectId)
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount.getInputStream()))
                     .build()
                     .getService();
-            String bucketName = "tt-saviss.appspot.com";
+            String bucketName = "beebetashoes.appspot.com";
             Bucket bucket = storage.get(bucketName);
             bucket.get(fileName).delete();
             System.out.println("File deleted successfully." + fileName);

@@ -1,6 +1,6 @@
-package com.example.demo.restcontroller;
+package com.spring.beebeta.rest;
 
-import com.example.demo.service.FirebaseFileService;
+import com.spring.beebeta.service.FirebaseFileService;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
