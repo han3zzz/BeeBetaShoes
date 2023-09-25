@@ -1,21 +1,44 @@
 package com.spring.beebeta.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 @Table(name = "ProductDetail")
-public class ProductDetail extends Base{
+public class ProductDetail implements Serializable {
+    @jakarta.persistence.Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
+    private Integer Id;
+    @Column(name = "CreateDate")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date CreateDate;
+    @Column(name = "UpdateDate")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date UpdateDate;
+    @Column(name = "CreateBy")
+    private String CreateBy;
+    @Column(name = "UpdateBy")
+    private String UpdateBy;
+    @Column(name = "Status")
+    private Integer Status;
     @Column(name = "EntryPrice")
     private BigDecimal EntryPrice;
     @Column(name = "Price")
@@ -26,35 +49,27 @@ public class ProductDetail extends Base{
     private String Description;
     @ManyToOne
     @JoinColumn(name = "IdProduct")
-    @JsonBackReference
     private Product product;
     @ManyToOne
     @JoinColumn(name = "IdBrand")
-    @JsonBackReference
     private Brand brand;
     @ManyToOne
     @JoinColumn(name = "IdToe")
-    @JsonBackReference
     private Toe toe;
     @ManyToOne
     @JoinColumn(name = "IdShoelace")
-    @JsonBackReference
     private Shoelace shoelace;
     @ManyToOne
     @JoinColumn(name = "IdCategory")
-    @JsonBackReference
     private Category category;
     @ManyToOne
     @JoinColumn(name = "IdHeelcushion")
-    @JsonBackReference
     private Heelcushion heelcushion;
     @ManyToOne
     @JoinColumn(name = "IdSole")
-    @JsonBackReference
     private Sole sole;
     @ManyToOne
     @JoinColumn(name = "IdDesign")
-    @JsonBackReference
     private Design design;
     @OneToMany(mappedBy = "productDetail")
     private Set<ProductFault> productFaults = new HashSet<ProductFault>();

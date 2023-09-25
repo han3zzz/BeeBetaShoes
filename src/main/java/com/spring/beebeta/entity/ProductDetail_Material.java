@@ -7,11 +7,11 @@ import lombok.*;
 import java.io.Serializable;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 @Table(name = "ProductDetail_Material")
 public class ProductDetail_Material implements Serializable {
     @jakarta.persistence.Id
@@ -19,11 +19,11 @@ public class ProductDetail_Material implements Serializable {
     @Column(name = "Id")
     private Integer Id;
     @ManyToOne
+    @JoinColumn(name = "IdMaterial")
+    private Material material;
+    @ManyToOne
     @JoinColumn(name = "IdProductDetail")
     @JsonBackReference
     private ProductDetail productDetail;
-    @ManyToOne
-    @JoinColumn(name = "IdMaterial")
-    @JsonBackReference
-    private Material material;
+
 }

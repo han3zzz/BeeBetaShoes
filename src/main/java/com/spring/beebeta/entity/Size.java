@@ -1,26 +1,41 @@
 package com.spring.beebeta.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@ToString
 @Table(name = "Size")
-public class Size extends Base{
+@Builder
+public class Size implements Serializable {
+    @jakarta.persistence.Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
+    private Integer Id;
+    @Column(name = "CreateDate")
+    private Timestamp CreateDate;
+    @Column(name = "UpdateDate")
+    private Timestamp UpdateDate;
+    @Column(name = "CreateBy")
+    private String CreateBy;
+    @Column(name = "UpdateBy")
+    private String UpdateBy;
+    @Column(name = "Status")
+    private Integer Status;
     @Column(name = "Name")
     private String Name;
     @Column(name = "Description")
     private String Description;
+    @JsonIgnore
     @OneToMany(mappedBy = "size")
     private Set<ProductDetail_Size_Color> productDetail_size_colors = new HashSet<ProductDetail_Size_Color>();
 }

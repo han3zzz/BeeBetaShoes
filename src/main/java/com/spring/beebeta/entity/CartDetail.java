@@ -8,11 +8,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 @Table(name = "CartDetail")
 public class CartDetail implements Serializable {
     @jakarta.persistence.Id

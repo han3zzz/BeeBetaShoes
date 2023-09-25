@@ -11,11 +11,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 @Table(name = "Bill")
 public class Bill implements Serializable {
     @jakarta.persistence.Id

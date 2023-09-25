@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:thnum="http://www.thymeleaf.org/extras/numbers">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BeeBetaShoes</title>
+  <link rel="shortcut icon" type="image/png" href="../../../static/assets/images/logos/favicon.png" />
+  <link rel="stylesheet" href="../../../static/assets/css/styles.min.css" />
+  <link rel="stylesheet" href="../../../static/assets/css/sanpham.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+</head>
+
+<body ng-app="myApp" ng-controller="ctrl" data-ng-init="detail()">
+  <!--  Body Wrapper -->
+  <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <!-- Sidebar Start -->
+    <div th:insert="admin/layout/_sidebar.html"> :: sidebar"></div>
+    <!--  Sidebar End -->
+    <!--  Main wrapper -->
+    <div class="body-wrapper">
+      <!--  Header Start -->
+      <div th:insert="admin/layout/_header.html"> :: header"></div>
+      <!--  Header End -->
+      <!--noidung-->
+      <div class="container-fluid">
+        <div> <h3>Sửa Sản Phẩm</h3></div>
+        <form class="form-control">
+          <input type="hidden" id="idProductDetail" th:value="${id}" >
+          <div class="row">
+
+            <div class="col-md-3 add">
+              <div>Ảnh đại diện sản phẩm</div>
+              <img id="output"/>
+              <input file-model="image" id="fileUpload" type="file" accept="image/*" onchange="loadFile(event)" >
+              <div style="margin-top: 10px">Danh sách ảnh sản phẩm</div>
+              <input  id="fileList" type="file" accept="image/*" multiple>
+            </div>
+            <div class="col-md-9">
+
+              <div class="row">
+                <div class="col-md-6 add">
+                  <label>Mã Sản Phẩm</label> <input ng-model="masanpham">
+                </div>
+                <div class="col-md-6 add">
+                  <label>Tên Sản Phẩm</label> <input ng-model="tensanpham">
+                </div>
+                <div class="col-md-6 add">
+                  <label> Giá Nhập</label> <input ng-model="gianhap">
+                </div>
+                <div class="col-md-6 add">
+                  <label>Giá Bán</label> <input ng-model="giaban">
+                </div>
+                <div class="col-md-6 add">
+                  <label>Giảm Giá</label> <input ng-model="giamgia">
+                </div>
+                <div class="col-md-6 add">
+                  <label>Mô Tả</label> <input ng-model="mota">
+                </div>
+                <div class="col-md-6 add">
+                  <label>Danh Mục</label> <select ng-model="danhmuc" >
+                  <option ng-repeat="dm in listCategory" value="{{dm.id}}" ng-if="dm.status == 0" ng-selected="dm.id == danhmuc">
+                    {{dm.name}}</option></select>
+                </div>
+                <div class="col-md-6 add">
+                  <label>Thương Hiệu</label> <select ng-model="thuonghieu">
+                  <option ng-repeat="th in listBrand" value="{{th.id}}" ng-if="th.status == 0" ng-selected="th.id == thuonghieu">
+                    {{th.name}}</option></select>
+                </div>
+                <div class="col-md-6 add">
+                  <label>Mũi Giày</label>
+                  <select ng-model="muigiay">
+                    <option ng-repeat="mg in listToe" value="{{mg.id}}" ng-if="mg.status ==0" ng-selected="mg.id == muigiay">
+                      {{mg.name}}</option></select>
+                </div>
+
+                <div class="col-md-6 add">
+                  <label>Đế Giày</label>
+                  <select ng-model="degiay">
+                    <option ng-repeat="dg in listSole" value="{{dg.id}}" ng-if="dg.status == 0" ng-selected="dg.id == degiay">
+                      {{dg.name}}</option></select>
+                </div>
+                <div class="col-md-6 add">
+                  <label>Dây Giày</label>
+                  <select ng-model="daygiay">
+                    <option ng-repeat="day in listShoelace" value="{{day.id}}" ng-if="day.status == 0" ng-selected="day.id == daygiay">
+                      {{day.name}}</option></select>
+                </div>
+                <div class="col-md-6 add">
+                  <label>Lót Giày</label>
+                  <select ng-model="lotgiay">
+                    <option ng-repeat="lot in listHeelcushion" value="{{lot.id}}" ng-if="lot.status == 0" ng-selected="lot.id == lotgiay">
+                      {{lot.name}}</option></select>
+                </div>
+                <div class="col-md-6 add">
+                  <label>Thiết Kế</label>
+                  <select ng-model="thietke">
+                    <option ng-repeat="tk in listDesign" value="{{tk.id}}" ng-if="tk.status == 0" ng-selected="tk.id == thietke">
+                      {{tk.name}}</option></select>
+                </div>
+                <div class="col-md-12 add">
+                  <label>Chất Liệu</label>
+                  <div>
+                    <span style="padding-left: 5px" ng-repeat="chatlieu in listMaterial" ng-if="chatlieu.status == 0"><input id="Material{{chatlieu.id}}"  type="checkbox" value="{{chatlieu.id}}"> {{chatlieu.name}}</span>
+                  </div>
+                </div>
+                <div class="col-md-6 add">
+                  <label>Màu Sắc</label>
+                  <span ng-repeat="mausac in listColor">
+                                    <input type="checkbox" id="Color{{mausac.id}}" ng-click="checkbox(mausac.id)">{{mausac.name}}
+                               </span>
+                <div>
+                                <span ng-repeat="mausac in listColor">
+                                    <div id="text{{mausac.id}}"></div>
+                               </span>
+                </div>
+              </div>
+
+              <div style="padding-top: 30px"><button  class="btn btn-danger" ng-click="update()">Sửa</button></div>
+
+            </div>
+          </div>
+          </div>
+        </form>
+      </div>
+      <script src="../../../static/assets/angularjs/sanpham.js"></script>
+      <script src="../../../static/assets/angularjs/sp.js"></script>
+<!--        footer-->
+      <div th:insert="admin/layout/_footer.html"> :: footer"></div>
+      </div>
+    </div>
+  </div>
+  <script src="../../../static/assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="../../../static/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../../../static/assets/js/sidebarmenu.js"></script>
+  <script src="../../../static/assets/js/app.min.js"></script>
+  <script src="../../../static/assets/libs/apexcharts/dist/apexcharts.min.js"></script>
+  <script src="../../../static/assets/libs/simplebar/dist/simplebar.js"></script>
+  <script src="../../../static/assets/js/dashboard.js"></script>
+</body>
+
+</html>

@@ -8,11 +8,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 @Table(name = "Cart")
 public class Cart implements Serializable {
     @jakarta.persistence.Id

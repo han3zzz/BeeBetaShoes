@@ -8,11 +8,11 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 @Table(name = "BillDetail")
 public class BillDetail implements Serializable {
     @jakarta.persistence.Id
@@ -29,7 +29,6 @@ public class BillDetail implements Serializable {
     private Integer IdSize;
     @ManyToOne
     @JoinColumn(name = "IdOrder")
-    @JsonBackReference
     private Bill bill;
     @ManyToOne
     @JoinColumn(name = "IdProductDetail")

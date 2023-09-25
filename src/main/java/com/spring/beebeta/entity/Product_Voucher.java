@@ -7,11 +7,11 @@ import lombok.*;
 import java.io.Serializable;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
 @Table(name = "Product_Voucher")
 public class Product_Voucher implements Serializable {
     @jakarta.persistence.Id

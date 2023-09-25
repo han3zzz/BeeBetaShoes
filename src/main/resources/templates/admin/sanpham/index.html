@@ -25,39 +25,55 @@
       <div th:insert="admin/layout/_header.html"> :: header"></div>
       <!--  Header End -->
       <div class="container-fluid" >
-        <h3> Quản Lý Sản Phẩm</h3>
-        <div> <a href="/admin/san-pham/add"><button class="btn btn-success">Add</button></a> </div>
+        <h3> Manage Products</h3>
+        <div> <a href="/admin/products/add"><button class="btn btn-success">Add</button></a> </div>
         <table class="table">
           <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Ảnh</th>
-            <th scope="col">Mã SP</th>
-            <th scope="col">Tên SP</th>
-            <th scope="col">Giá Bán</th>
-            <th scope="col">Danh Mục</th>
-            <th scope="col">Thương Hiệu</th>
-            <th scope="col">Action</th>
+            <td scope="col">#</td>
+            <td scope="col">Image</td>
+            <td scope="col">Code</td>
+            <td scope="col">Name</td>
+            <td scope="col">Price</td>
+            <td scope="col">Category</td>
+            <td scope="col">Brand</td>
+            <td scope="col">Toe</td>
+            <td scope="col">Sole</td>
+            <td scope="col">Design</td>
+            <td scope="col">Shoelace</td>
+            <td scope="col">Heelcushion</td>
+            <td scope="col">Action</td>
           </tr>
           </thead>
           <tbody>
 
-          <tr ng-repeat="sp in list" ng-if="sp.trangThai == 0">
+          <tr ng-repeat="sp in list" ng-if="sp.status == 0">
             <td> {{$index + 1}}</td>
-            <td><img style="width: 100px;height: 100px" src="{{sp.sanPham.anhs[0].link}}"></td>
-            <td>{{sp.sanPham.maSanPham}}</td>
-            <td>{{sp.sanPham.tenSanPham}}</td>
-            <td>{{sp.giaBan}}</td>
-            <td>{{sp.danhMuc.tenDanhMuc}}</td>
-            <td>{{sp.thuongHieu.tenThuongHieu}}</td>
-            <td><a href="/admin/san-pham/update/{{sp.idCTSP}}"><button class="btn btn-behance" ng-click="getbyid(sp)">Update</button></a>
-              <button class="btn btn-danger" ng-click="delete(sp.idCTSP)">Delete</button>
+            <td>
+              <span ng-repeat="img in sp.product.productImages">
+                <span ng-if="img.mainImage == true">
+                  <img style="width: 100px;height: 100px" src="{{img.url}}">
+                </span>
+              </span>
+          </td>
+            <td>{{sp.product.code}}</td>
+            <td>{{sp.product.name}}</td>
+            <td>{{sp.price}}</td>
+            <td>{{sp.category.name}}</td>
+            <td>{{sp.brand.name}}</td>
+            <td>{{sp.toe.name}}</td>
+            <td>{{sp.sole.name}}</td>
+            <td>{{sp.design.name}}</td>
+            <td>{{sp.shoelace.name}}</td>
+            <td>{{sp.heelcushion.name}}</td>
+            <td><a href="/admin/products/update/{{sp.id}}"><button class="btn btn-indigo" ng-click="getbyid(sp)">Update</button></a>
+              <button style="margin-top: 5px" class="btn btn-danger" ng-click="delete(sp.id)">Delete</button>
             </td>
           </tr>
           </tbody>
         </table>
       </div>
-      <script src="sanpham.js"></script>
+      <script src="../../../static/assets/angularjs/sanpham.js"></script>
 <!--        footer-->
       <div th:insert="admin/layout/_footer.html"> :: footer"></div>
       </div>

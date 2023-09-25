@@ -1,18 +1,32 @@
 package com.spring.beebeta.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
+import java.sql.Timestamp;
+
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@ToString
 @Table(name = "Background")
-public class Background extends Base{
+public class Background implements Serializable {
+    @jakarta.persistence.Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
+    private Integer Id;
+    @Column(name = "CreateDate")
+    private Timestamp CreateDate;
+    @Column(name = "UpdateDate")
+    private Timestamp UpdateDate;
+    @Column(name = "CreateBy")
+    private String CreateBy;
+    @Column(name = "UpdateBy")
+    private String UpdateBy;
+    @Column(name = "Status")
+    private Integer Status;
     @Column(name = "Type")
     private String Type;
     @Column(name = "Url")
