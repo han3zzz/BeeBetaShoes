@@ -52,4 +52,21 @@ public class ProductDetailService {
         p.setStatus(1);
         return repository.save(p);
     }
+    public ProductDetail update(Integer id,ProductDetailRequest request){
+        ProductDetail productDetail = repository.getById(id);
+        productDetail.setEntryPrice(request.getEntryPrice());
+        productDetail.setPrice(request.getPrice());
+        productDetail.setDiscount(request.getDiscount());
+        productDetail.setDescription(request.getDescription());
+        productDetail.setBrand(Brand.builder().Id(request.getIdBrand()).build());
+        productDetail.setCategory(Category.builder().Id(request.getIdCategory()).build());
+        productDetail.setToe(Toe.builder().Id(request.getIdToe()).build());
+        productDetail.setDesign(Design.builder().Id(request.getIdDesign()).build());
+        productDetail.setSole(Sole.builder().Id(request.getIdSole()).build());
+        productDetail.setHeelcushion(Heelcushion.builder().Id(request.getIdHeelcushion()).build());
+        productDetail.setShoelace(Shoelace.builder().Id(request.getIdShoelace()).build());
+        productDetail.setUpdateDate(new Date());
+        return repository.save(productDetail);
+    }
+
 }

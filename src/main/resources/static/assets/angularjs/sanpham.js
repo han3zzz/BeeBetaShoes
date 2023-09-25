@@ -230,7 +230,6 @@ var app = angular.module("myApp",[]);
                         $scope.checkbox(listColor[i].id);
                     }
                 }
-                alert(detail.data.productDetail_size_colors.length)
                 for (let i = 0; i < detail.data.productDetail_size_colors.length; i++) {
                     document.getElementById('Color'+detail.data.productDetail_size_colors[i].color.id + 'Size'+detail.data.productDetail_size_colors[i].size.id).value = detail.data.productDetail_size_colors[i].quantity;
 
@@ -240,4 +239,133 @@ var app = angular.module("myApp",[]);
 
             })
         }
-})
+
+        //update product
+        $scope.update = function() {
+            let id = document.getElementById("idProductDetail").value;
+            // clear material and color size
+            $http.delete("/api/productdetail_material/" + id);
+            $http.delete("/api/productdetail_color_size/" + id)
+            // update product detail
+            $http.put("/api/product/update/" + id, {
+                price: $scope.giaban,
+                entryPrice: $scope.gianhap,
+                discount: $scope.giamgia,
+                description: $scope.mota,
+                idCategory: $scope.danhmuc,
+                idBrand: $scope.thuonghieu,
+                idDesign: $scope.thietke,
+                idHeelcushion: $scope.lotgiay,
+                idShoelace: $scope.daygiay,
+                idSole: $scope.degiay,
+                idToe: $scope.muigiay
+            }).then(function (productDetail) {
+
+                    //update product
+                    $http.put("/api/sanpham/" + productDetail.data.product.id,{
+                        name : $scope.tensanpham,
+                        description : $scope.mota
+                    }).then(function (product) {
+
+                        // update image
+                        var MainImage = document.getElementById("fileUpload").files;
+                        console.log(MainImage)
+                        if (MainImage.length > 0) {
+                            $http.delete("/api/image/" + product.data.id)
+                            var img = new FormData();
+                            img.append("files", MainImage[0]);
+                            $http.post("/api/upload", img, {
+                                transformRequest: angular.identity,
+                                headers: {
+                                    'Content-Type': undefined
+                                }
+                            }).then(function (image) {
+                                $http.post("/api/image", {
+                                    url: image.data[0],
+                                    mainImage: true,
+                                    idProduct: product.data.id
+                                })
+                            })
+                        }
+                        var ListImage = document.getElementById("fileList").files;
+                        if (ListImage.length > 0) {
+                            $http.delete("/api/image/1/" + product.data.id);
+                            var img1 = new FormData();
+                            for (let i = 0; i < ListImage.length; i++) {
+                                img1.append("files", ListImage[i]);
+                                $http.post("/api/upload", img1, {
+                                    transformRequest: angular.identity,
+                                    headers: {
+                                        'Content-Type': undefined
+                                    }
+                                }).then(function (imagelist) {
+                                    $http.post("/api/image", {
+                                        url: imagelist.data[i],
+                                        mainImage: false,
+                                        idProduct: product.data.id
+                                    });
+                                })
+                            }
+
+                        }
+                    })
+                //add material
+                let listMaterial = $scope.listMaterial;
+                for (let i = 0; i < listMaterial.length; i++) {
+                    var checkMaterial = document.getElementById('Material'+listMaterial[i].id);
+                    if (checkMaterial.checked == true){
+                        $http.post("/api/productdetail_material",{
+                            idProductDetail : productDetail.data.id,
+                            idMaterial : listMaterial[i].id
+                        });
+                    }
+                }
+
+                        // add size and color
+
+                        let listColor = $scope.listColor;
+                        let listSize = $scope.listSize;
+                        for (let i = 0; i < listColor.length; i++) {
+                            let color = document.getElementById('Color' + listColor[i].id);
+                            if (color.checked == true) {
+                                for (let j = 0; j < listSize.length; j++) {
+                                    let quantity = document.getElementById('Color' + listColor[i].id + 'Size' + listSize[j].id).value;
+                                    if (quantity > 0) {
+                                        $http.post("/api/productdetail_color_size", {
+                                            idProductDetail: productDetail.data.id,
+                                            idColor: listColor[i].id,
+                                            idSize: listSize[j].id,
+                                            quantity: quantity
+                                        })
+                                    }
+                                }
+                            }
+                        }
+
+
+
+
+
+                    alert("Sửa thành công !")
+
+            })
+        }
+        //pagation list
+        // $scope.curPage = 1,
+        //     $scope.itemsPerPage = 3,
+        //     $scope.maxSize = 5;
+        //
+        // this.items = $scope.list;
+        //
+        // $scope.numOfPages = function () {
+        //     return Math.ceil($scope.list.length / $scope.itemsPerPage);
+        //
+        // };
+        //
+        // $scope.$watch('curPage + numPerPage', function () {
+        //     var begin = (($scope.curPage - 1) * $scope.itemsPerPage),
+        //         end = begin + $scope.itemsPerPage;
+        //
+        //     $scope.filteredItems = $scope.list.slice(begin, end);
+        // });
+        })

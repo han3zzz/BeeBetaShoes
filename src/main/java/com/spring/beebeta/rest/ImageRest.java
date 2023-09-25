@@ -17,4 +17,14 @@ public class ImageRest {
     public ResponseEntity<?> add(@RequestBody ImageRequest image){
         return ResponseEntity.ok(service.add(image));
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id){
+        service.delete(id);
+        return ResponseEntity.ok("ok");
+    }
+    @DeleteMapping("/1/{id}")
+    public ResponseEntity<?> delete1(@PathVariable("id") Integer id){
+        service.delete1(id);
+        return ResponseEntity.ok("ok");
+    }
 }

@@ -23,4 +23,11 @@ public class ProductService {
         product.setStatus(0);
         return repository.save(product);
     }
+    public Product update(Integer id,ProductReqest reqest){
+        Product product = repository.getById(id);
+        product.setName(reqest.getName());
+        product.setDescription(reqest.getDescription());
+        product.setUpdateDate(new Date());
+        return repository.save(product);
+    }
 }

@@ -26,6 +26,10 @@ public class ProductDetailRest {
     public ResponseEntity<?> delete(@PathVariable("id") Integer id){
         return ResponseEntity.ok(service.delete(id));
     }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") Integer id,@RequestBody ProductDetailRequest request){
+        return ResponseEntity.ok(service.update(id,request));
+    }
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable("id") Integer id){
         return ResponseEntity.ok(service.getById(id));

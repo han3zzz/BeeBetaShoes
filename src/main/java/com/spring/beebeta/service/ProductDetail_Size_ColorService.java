@@ -23,5 +23,11 @@ public class ProductDetail_Size_ColorService {
         productDetail_size_color.setQuantity(request.getQuantity());
         return repository.save(productDetail_size_color);
     }
+    public void delete(Integer idProductDetail){
+        List<ProductDetail_Size_Color> list = repository.getAllById(idProductDetail);
+        for(ProductDetail_Size_Color p : list){
+            repository.delete(p);
+        }
+    }
 
 }

@@ -18,4 +18,8 @@ public class ProductRest {
     public ResponseEntity<?> add(@RequestBody ProductReqest product){
         return ResponseEntity.ok(service.add(product));
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") Integer id,@RequestBody ProductReqest product){
+        return ResponseEntity.ok(service.update(id,product));
+    }
 }

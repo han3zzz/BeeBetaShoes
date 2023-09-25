@@ -23,4 +23,10 @@ public class ProductDetail_MaterialService {
         productDetail_material.setMaterial(Material.builder().Id(request.getIdMaterial()).build());
         return repository.save(productDetail_material);
     }
+    public void delete(Integer idProductDetail){
+        List<ProductDetail_Material> list = repository.getAllById(idProductDetail);
+        for(ProductDetail_Material p : list){
+            repository.delete(p);
+        }
+    }
 }

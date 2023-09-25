@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ImageService {
@@ -22,5 +23,17 @@ public class ImageService {
         productImage.setCreateDate(new Date());
         productImage.setStatus(0);
         return repository.save(productImage);
+    }
+    public void delete(Integer IdProduct){
+        List<ProductImage> list = repository.getAllByIdSP(IdProduct);
+        for(ProductImage p : list){
+            repository.delete(p);
+        }
+    }
+    public void delete1(Integer IdProduct){
+        List<ProductImage> list = repository.getAllByIdSP1(IdProduct);
+        for(ProductImage p : list){
+            repository.delete(p);
+        }
     }
 }

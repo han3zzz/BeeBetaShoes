@@ -19,4 +19,9 @@ public class ProductDetail_MaterialRest {
     public ResponseEntity<?> add(@RequestBody ProductDetail_MaterialRequest request){
         return ResponseEntity.ok(service.add(request));
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id){
+        service.delete(id);
+        return ResponseEntity.ok("ok");
+    }
 }
