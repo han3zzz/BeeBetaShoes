@@ -10,7 +10,7 @@
     let urlsize = "/api/size";
     let urldesign = "/api/design";
 var app = angular.module("myApp",[]);
-    app.controller("ctrl", function ($scope, $http, $location){
+    app.controller("ctrl", function ($scope, $http, $window){
     $scope.list = [];
     $http.get(url).then(function (response){
            $scope.list = response.data.content;
@@ -89,7 +89,6 @@ var app = angular.module("myApp",[]);
                 if (product.status === 200){
                     //add image
                     var MainImage = document.getElementById("fileUpload").files[0];
-                    console.log(MainImage)
                     var img = new FormData();
                     img.append("files",MainImage);
                     $http.post("/api/upload",img,{
@@ -176,14 +175,16 @@ var app = angular.module("myApp",[]);
 
                      }
 
-
+                        alert("Thêm thành công !")
+                        location.href = "/admin/products/view"
                     })
+
 
                 }
 
             })
-            alert("Thêm thành công !")
-            location.href = "/admin/products/view"
+
+
         }
 
         //delete product
@@ -270,7 +271,6 @@ var app = angular.module("myApp",[]);
 
                         // update image
                         var MainImage = document.getElementById("fileUpload").files;
-                        console.log(MainImage)
                         if (MainImage.length > 0) {
                             $http.delete("/api/image/" + product.data.id)
                             var img = new FormData();
@@ -341,33 +341,18 @@ var app = angular.module("myApp",[]);
                                     }
                                 }
                             }
+
                         }
 
 
+                alert("Sửa thành công !")
 
 
 
-                    alert("Sửa thành công !")
-                location.href = "/admin/products/view"
 
             })
         }
-        //pagation list
-        // $scope.curPage = 1,
-        //     $scope.itemsPerPage = 3,
-        //     $scope.maxSize = 5;
-        //
-        // this.items = $scope.list;
-        //
-        // $scope.numOfPages = function () {
-        //     return Math.ceil($scope.list.length / $scope.itemsPerPage);
-        //
-        // };
-        //
-        // $scope.$watch('curPage + numPerPage', function () {
-        //     var begin = (($scope.curPage - 1) * $scope.itemsPerPage),
-        //         end = begin + $scope.itemsPerPage;
-        //
-        //     $scope.filteredItems = $scope.list.slice(begin, end);
-        // });
+      // pagation
+
+
         })
