@@ -168,7 +168,7 @@ Create table ProductImage(
 )
 Create table ProductDetail(
 	Id int identity(1,1) not null primary key,
-	EntryPrice money,
+	Weight float,
 	Price money,
 	Discount int ,
 	Description nvarchar(255),

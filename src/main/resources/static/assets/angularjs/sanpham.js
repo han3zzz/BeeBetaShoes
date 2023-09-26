@@ -129,7 +129,7 @@ var app = angular.module("myApp",[]);
                     //add product detail
                     $http.post("/api/product",{
                         price : $scope.giaban,
-                        entryPrice : $scope.gianhap,
+                        weight: $scope.trongluong,
                         discount : $scope.giamgia,
                         description: $scope.mota,
                         idCategory : $scope.danhmuc,
@@ -183,6 +183,7 @@ var app = angular.module("myApp",[]);
 
             })
             alert("Thêm thành công !")
+            location.href = "/admin/products/view"
         }
 
         //delete product
@@ -203,7 +204,7 @@ var app = angular.module("myApp",[]);
             $http.get("/api/product/"+id).then(function (detail){
                 $scope.masanpham = detail.data.product.code,
                     $scope.tensanpham = detail.data.product.name,
-                    $scope.gianhap = detail.data.entryPrice,
+                    $scope.trongluong = detail.data.weight,
                     $scope.giaban = detail.data.price,
                     $scope.giamgia = detail.data.discount,
                     $scope.mota = detail.data.description,
@@ -249,7 +250,7 @@ var app = angular.module("myApp",[]);
             // update product detail
             $http.put("/api/product/update/" + id, {
                 price: $scope.giaban,
-                entryPrice: $scope.gianhap,
+                weight: $scope.trongluong,
                 discount: $scope.giamgia,
                 description: $scope.mota,
                 idCategory: $scope.danhmuc,
@@ -309,7 +310,7 @@ var app = angular.module("myApp",[]);
 
                         }
                     })
-                //add material
+                //update material
                 let listMaterial = $scope.listMaterial;
                 for (let i = 0; i < listMaterial.length; i++) {
                     var checkMaterial = document.getElementById('Material'+listMaterial[i].id);
@@ -321,7 +322,7 @@ var app = angular.module("myApp",[]);
                     }
                 }
 
-                        // add size and color
+                        // update size and color
 
                         let listColor = $scope.listColor;
                         let listSize = $scope.listSize;
@@ -347,6 +348,7 @@ var app = angular.module("myApp",[]);
 
 
                     alert("Sửa thành công !")
+                location.href = "/admin/products/view"
 
             })
         }

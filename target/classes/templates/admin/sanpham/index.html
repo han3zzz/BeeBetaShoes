@@ -25,24 +25,25 @@
       <div th:insert="admin/layout/_header.html"> :: header"></div>
       <!--  Header End -->
       <div class="container-fluid" >
-        <h3> Manage Products</h3>
+        <h3> Quản Lý Sản Phẩm</h3>
         <div> <a href="/admin/products/add"><button class="btn btn-success">Add</button></a> </div>
         <table class="table">
           <thead>
           <tr>
             <td scope="col">#</td>
-            <td scope="col">Image</td>
-            <td scope="col">Code</td>
-            <td scope="col">Name</td>
-            <td scope="col">Price</td>
-            <td scope="col">Category</td>
-            <td scope="col">Brand</td>
-            <td scope="col">Toe</td>
-            <td scope="col">Sole</td>
-            <td scope="col">Design</td>
-            <td scope="col">Shoelace</td>
-            <td scope="col">Heelcushion</td>
-            <td scope="col">Action</td>
+            <td style="text-align: center" scope="col">Ảnh</td>
+            <td scope="col">Mã</td>
+            <td scope="col">Tên</td>
+            <td scope="col">Giá</td>
+            <td scope="col">Trọng Lượng</td>
+            <td scope="col">Danh Mục</td>
+            <td scope="col">Thương Hiệu</td>
+            <td scope="col">Mũi Giày</td>
+            <td scope="col">Đế Giày</td>
+            <td scope="col">Thiết Kế</td>
+            <td scope="col">Dây Giày</td>
+            <td scope="col">Lót Giày</td>
+            <td scope="col">Hành động</td>
           </tr>
           </thead>
           <tbody>
@@ -59,6 +60,7 @@
             <td>{{sp.product.code}}</td>
             <td>{{sp.product.name}}</td>
             <td>{{sp.price}}</td>
+            <td>{{sp.weight}} (g)</td>
             <td>{{sp.category.name}}</td>
             <td>{{sp.brand.name}}</td>
             <td>{{sp.toe.name}}</td>
@@ -72,12 +74,7 @@
           </tr>
           </tbody>
         </table>
-        <div data-pagination=""
-             data-num-pages="numOfPages()"
-             data-current-page="curPage"
-             data-max-size="maxSize"
-             data-boundary-links="true">
-        </div>
+<!--        <paging-control paging-size="pagingSize" noofitem="dataPerPage" total-items="totalItems" display-items="displayItems"></paging-control>-->
       </div>
       <script src="../../../static/assets/angularjs/sanpham.js"></script>
 <!--        footer-->

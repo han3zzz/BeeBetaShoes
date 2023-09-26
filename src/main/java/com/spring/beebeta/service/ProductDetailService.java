@@ -31,7 +31,7 @@ public class ProductDetailService {
     }
     public ProductDetail add(ProductDetailRequest request){
         ProductDetail productDetail = new ProductDetail();
-        productDetail.setEntryPrice(request.getEntryPrice());
+        productDetail.setWeight(request.getWeight());
         productDetail.setPrice(request.getPrice());
         productDetail.setDiscount(request.getDiscount());
         productDetail.setDescription(request.getDescription());
@@ -54,7 +54,7 @@ public class ProductDetailService {
     }
     public ProductDetail update(Integer id,ProductDetailRequest request){
         ProductDetail productDetail = repository.getById(id);
-        productDetail.setEntryPrice(request.getEntryPrice());
+        productDetail.setWeight(request.getWeight());
         productDetail.setPrice(request.getPrice());
         productDetail.setDiscount(request.getDiscount());
         productDetail.setDescription(request.getDescription());

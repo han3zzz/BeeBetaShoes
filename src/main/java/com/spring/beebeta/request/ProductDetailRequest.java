@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class ProductDetailRequest {
-    private BigDecimal EntryPrice;
+    private Double Weight;
     private BigDecimal Price;
     private Integer Discount;
     private String Description;

@@ -39,8 +39,8 @@ public class ProductDetail implements Serializable {
     private String UpdateBy;
     @Column(name = "Status")
     private Integer Status;
-    @Column(name = "EntryPrice")
-    private BigDecimal EntryPrice;
+    @Column(name = "Weight")
+    private Double Weight;
     @Column(name = "Price")
     private BigDecimal Price;
     @Column(name = "Discount")
