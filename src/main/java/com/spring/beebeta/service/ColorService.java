@@ -14,6 +14,6 @@ public class ColorService {
     @Autowired
     ColorRepository repository;
     public List<Color> getAll(){
-        return repository.findAll();
+        return repository.getAll();
     }
 }

@@ -14,6 +14,6 @@ public class ToeService {
     @Autowired
     ToeRepository repository;
     public List<Toe> getAll(){
-        return repository.findAll();
+        return repository.getAll();
     }
 }

@@ -14,6 +14,6 @@ public class SoleService {
     @Autowired
     SoleRepository repository;
     public List<Sole> getAll(){
-        return repository.findAll();
+        return repository.getAll();
     }
 }

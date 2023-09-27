@@ -14,6 +14,6 @@ public class HeelcushionService {
     @Autowired
     HeelcushionRepository repository;
     public List<Heelcushion> getAll(){
-        return repository.findAll();
+        return repository.getAll();
     }
 }

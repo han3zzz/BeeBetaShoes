@@ -21,6 +21,16 @@ public class ProductDetailRest {
     public ResponseEntity<?> getAllByProductName(@PathVariable("name") String name){
         return ResponseEntity.ok(service.getAllbyProductName(name));
     }
+    @GetMapping("/filter")
+    public ResponseEntity<?> getAllByFilter(@RequestParam("idcategory") Integer IdCategory,
+                                            @RequestParam("idbrand") Integer IdBrand,
+                                            @RequestParam("idtoe") Integer IdToe,
+                                            @RequestParam("idsole") Integer IdSole,
+                                            @RequestParam("idshoelace") Integer IdShoelace,
+                                            @RequestParam("idheelcushion") Integer IdHeelcushion,
+                                            @RequestParam("iddesign") Integer IdDesign){
+        return ResponseEntity.ok(service.getAllbyFilter(IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign));
+    }
 
     @GetMapping("/phantrang")
     public ResponseEntity<?> phanTrang(@RequestParam(value = "page",defaultValue = "0") Integer page){

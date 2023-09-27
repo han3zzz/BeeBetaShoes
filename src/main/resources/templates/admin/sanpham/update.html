@@ -63,49 +63,49 @@
                 </div>
                 <div class="col-md-6 add">
                   <label>Danh Mục</label> <select ng-model="danhmuc" >
-                  <option ng-repeat="dm in listCategory" value="{{dm.id}}" ng-if="dm.status == 0" ng-selected="dm.id == danhmuc">
+                  <option ng-repeat="dm in listCategory" value="{{dm.id}}" ng-selected="dm.id == danhmuc">
                     {{dm.name}}</option></select>
                 </div>
                 <div class="col-md-6 add">
                   <label>Thương Hiệu</label> <select ng-model="thuonghieu">
-                  <option ng-repeat="th in listBrand" value="{{th.id}}" ng-if="th.status == 0" ng-selected="th.id == thuonghieu">
+                  <option ng-repeat="th in listBrand" value="{{th.id}}" ng-selected="th.id == thuonghieu">
                     {{th.name}}</option></select>
                 </div>
                 <div class="col-md-6 add">
                   <label>Mũi Giày</label>
                   <select ng-model="muigiay">
-                    <option ng-repeat="mg in listToe" value="{{mg.id}}" ng-if="mg.status ==0" ng-selected="mg.id == muigiay">
+                    <option ng-repeat="mg in listToe" value="{{mg.id}}" ng-selected="mg.id == muigiay">
                       {{mg.name}}</option></select>
                 </div>
 
                 <div class="col-md-6 add">
                   <label>Đế Giày</label>
                   <select ng-model="degiay">
-                    <option ng-repeat="dg in listSole" value="{{dg.id}}" ng-if="dg.status == 0" ng-selected="dg.id == degiay">
+                    <option ng-repeat="dg in listSole" value="{{dg.id}}" ng-selected="dg.id == degiay">
                       {{dg.name}}</option></select>
                 </div>
                 <div class="col-md-6 add">
                   <label>Dây Giày</label>
                   <select ng-model="daygiay">
-                    <option ng-repeat="day in listShoelace" value="{{day.id}}" ng-if="day.status == 0" ng-selected="day.id == daygiay">
+                    <option ng-repeat="day in listShoelace" value="{{day.id}}" ng-selected="day.id == daygiay">
                       {{day.name}}</option></select>
                 </div>
                 <div class="col-md-6 add">
                   <label>Lót Giày</label>
                   <select ng-model="lotgiay">
-                    <option ng-repeat="lot in listHeelcushion" value="{{lot.id}}" ng-if="lot.status == 0" ng-selected="lot.id == lotgiay">
+                    <option ng-repeat="lot in listHeelcushion" value="{{lot.id}}" ng-selected="lot.id == lotgiay">
                       {{lot.name}}</option></select>
                 </div>
                 <div class="col-md-6 add">
                   <label>Thiết Kế</label>
                   <select ng-model="thietke">
-                    <option ng-repeat="tk in listDesign" value="{{tk.id}}" ng-if="tk.status == 0" ng-selected="tk.id == thietke">
+                    <option ng-repeat="tk in listDesign" value="{{tk.id}}" ng-selected="tk.id == thietke">
                       {{tk.name}}</option></select>
                 </div>
                 <div class="col-md-12 add">
                   <label>Chất Liệu</label>
                   <div>
-                    <span style="padding-left: 5px" ng-repeat="chatlieu in listMaterial" ng-if="chatlieu.status == 0"><input id="Material{{chatlieu.id}}"  type="checkbox" value="{{chatlieu.id}}"> {{chatlieu.name}}</span>
+                    <span style="padding-left: 5px" ng-repeat="chatlieu in listMaterial"><input id="Material{{chatlieu.id}}"  type="checkbox" value="{{chatlieu.id}}"> {{chatlieu.name}}</span>
                   </div>
                 </div>
                 <div class="col-md-6 add">

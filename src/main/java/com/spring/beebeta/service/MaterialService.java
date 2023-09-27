@@ -14,6 +14,6 @@ public class MaterialService {
     @Autowired
     MaterialRepository repository;
     public List<Material> getAll(){
-        return repository.findAll();
+        return repository.getAll();
     }
 }

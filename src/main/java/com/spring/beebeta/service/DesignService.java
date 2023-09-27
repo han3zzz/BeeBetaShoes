@@ -14,6 +14,6 @@ public class DesignService {
     @Autowired
     DesignRepository repository;
     public List<Design> getAll(){
-        return repository.findAll();
+        return repository.getAll();
     }
 }

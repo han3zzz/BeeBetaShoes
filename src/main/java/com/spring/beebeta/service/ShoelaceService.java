@@ -14,6 +14,6 @@ public class ShoelaceService {
     @Autowired
     ShoelaceRepository repository;
     public List<Shoelace> getAll(){
-        return repository.findAll();
+        return repository.getAll();
     }
 }

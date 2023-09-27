@@ -496,5 +496,34 @@ var app = angular.module("myApp",[]);
 
         }
 
+        //filter
+        $scope.filter = function (){
+            let idCategory = document.getElementById("danhmuc").value;
+            let idBrand = document.getElementById("thuonghieu").value;
+            let idToe = document.getElementById("muigiay").value;
+            let idSole = document.getElementById("degiay").value;
+            let idShoelace = document.getElementById("daygiay").value;
+            let idHeelcushion = document.getElementById("lotgiay").value;
+            let idDesign = document.getElementById("thietke").value;
+            var params = {
+                idcategory : idCategory,
+                idbrand : idBrand,
+                idtoe : idToe,
+                idsole : idSole,
+                idshoelace : idShoelace,
+                idheelcushion : idHeelcushion,
+                iddesign : idDesign
+            }
+            $http({
+                method : 'GET',
+                url : '/api/product/filter',
+                params : params
+            }).then(function (resp){
+                $scope.list = resp.data;
+                $scope.pager.first();
+                Swal.fire("Lọc thành công !","","success");
+            });
+        }
+
 
     })

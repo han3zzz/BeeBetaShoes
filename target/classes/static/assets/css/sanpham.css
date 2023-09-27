@@ -31,3 +31,10 @@ select{
     width: 300px;
     margin-right: 5px;
 }
+.loc{
+    font-size: 12px;
+    padding-top: 10px;
+}
+.loc label{
+    padding-right: 10px;
+}

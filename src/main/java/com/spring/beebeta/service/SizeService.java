@@ -14,6 +14,6 @@ public class SizeService {
     @Autowired
     SizeRepository repository;
     public List<Size> getAll(){
-        return repository.findAll();
+        return repository.getAll();
     }
 }
