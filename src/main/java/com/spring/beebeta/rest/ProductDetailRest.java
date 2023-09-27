@@ -28,8 +28,12 @@ public class ProductDetailRest {
                                             @RequestParam("idsole") Integer IdSole,
                                             @RequestParam("idshoelace") Integer IdShoelace,
                                             @RequestParam("idheelcushion") Integer IdHeelcushion,
-                                            @RequestParam("iddesign") Integer IdDesign){
-        return ResponseEntity.ok(service.getAllbyFilter(IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign));
+                                            @RequestParam("iddesign") Integer IdDesign,
+                                            @RequestParam("min") Double min,
+                                            @RequestParam("max") Double max,
+                                            @RequestParam("minTL") Double minTL,
+                                            @RequestParam("maxTL") Double maxTL){
+        return ResponseEntity.ok(service.getAllbyFilter(IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign,min,max,minTL,maxTL));
     }
 
     @GetMapping("/phantrang")

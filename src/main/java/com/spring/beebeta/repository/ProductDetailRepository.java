@@ -18,6 +18,6 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail,Int
     @Query(value = "Select e from ProductDetail e where e.Status = 0 and e.product.Name like :name Order by e.CreateDate desc")
     public List<ProductDetail> getAllByProductName(@Param("name") String name);
     @Query(value = "Select e from ProductDetail  e where e.category.Id = :idcategory and e.brand.Id = :idbrand and e.toe.Id = :idtoe" +
-            " and e.sole.Id = :idsole and e.shoelace.Id = :idshoelace and e.heelcushion.Id = :idheelcushion and e.design.Id = :iddesign and e.Status = 0 Order by e.CreateDate desc")
-    public List<ProductDetail> getAllByFilter(@Param("idcategory") Integer IdCategory , @Param("idbrand") Integer IdBrand ,@Param("idtoe") Integer IdToe,@Param("idsole") Integer IdSole,@Param("idshoelace") Integer IdShoelcae,@Param("idheelcushion") Integer IdHeelcushion,@Param("iddesign") Integer IdDesign);
+            " and e.sole.Id = :idsole and e.shoelace.Id = :idshoelace and e.heelcushion.Id = :idheelcushion and e.design.Id = :iddesign and e.Price >= :min and e.Price <= :max and e.Weight >= :minTL and e.Weight <= :maxTL and e.Status = 0 Order by e.CreateDate desc")
+    public List<ProductDetail> getAllByFilter(@Param("idcategory") Integer IdCategory , @Param("idbrand") Integer IdBrand ,@Param("idtoe") Integer IdToe,@Param("idsole") Integer IdSole,@Param("idshoelace") Integer IdShoelcae,@Param("idheelcushion") Integer IdHeelcushion,@Param("iddesign") Integer IdDesign,@Param("min") Double min ,@Param("max") Double max,@Param("minTL") Double minTL ,@Param("maxTL") Double maxTL);
 }

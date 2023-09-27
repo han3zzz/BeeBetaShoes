@@ -70,6 +70,43 @@
                 <option ng-repeat="lotgiay in listHeelcushion" value="{{lotgiay.id}}">
                   {{lotgiay.name}}</option></select>
             </div>
+            <div class="col-md-3 loc"></div>
+            <div class="col-md-3 loc gia">
+              <label>Khoảng Giá</label>
+              <div class="range-slide">
+                <div class="slide">
+                  <div class="line" id="line" style="left: 0%; right: 0%;"></div>
+                  <span class="thumb" id="thumbMin" style="left: 0%;"></span>
+                  <span class="thumb" id="thumbMax" style="left: 100%;"></span>
+                </div>
+                <input id="rangeMin" type="range" max="9999999" min="0" step="1" value="0">
+                <input id="rangeMax" type="range" max="9999999" min="0" step="1" value="9999999">
+              </div>
+              <div class="display">
+                Từ
+                <span id="min">0</span>
+                đến
+                <span id="max">9999999</span>
+              </div>
+            </div>
+            <div class="col-md-5 loc gia">
+              <label>Khoảng Trọng Lượng</label>
+              <div class="range-slide">
+                <div class="slide">
+                  <div class="line" id="lineTL" style="left: 0%; right: 0%;"></div>
+                  <span class="thumb" id="thumbMinTL" style="left: 0%;"></span>
+                  <span class="thumb" id="thumbMaxTL" style="left: 100%;"></span>
+                </div>
+                <input id="rangeMinTL" type="range" max="3000" min="0" step="1" value="0">
+                <input id="rangeMaxTL" type="range" max="3000" min="0" step="1" value="3000">
+              </div>
+              <div class="display">
+                Từ
+                <span id="minTL">0</span>
+                đến
+                <span id="maxTL">3000</span>
+              </div>
+            </div>
           </div>
 
 
@@ -145,6 +182,7 @@
 <!--        <paging-control paging-size="pagingSize" noofitem="dataPerPage" total-items="totalItems" display-items="displayItems"></paging-control>-->
       </div>
       <script src="../../../static/assets/angularjs/sanpham.js"></script>
+      <script src="../../../static/assets/angularjs/sp.js"></script>
 <!--        footer-->
       <div th:insert="admin/layout/_footer.html"> :: footer"></div>
       </div>

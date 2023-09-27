@@ -505,6 +505,10 @@ var app = angular.module("myApp",[]);
             let idShoelace = document.getElementById("daygiay").value;
             let idHeelcushion = document.getElementById("lotgiay").value;
             let idDesign = document.getElementById("thietke").value;
+            let min = document.getElementById("rangeMin").value;
+            let max = document.getElementById("rangeMax").value;
+            let minTL = document.getElementById("rangeMinTL").value;
+            let maxTL = document.getElementById("rangeMaxTL").value;
             var params = {
                 idcategory : idCategory,
                 idbrand : idBrand,
@@ -512,7 +516,11 @@ var app = angular.module("myApp",[]);
                 idsole : idSole,
                 idshoelace : idShoelace,
                 idheelcushion : idHeelcushion,
-                iddesign : idDesign
+                iddesign : idDesign,
+                min : min,
+                max : max,
+                minTL : minTL,
+                maxTL : maxTL
             }
             $http({
                 method : 'GET',
