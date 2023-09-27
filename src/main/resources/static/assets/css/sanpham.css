@@ -23,3 +23,11 @@ select{
     padding-top: 10px;
 }
 
+.timkiem{
+    display: flex;
+    padding: 5px;
+}
+.timkiem input{
+    width: 300px;
+    margin-right: 5px;
+}

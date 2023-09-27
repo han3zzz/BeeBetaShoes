@@ -15,4 +15,6 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail,Int
     public ProductDetail getById(@Param("id") Integer id);
     @Query(value = "Select e from ProductDetail e where e.Status = 0")
     public List<ProductDetail> getAll();
+    @Query(value = "Select e from ProductDetail e where e.Status = 0 and e.product.Name like :name")
+    public List<ProductDetail> getAllByProductName(@Param("name") String name);
 }

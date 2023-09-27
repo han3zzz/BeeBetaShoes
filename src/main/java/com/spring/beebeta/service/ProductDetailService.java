@@ -21,6 +21,9 @@ public class ProductDetailService {
     public List<ProductDetail> getAll(){
         return repository.getAll();
     }
+    public List<ProductDetail> getAllbyProductName(String name){
+        return repository.getAllByProductName('%'+name+'%');
+    }
     public Page<ProductDetail> phanTrang(Integer page){
         Pageable pageable = PageRequest.of(page,10);
         return repository.findAll(pageable);

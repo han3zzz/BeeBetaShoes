@@ -11,61 +11,64 @@
     let urldesign = "/api/design";
 var app = angular.module("myApp",[]);
     app.controller("ctrl", function ($scope, $http, $window){
-        //load product
-        $scope.list = [];
-        $http.get(url).then(function (response){
-           $scope.list = response.data;
-        })
-        // load category
-        $scope.listCategory = [];
-        $http.get(urlcategory).then(function (response){
-            $scope.listCategory = response.data;
-        })
-        // load brand
-        $scope.listBrand = [];
-        $http.get(urlbrand).then(function (response){
-            $scope.listBrand = response.data;
-        })
-        // load toe
-        $scope.listToe = [];
-        $http.get(urltoe).then(function (response){
-            $scope.listToe = response.data;
-        })
-        // load sole
-        $scope.listSole = [];
-        $http.get(urlsole).then(function (response){
-            $scope.listSole = response.data;
-        })
-        // load shoelace
-        $scope.listShoelace = [];
-        $http.get(urlshoelace).then(function (response){
-            $scope.listShoelace = response.data;
-        })
-        // load heelcushion
-        $scope.listHeelcushion = [];
-        $http.get(urlheelcushion).then(function (response){
-            $scope.listHeelcushion = response.data;
-        })
-        // load material
-        $scope.listMaterial = [];
-        $http.get(urlmaterial).then(function (response){
-            $scope.listMaterial = response.data;
-        })
-        // load color
-        $scope.listColor = [];
-        $http.get(urlcolor).then(function (response){
-            $scope.listColor = response.data;
-        })
-        // load size
-        $scope.listSize = [];
-        $http.get(urlsize).then(function (response){
-            $scope.listSize = response.data;
-        })
-        // load design
-        $scope.listDesign = [];
-        $http.get(urldesign).then(function (response){
-            $scope.listDesign = response.data;
-        })
+       $scope.loadAll = function (){
+           //load product
+           $scope.list = [];
+           $http.get(url).then(function (response){
+               $scope.list = response.data;
+           })
+           // load category
+           $scope.listCategory = [];
+           $http.get(urlcategory).then(function (response){
+               $scope.listCategory = response.data;
+           })
+           // load brand
+           $scope.listBrand = [];
+           $http.get(urlbrand).then(function (response){
+               $scope.listBrand = response.data;
+           })
+           // load toe
+           $scope.listToe = [];
+           $http.get(urltoe).then(function (response){
+               $scope.listToe = response.data;
+           })
+           // load sole
+           $scope.listSole = [];
+           $http.get(urlsole).then(function (response){
+               $scope.listSole = response.data;
+           })
+           // load shoelace
+           $scope.listShoelace = [];
+           $http.get(urlshoelace).then(function (response){
+               $scope.listShoelace = response.data;
+           })
+           // load heelcushion
+           $scope.listHeelcushion = [];
+           $http.get(urlheelcushion).then(function (response){
+               $scope.listHeelcushion = response.data;
+           })
+           // load material
+           $scope.listMaterial = [];
+           $http.get(urlmaterial).then(function (response){
+               $scope.listMaterial = response.data;
+           })
+           // load color
+           $scope.listColor = [];
+           $http.get(urlcolor).then(function (response){
+               $scope.listColor = response.data;
+           })
+           // load size
+           $scope.listSize = [];
+           $http.get(urlsize).then(function (response){
+               $scope.listSize = response.data;
+           })
+           // load design
+           $scope.listDesign = [];
+           $http.get(urldesign).then(function (response){
+               $scope.listDesign = response.data;
+           })
+       }
+       $scope.loadAll();
         // load size by color and quantity
         $scope.checkbox = function(mausac) {
             let listColor =  $scope.listColor;
@@ -422,26 +425,76 @@ var app = angular.module("myApp",[]);
         }
 
         //export exel
-        $scope.exportData = function () {
+        $scope.exportToExcel = function () {
             Swal.fire({
                 title: 'Bạn có chắc muốn xuất Exel ?',
                 showCancelButton: true,
                 confirmButtonText: 'Xuất',
             }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result.isConfirmed) {
-                    $http.put("/api/product/"+idProductDetail).then(function (response){
-                        if (response.status === 200){
-                            Swal.fire('Xóa thành công !', '', 'success')
-                            setTimeout(() => {
-                                location.href = "/admin/products/view";
-                            }, 1500);
-                        }
-                    })
+                if (result.isConfirmed){
+                    // Chuyển dữ liệu thành một mảng các đối tượng JSON
+                    var dataArray = $scope.list.map(function (item) {
+                        var Materials = item.productDetail_materials.map(function (detail){
+                            return detail.material.name;
+                        }).join(', ');
+                        var Images = item.product.productImages.map(function (image){
+                            return image.url ;
+                        }).join(', ');
+                        var Color_Size = item.productDetail_size_colors.map(function (size){
+                            return 'Color : ' + size.color.name + ' { Size ' + size.size.name + ' | Quantity : ' + size.quantity + '}';
+                        }).join(', ');
+                        return {
+                            Code: item.product.code,
+                            Name: item.product.name,
+                            Images : Images,
+                            Price : item.price,
+                            Weight : item.weight,
+                            Description : item.description,
+                            Discount : item.discount,
+                            Category : item.category.name,
+                            Brand : item.brand.name,
+                            Toe : item.toe.name,
+                            Sole : item.sole.name,
+                            Shoelcae : item.shoelace.name,
+                            Heelcushion : item.heelcushion.name,
+                            Materials :  Materials,
+                            QuantityByColor_Sizes : Color_Size
+                        };
+                    });
 
+                    // Tạo một workbook mới
+                    var workbook = XLSX.utils.book_new();
+
+                    // Tạo một worksheet từ dữ liệu
+                    var worksheet = XLSX.utils.json_to_sheet(dataArray);
+
+                    // Thêm worksheet vào workbook
+                    XLSX.utils.book_append_sheet(workbook, worksheet, 'Data Sheet');
+
+                    // Xuất tệp Excel
+                    XLSX.writeFile(workbook, 'data'+ new Date()+'.xlsx');
+                    Swal.fire("Xuất file exel thành công !","","success");
                 }
             })
-        };
+
+        }
+
+        // search by name
+        $scope.search = function (){
+            var name = document.getElementById("name").value;
+            if (name === ''){
+                $http.get(url).then(function (response){
+                    $scope.list = response.data;
+                })
+            }
+            else{
+                $http.get("/api/product/search/"+name).then(function (search){
+                    $scope.list = search.data;
+                    $scope.pager.first();
+                })
+            }
+
+        }
 
 
     })

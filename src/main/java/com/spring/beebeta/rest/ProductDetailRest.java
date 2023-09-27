@@ -17,6 +17,10 @@ public class ProductDetailRest {
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(service.getAll());
     }
+    @GetMapping("/search/{name}")
+    public ResponseEntity<?> getAllByProductName(@PathVariable("name") String name){
+        return ResponseEntity.ok(service.getAllbyProductName(name));
+    }
 
     @GetMapping("/phantrang")
     public ResponseEntity<?> phanTrang(@RequestParam(value = "page",defaultValue = "0") Integer page){
