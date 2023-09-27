@@ -19,7 +19,7 @@ public class ProductDetailService {
     @Autowired
     ProductDetailRepository repository;
     public List<ProductDetail> getAll(){
-        return repository.findAll();
+        return repository.getAll();
     }
     public Page<ProductDetail> phanTrang(Integer page){
         Pageable pageable = PageRequest.of(page,10);

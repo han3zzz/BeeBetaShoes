@@ -1,4 +1,4 @@
-    let url = "/api/product/phantrang";
+    let url = "/api/product";
     let urlcategory = "/api/category";
     let urlbrand = "/api/brand";
     let urltoe = "/api/toe";
@@ -11,51 +11,62 @@
     let urldesign = "/api/design";
 var app = angular.module("myApp",[]);
     app.controller("ctrl", function ($scope, $http, $window){
-    $scope.list = [];
-    $http.get(url).then(function (response){
-           $scope.list = response.data.content;
-    })
+        //load product
+        $scope.list = [];
+        $http.get(url).then(function (response){
+           $scope.list = response.data;
+        })
+        // load category
         $scope.listCategory = [];
         $http.get(urlcategory).then(function (response){
             $scope.listCategory = response.data;
         })
+        // load brand
         $scope.listBrand = [];
         $http.get(urlbrand).then(function (response){
             $scope.listBrand = response.data;
         })
+        // load toe
         $scope.listToe = [];
         $http.get(urltoe).then(function (response){
             $scope.listToe = response.data;
         })
+        // load sole
         $scope.listSole = [];
         $http.get(urlsole).then(function (response){
             $scope.listSole = response.data;
         })
+        // load shoelace
         $scope.listShoelace = [];
         $http.get(urlshoelace).then(function (response){
             $scope.listShoelace = response.data;
         })
+        // load heelcushion
         $scope.listHeelcushion = [];
         $http.get(urlheelcushion).then(function (response){
             $scope.listHeelcushion = response.data;
         })
+        // load material
         $scope.listMaterial = [];
         $http.get(urlmaterial).then(function (response){
             $scope.listMaterial = response.data;
         })
+        // load color
         $scope.listColor = [];
         $http.get(urlcolor).then(function (response){
             $scope.listColor = response.data;
         })
+        // load size
         $scope.listSize = [];
         $http.get(urlsize).then(function (response){
             $scope.listSize = response.data;
         })
+        // load design
         $scope.listDesign = [];
         $http.get(urldesign).then(function (response){
             $scope.listDesign = response.data;
         })
-        // mausac, kichthuoc
+        // load size by color and quantity
         $scope.checkbox = function(mausac) {
             let listColor =  $scope.listColor;
             let listSize =  $scope.listSize;
@@ -79,18 +90,28 @@ var app = angular.module("myApp",[]);
             }
 
         };
+
+        $scope.form = {};
+        $scope.reset = function (){
+            $scope.form = {};
+        }
         //add product
         $scope.add = function(){
+            var MainImage = document.getElementById("fileUpload").files;
+            if (MainImage.length == 0){
+                Swal.fire('Vui lòng thêm ảnh đại diện cho sản phẩm !', '', 'error');
+                return;
+            }
             $http.post("/api/sanpham",{
-                code : $scope.masanpham,
-                name : $scope.tensanpham,
-                description : $scope.mota,
+                code : $scope.form.product.code,
+                name : $scope.form.product.name,
+                description : $scope.form.description,
             }).then(function (product){
                 if (product.status === 200){
                     //add image
-                    var MainImage = document.getElementById("fileUpload").files[0];
+
                     var img = new FormData();
-                    img.append("files",MainImage);
+                    img.append("files",MainImage[0]);
                     $http.post("/api/upload",img,{
                         transformRequest: angular.identity,
                         headers: {
@@ -127,18 +148,18 @@ var app = angular.module("myApp",[]);
 
                     //add product detail
                     $http.post("/api/product",{
-                        price : $scope.giaban,
-                        weight: $scope.trongluong,
-                        discount : $scope.giamgia,
-                        description: $scope.mota,
-                        idCategory : $scope.danhmuc,
-                        idBrand : $scope.thuonghieu,
-                        idDesign : $scope.thietke,
+                        price : $scope.form.price,
+                        weight: $scope.form.weight,
+                        discount : $scope.form.discount,
+                        description: $scope.form.description,
+                        idCategory : $scope.form.category,
+                        idBrand : $scope.form.brand,
+                        idDesign : $scope.form.design,
                         idProduct : product.data.id,
-                        idHeelcushion : $scope.lotgiay,
-                        idShoelace : $scope.daygiay,
-                        idSole : $scope.degiay,
-                        idToe : $scope.muigiay
+                        idHeelcushion : $scope.form.heelcushion,
+                        idShoelace : $scope.form.shoelace,
+                        idSole : $scope.form.sole,
+                        idToe : $scope.form.toe
                     }).then(function (productdetail){
                      if (productdetail.status === 200){
                          //add material
@@ -175,8 +196,10 @@ var app = angular.module("myApp",[]);
 
                      }
 
-                        alert("Thêm thành công !")
-                        location.href = "/admin/products/view"
+                        Swal.fire('Thêm thành công !', '', 'success')
+                        setTimeout(() => {
+                            location.href = "/admin/products/view";
+                        }, 2000);
                     })
 
 
@@ -188,12 +211,23 @@ var app = angular.module("myApp",[]);
         }
 
         //delete product
-
         $scope.delete = function (idProductDetail){
-            $http.put("/api/product/"+idProductDetail).then(function (response){
-                if (response.status === 200){
-                    alert("Xóa thành công !");
-                    window.location.reload();
+            Swal.fire({
+                title: 'Bạn có chắc muốn xóa ?',
+                showCancelButton: true,
+                confirmButtonText: 'Xóa',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.put("/api/product/"+idProductDetail).then(function (response){
+                        if (response.status === 200){
+                            Swal.fire('Xóa thành công !', '', 'success')
+                            setTimeout(() => {
+                            location.href = "/admin/products/view";
+                            }, 1500);
+                        }
+                    })
+
                 }
             })
         }
@@ -345,8 +379,10 @@ var app = angular.module("myApp",[]);
                         }
 
 
-                alert("Sửa thành công !")
-                $window.location.href = "/admin/products/view";
+                Swal.fire('Sửa thành công !', '', 'success')
+                setTimeout(() => {
+                    location.href = "/admin/products/view";
+                }, 2000);
 
 
 
@@ -354,6 +390,58 @@ var app = angular.module("myApp",[]);
             })
         }
       // pagation
+        $scope.pager = {
+            page: 0,
+            size: 5,
+            get items() {
+                var start = this.page * this.size;
+                return $scope.list.slice(start, start + this.size);
+            },
+            get count() {
+                return Math.ceil(1.0 * $scope.list.length / this.size);
+            },
+
+            first() {
+                this.page = 0;
+            },
+            prev() {
+                this.page--;
+                if (this.page < 0) {
+                    this.last();
+                }
+            },
+            next() {
+                this.page++;
+                if (this.page >= this.count) {
+                    this.first();
+                }
+            },
+            last() {
+                this.page = this.count - 1;
+            }
+        }
+
+        //export exel
+        $scope.exportData = function () {
+            Swal.fire({
+                title: 'Bạn có chắc muốn xuất Exel ?',
+                showCancelButton: true,
+                confirmButtonText: 'Xuất',
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $http.put("/api/product/"+idProductDetail).then(function (response){
+                        if (response.status === 200){
+                            Swal.fire('Xóa thành công !', '', 'success')
+                            setTimeout(() => {
+                                location.href = "/admin/products/view";
+                            }, 1500);
+                        }
+                    })
+
+                }
+            })
+        };
 
 
-        })
+    })

@@ -11,6 +11,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
@@ -44,61 +45,61 @@
 
               <div class="row">
                 <div class="col-md-6 add">
-                  <label>Mã Sản Phẩm</label> <input ng-model="masanpham">
+                  <label>Mã Sản Phẩm</label> <input ng-model="form.product.code">
                 </div>
                 <div class="col-md-6 add">
-                  <label>Tên Sản Phẩm</label> <input ng-model="tensanpham">
+                  <label>Tên Sản Phẩm</label> <input ng-model="form.product.name">
                 </div>
                 <div class="col-md-6 add">
-                  <label>Giá Bán</label> <input ng-model="giaban">
+                  <label>Giá Bán</label> <input ng-model="form.price">
                 </div>
                 <div class="col-md-6 add">
-                  <label> Trọng lượng (g)</label> <input ng-model="trongluong">
+                  <label> Trọng lượng (g)</label> <input ng-model="form.weight">
                 </div>
                 <div class="col-md-6 add">
-                  <label>Giảm Giá</label> <input ng-model="giamgia">
+                  <label>Giảm Giá</label> <input ng-model="form.discount">
                 </div>
                 <div class="col-md-6 add">
-                  <label>Mô Tả</label> <input ng-model="mota">
+                  <label>Mô Tả</label> <input type="text" ng-model="form.description">
                 </div>
                 <div class="col-md-6 add">
-                  <label>Danh Mục</label> <select ng-model="danhmuc">
+                  <label>Danh Mục</label> <select ng-model="form.category">
                   <option ng-repeat="danhmuc in listCategory" value="{{danhmuc.id}}" ng-if="danhmuc.status == 0">
                     {{danhmuc.name}}</option></select>
                 </div>
                 <div class="col-md-6 add">
-                  <label>Thương Hiệu</label> <select ng-model="thuonghieu">
+                  <label>Thương Hiệu</label> <select ng-model="form.brand">
                   <option ng-repeat="thuonghieu in listBrand" value="{{thuonghieu.id}}" ng-if="thuonghieu.status == 0">
                     {{thuonghieu.name}}</option></select>
                 </div>
                 <div class="col-md-6 add">
                   <label>Mũi Giày</label>
-                  <select ng-model="muigiay">
+                  <select ng-model="form.toe">
                     <option ng-repeat="muigiay in listToe" value="{{muigiay.id}}" ng-if="muigiay.status ==0">
                       {{muigiay.name}}</option></select>
                 </div>
 
                 <div class="col-md-6 add">
                   <label>Đế Giày</label>
-                  <select ng-model="degiay">
+                  <select ng-model="form.sole">
                     <option ng-repeat="degiay in listSole" value="{{degiay.id}}" ng-if="degiay.status == 0">
                       {{degiay.name}}</option></select>
                 </div>
                 <div class="col-md-6 add">
                   <label>Dây Giày</label>
-                  <select ng-model="daygiay">
+                  <select ng-model="form.shoelace">
                     <option ng-repeat="daygiay in listShoelace" value="{{daygiay.id}}" ng-if="daygiay.status == 0">
                       {{daygiay.name}}</option></select>
                 </div>
                 <div class="col-md-6 add">
                   <label>Lót Giày</label>
-                  <select ng-model="lotgiay">
+                  <select ng-model="form.heelcushion">
                     <option ng-repeat="lotgiay in listHeelcushion" value="{{lotgiay.id}}" ng-if="lotgiay.status == 0">
                       {{lotgiay.name}}</option></select>
                 </div>
                 <div class="col-md-6 add">
                   <label>Thiết Kế</label>
-                  <select ng-model="thietke">
+                  <select ng-model="form.design">
                     <option ng-repeat="thietke in listDesign" value="{{thietke.id}}" ng-if="thietke.status == 0">
                       {{thietke.name}}</option></select>
                 </div>
@@ -120,7 +121,7 @@
                 </div>
               </div>
 
-              <div style="padding-top: 30px"><button  class="btn btn-danger" ng-click="add()">Thêm</button></div>
+              <div style="padding-top: 30px;"><button style="margin-right: 10px"  class="btn btn-info" ng-click="reset()">Reset</button><button  class="btn btn-danger" ng-click="add()">Thêm</button></div>
 
             </div>
           </div>

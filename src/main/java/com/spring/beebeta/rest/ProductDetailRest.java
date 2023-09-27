@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.*;
 public class ProductDetailRest {
     @Autowired
      ProductDetailService service;
+    @GetMapping()
+    public ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(service.getAll());
+    }
 
     @GetMapping("/phantrang")
     public ResponseEntity<?> phanTrang(@RequestParam(value = "page",defaultValue = "0") Integer page){
