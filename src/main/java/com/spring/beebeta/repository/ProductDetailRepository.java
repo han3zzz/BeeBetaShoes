@@ -17,7 +17,10 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail,Int
     public List<ProductDetail> getAll();
     @Query(value = "Select e from ProductDetail e where e.Status = 0 and e.product.Name like :name Order by e.CreateDate desc")
     public List<ProductDetail> getAllByProductName(@Param("name") String name);
-    @Query(value = "Select e from ProductDetail  e where e.category.Id = :idcategory and e.brand.Id = :idbrand and e.toe.Id = :idtoe" +
+    @Query(value = "Select e from ProductDetail e join ProductDetail_Material m on m.productDetail.Id = e.Id\n" +
+            "join Material ma on ma.Id = m.material.Id join ProductDetail_Size_Color p on p.productDetail.Id = e.Id\n" +
+            "join Color c on c.Id = p.color.Id\n" +
+            "join Size s on s.Id = p.size.Id where ma.Id = :idmaterial and c.Id = :idcolor and s.Id = :idsize and e.category.Id = :idcategory  and e.brand.Id = :idbrand and e.toe.Id = :idtoe" +
             " and e.sole.Id = :idsole and e.shoelace.Id = :idshoelace and e.heelcushion.Id = :idheelcushion and e.design.Id = :iddesign and e.Price >= :min and e.Price <= :max and e.Weight >= :minTL and e.Weight <= :maxTL and e.Status = 0 Order by e.CreateDate desc")
-    public List<ProductDetail> getAllByFilter(@Param("idcategory") Integer IdCategory , @Param("idbrand") Integer IdBrand ,@Param("idtoe") Integer IdToe,@Param("idsole") Integer IdSole,@Param("idshoelace") Integer IdShoelcae,@Param("idheelcushion") Integer IdHeelcushion,@Param("iddesign") Integer IdDesign,@Param("min") Double min ,@Param("max") Double max,@Param("minTL") Double minTL ,@Param("maxTL") Double maxTL);
+    public List<ProductDetail> getAllByFilter(@Param("idcolor") Integer IdColor , @Param("idsize") Integer IdSize,@Param("idmaterial") Integer IdMaterial,@Param("idcategory") Integer IdCategory , @Param("idbrand") Integer IdBrand ,@Param("idtoe") Integer IdToe,@Param("idsole") Integer IdSole,@Param("idshoelace") Integer IdShoelcae,@Param("idheelcushion") Integer IdHeelcushion,@Param("iddesign") Integer IdDesign,@Param("min") Double min ,@Param("max") Double max,@Param("minTL") Double minTL ,@Param("maxTL") Double maxTL);
 }

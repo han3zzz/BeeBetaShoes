@@ -24,8 +24,8 @@ public class ProductDetailService {
     public List<ProductDetail> getAllbyProductName(String name){
         return repository.getAllByProductName('%'+name+'%');
     }
-    public List<ProductDetail> getAllbyFilter(Integer IdCategory, Integer IdBrand , Integer IdToe, Integer IdSole,Integer IdShoelace,Integer IdHeelcushion, Integer IdDesign,Double min , Double max,Double minTL , Double maxTL){
-        return repository.getAllByFilter(IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign,min,max,minTL,maxTL);
+    public List<ProductDetail> getAllbyFilter(Integer IdColor,Integer IdSize,Integer IdMaterial,Integer IdCategory, Integer IdBrand , Integer IdToe, Integer IdSole,Integer IdShoelace,Integer IdHeelcushion, Integer IdDesign,Double min , Double max,Double minTL , Double maxTL){
+        return repository.getAllByFilter(IdColor,IdSize,IdMaterial,IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign,min,max,minTL,maxTL);
     }
     public Page<ProductDetail> phanTrang(Integer page){
         Pageable pageable = PageRequest.of(page,10);

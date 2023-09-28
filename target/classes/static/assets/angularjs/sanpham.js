@@ -98,6 +98,7 @@ var app = angular.module("myApp",[]);
         $scope.reset = function (){
             $scope.form = {};
         }
+
         //add product
         $scope.add = function(){
             var MainImage = document.getElementById("fileUpload").files;
@@ -208,6 +209,10 @@ var app = angular.module("myApp",[]);
 
                 }
 
+            }).catch(function (err){
+                if (err.status === 400){
+                    $scope.validationErrors = err.data;
+                }
             })
 
 
@@ -482,10 +487,8 @@ var app = angular.module("myApp",[]);
         // search by name
         $scope.search = function (){
             var name = document.getElementById("name").value;
-            if (name === ''){
-                $http.get(url).then(function (response){
-                    $scope.list = response.data;
-                })
+            if (name.trim().length === 0){
+               Swal.fire("Nhập tên trước khi tìm kiếm...","","error");
             }
             else{
                 $http.get("/api/product/search/"+name).then(function (search){
@@ -499,6 +502,9 @@ var app = angular.module("myApp",[]);
         //filter
         $scope.filter = function (){
             let idCategory = document.getElementById("danhmuc").value;
+            let idMaterial = document.getElementById("chatlieu").value;
+            let idColor = document.getElementById("mausac").value;
+            let idSize = document.getElementById("kichthuoc").value;
             let idBrand = document.getElementById("thuonghieu").value;
             let idToe = document.getElementById("muigiay").value;
             let idSole = document.getElementById("degiay").value;
@@ -510,7 +516,10 @@ var app = angular.module("myApp",[]);
             let minTL = document.getElementById("rangeMinTL").value;
             let maxTL = document.getElementById("rangeMaxTL").value;
             var params = {
-                idcategory : idCategory,
+                idcategory : (idCategory === -1) ? null : idCategory,
+                idmaterial : idMaterial,
+                idcolor : idColor,
+                idsize : idSize,
                 idbrand : idBrand,
                 idtoe : idToe,
                 idsole : idSole,
@@ -531,6 +540,36 @@ var app = angular.module("myApp",[]);
                 $scope.pager.first();
                 Swal.fire("Lọc thành công !","","success");
             });
+        }
+
+        //import exel
+        $scope.importExel = function (){
+            Swal.fire("Đang phát triển...","","warning"); return;
+            document.getElementById('fileInput').click();
+            var reader = new FileReader();
+            reader.onloadend = async () => { // => reader.result
+                var workbook = new ExcelJS.Workbook();
+                await workbook.xlsx.load(reader.result);
+                const worksheet = workbook.getWorksheet('Sheet1');
+                worksheet.eachRow((row, index) => {
+                    if(index > 1){
+                        let student = {
+                            email: row.getCell(1).value,
+                            fullname: row.getCell(2).value,
+                            marks: +row.getCell(3).value,
+                            gender: true && row.getCell(4).value,
+                            country: row.getCell(5).value
+                        }
+                        var url = "http://localhost:8080/rest/students";
+                        $http.post(url, student).then(resp => {
+                            console.log("Success", resp.data);
+                        }).catch(error => {
+                            console.log("Error", error);
+                        })
+                    }
+                });
+            };
+            reader.readAsArrayBuffer(files[0]);
         }
 
 

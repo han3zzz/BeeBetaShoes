@@ -103,8 +103,10 @@ select{
 .display {
     width: 240px;
     display: flex;
+
 }
 .display span{
     padding-left: 10px;
     padding-right: 10px;
+    padding-bottom: 10px;
 }
