@@ -38,41 +38,49 @@
           <div class="row">
             <div class="col-md-3 loc"> <label>Danh Mục</label>
             <select id="danhmuc" class="form-select-sm">
+              <option value="">Tất cả danh mục</option>
               <option ng-repeat="danhmuc in listCategory" value="{{danhmuc.id}}">
                 {{danhmuc.name}}</option></select>
           </div>
             <div class="col-md-3 loc"><label>Thương Hiệu</label>
             <select id="thuonghieu" class="form-select-sm">
+              <option value="">Tất cả thương hiệu</option>
               <option ng-repeat="thuonghieu in listBrand" value="{{thuonghieu.id}}">
                 {{thuonghieu.name}}</option></select>
           </div>
             <div class="col-md-3 loc"><label>Mũi Giày</label>
               <select id="muigiay" class="form-select-sm">
+                <option value="">Tất cả mũi giày</option>
                 <option ng-repeat="muigiay in listToe" value="{{muigiay.id}}">
                   {{muigiay.name}}</option></select>
             </div>
             <div class="col-md-3 loc"><label>Đế Giày</label>
               <select id="degiay" class="form-select-sm">
+                <option value="">Tất cả đế giày</option>
                 <option ng-repeat="degiay in listSole" value="{{degiay.id}}">
                   {{degiay.name}}</option></select>
             </div>
             <div class="col-md-3 loc"><label>Thiết Kế</label>
               <select id="thietke" class="form-select-sm">
+                <option value="">Tất cả thiết kế</option>
                 <option ng-repeat="thietke in listDesign" value="{{thietke.id}}">
                   {{thietke.name}}</option></select>
             </div>
             <div class="col-md-3 loc"><label>Dây Giày</label>
               <select id="daygiay" class="form-select-sm">
+                <option value="">Tất cả dây giày</option>
                 <option ng-repeat="daygiay in listShoelace" value="{{daygiay.id}}" >
                   {{daygiay.name}}</option></select>
             </div>
             <div class="col-md-3 loc"><label>Lót Giày</label>
               <select id="lotgiay" class="form-select-sm">
+                <option value="">Tất cả lót giày</option>
                 <option ng-repeat="lotgiay in listHeelcushion" value="{{lotgiay.id}}">
                   {{lotgiay.name}}</option></select>
             </div>
             <div class="col-md-3 loc"><label>Màu Sắc</label>
               <select id="mausac" class="form-select-sm">
+                <option value="">Tất cả màu sắc</option>
                 <option ng-repeat="mausac in listColor" value="{{mausac.id}}">
                   {{mausac.name}}</option></select>
             </div>
@@ -114,11 +122,13 @@
             </div>
             <div class="col-md-3 loc"><label>Chất Liệu</label>
               <select id="chatlieu" class="form-select-sm">
+                <option value="">Tất cả chất liệu</option>
                 <option ng-repeat="chatlieu in listMaterial" value="{{chatlieu.id}}">
                   {{chatlieu.name}}</option></select>
             </div>
             <div class="col-md-3 loc"><label>Kích Thước</label>
               <select id="kichthuoc" class="form-select-sm">
+                <option value="">Tất cả kích thước</option>
                 <option ng-repeat="kichthuoc in listSize" value="{{kichthuoc.id}}">
                   Size {{kichthuoc.name}}</option></select>
             </div>

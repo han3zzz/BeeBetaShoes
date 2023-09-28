@@ -22,20 +22,21 @@ public class ProductDetailRest {
         return ResponseEntity.ok(service.getAllbyProductName(name));
     }
     @GetMapping("/filter")
-    public ResponseEntity<?> getAllByFilter(@RequestParam("idcategory") Integer IdCategory,
-                                            @RequestParam("idmaterial") Integer IdMaterial,
-                                            @RequestParam("idcolor") Integer IdColor,
-                                            @RequestParam("idsize") Integer IdSize,
-                                            @RequestParam("idbrand") Integer IdBrand,
-                                            @RequestParam("idtoe") Integer IdToe,
-                                            @RequestParam("idsole") Integer IdSole,
-                                            @RequestParam("idshoelace") Integer IdShoelace,
-                                            @RequestParam("idheelcushion") Integer IdHeelcushion,
-                                            @RequestParam("iddesign") Integer IdDesign,
+    public ResponseEntity<?> getAllByFilter(@RequestParam(name = "idcategory",required = false) Integer IdCategory,
+                                            @RequestParam(name = "idmaterial",required = false) Integer IdMaterial,
+                                            @RequestParam(name = "idcolor",required = false) Integer IdColor,
+                                            @RequestParam(name = "idsize",required = false) Integer IdSize,
+                                            @RequestParam(name = "idbrand",required = false) Integer IdBrand,
+                                            @RequestParam(name = "idtoe",required = false) Integer IdToe,
+                                            @RequestParam(name = "idsole",required = false) Integer IdSole,
+                                            @RequestParam(name = "idshoelace",required = false) Integer IdShoelace,
+                                            @RequestParam(name = "idheelcushion",required = false) Integer IdHeelcushion,
+                                            @RequestParam(name = "iddesign",required = false) Integer IdDesign,
                                             @RequestParam("min") Double min,
                                             @RequestParam("max") Double max,
                                             @RequestParam("minTL") Double minTL,
                                             @RequestParam("maxTL") Double maxTL){
+
         return ResponseEntity.ok(service.getAllbyFilter(IdColor,IdSize,IdMaterial,IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign,min,max,minTL,maxTL));
     }
 

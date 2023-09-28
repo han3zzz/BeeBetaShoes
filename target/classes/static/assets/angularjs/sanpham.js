@@ -111,7 +111,7 @@ var app = angular.module("myApp",[]);
                 name : $scope.form.product.name,
                 description : $scope.form.description,
             }).then(function (product){
-                if (product.status === 200){
+                // if (product.status === 200){
                     //add image
 
                     var img = new FormData();
@@ -207,10 +207,11 @@ var app = angular.module("myApp",[]);
                     })
 
 
-                }
+                // }
 
             }).catch(function (err){
-                if (err.status === 400){
+                if (err.status === 200){
+                    alert(err.data)
                     $scope.validationErrors = err.data;
                 }
             })
@@ -515,17 +516,29 @@ var app = angular.module("myApp",[]);
             let max = document.getElementById("rangeMax").value;
             let minTL = document.getElementById("rangeMinTL").value;
             let maxTL = document.getElementById("rangeMaxTL").value;
+            let idcate = (idCategory != '') ? idCategory : null;
+            let idbrad = (idBrand != '') ? idBrand : null;
+            let idmate = (idMaterial != '') ? idMaterial : null;
+            let idtoe = (idToe != '') ? idToe : null;
+            let idsole = (idSole != '') ? idSole: null;
+            let idcolor = (idColor != '') ? idColor : null;
+            let idsize = (idSize != '') ? idSize : null;
+            let idshoe = (idShoelace != '') ? idShoelace : null;
+            let idheel = (idHeelcushion != '') ? idHeelcushion : null;
+            let iddesign =(idDesign != '') ? idDesign : null;
+
+
             var params = {
-                idcategory : (idCategory === -1) ? null : idCategory,
-                idmaterial : idMaterial,
-                idcolor : idColor,
-                idsize : idSize,
-                idbrand : idBrand,
-                idtoe : idToe,
-                idsole : idSole,
-                idshoelace : idShoelace,
-                idheelcushion : idHeelcushion,
-                iddesign : idDesign,
+                idcategory : idcate ,
+                idmaterial : idmate,
+                idcolor : idcolor,
+                idsize : idsize,
+                idbrand : idbrad,
+                idtoe : idtoe,
+                idsole : idsole,
+                idshoelace : idshoe,
+                idheelcushion : idheel,
+                iddesign : iddesign,
                 min : min,
                 max : max,
                 minTL : minTL,
