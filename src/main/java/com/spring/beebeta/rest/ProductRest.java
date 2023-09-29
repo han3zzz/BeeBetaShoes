@@ -23,7 +23,7 @@ public class ProductRest {
     public ResponseEntity<?> add(@Valid @RequestBody ProductReqest product, BindingResult result){
         if (result.hasErrors()){
             List<ObjectError> list = result.getAllErrors();
-            return ResponseEntity.ok(list);
+            return ResponseEntity.badRequest().body(list);
         }
             return ResponseEntity.ok(service.add(product));
 

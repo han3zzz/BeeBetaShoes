@@ -110,3 +110,12 @@ select{
     padding-right: 10px;
     padding-bottom: 10px;
 }
+.validate{
+    color: red;
+    font-size: 12px;
+    text-align: center;
+}
+.vaid{
+    color: red;
+    font-size: 20px;
+}

@@ -83,7 +83,7 @@ var app = angular.module("myApp",[]);
                     if (checkBox.checked == true){
                         text.innerHTML += '<div ><label>Số lượng '+ listColor[i].name +'</label>';
                         for(let j = 0 ; j < listSize.length; j++){
-                            text.innerHTML += '<span style="padding-left: 10px; padding-bottom: 10px">Size</span> '+listSize[j].name+' <input id="Color'+listColor[i].id+'Size'+listSize[j].id+'" type="number" value="0" style="width: 50px">';
+                            text.innerHTML += '<span style="padding-left: 10px; padding-bottom: 10px">Size</span> '+listSize[j].name+ ' <input id="Color'+listColor[i].id+'Size'+listSize[j].id+'" type="number" value="0" style="width: 50px">';
                         }
                         text.innerHTML += '</div>';
                     } else {
@@ -94,11 +94,17 @@ var app = angular.module("myApp",[]);
 
         };
 
-        $scope.form = {};
+        $scope.form = {
+            product : {
+                code : '',
+                name : '',
+                description : ''
+
+            }
+        };
         $scope.reset = function (){
             $scope.form = {};
         }
-
         //add product
         $scope.add = function(){
             var MainImage = document.getElementById("fileUpload").files;
@@ -106,28 +112,64 @@ var app = angular.module("myApp",[]);
                 Swal.fire('Vui lòng thêm ảnh đại diện cho sản phẩm !', '', 'error');
                 return;
             }
-            $http.post("/api/sanpham",{
+            $scope.get = function (name){
+                return document.getElementById(name).value;
+            }
+            //validate
+            $http.post("/api/product/validate",{
                 code : $scope.form.product.code,
                 name : $scope.form.product.name,
-                description : $scope.form.description,
-            }).then(function (product){
-                // if (product.status === 200){
-                    //add image
-
-                    var img = new FormData();
-                    img.append("files",MainImage[0]);
-                    $http.post("/api/upload",img,{
-                        transformRequest: angular.identity,
-                        headers: {
-                            'Content-Type': undefined
+                price : $scope.form.price,
+                weight: $scope.form.weight,
+                discount : $scope.form.discount,
+                description : $scope.form.description
+            }).then(function (vali){
+                if (vali.status === 200){
+                    $scope.validationErrors = [];
+                    let indexMaterial = 0;
+                    for (let i = 0; i < $scope.listMaterial.length; i++) {
+                        let checkIndexMaterial = document.getElementById('Material'+$scope.listMaterial[i].id);
+                        if (checkIndexMaterial.checked == true){
+                           indexMaterial++;
                         }
-                    }).then(function (upImage){
-                        $http.post("/api/image",{
-                            url : upImage.data[0],
-                            mainImage : true,
-                            idProduct : product.data.id
-                        }).then(function (image){
-                            var ListImage = document.getElementById("fileList").files;
+                    }
+                    let indexColor = 0;
+                    for (let i = 0; i < $scope.listColor.length; i++) {
+                        let checkIndexColor = document.getElementById('Color'+$scope.listColor[i].id);
+                        if (checkIndexColor.checked == true){
+                            indexColor++;
+                        }
+                    }
+                    if (indexMaterial === 0){
+                        Swal.fire('Vui lòng chọn ít nhất 1 chất liệu cho sản phẩm !', '', 'error');
+                        return;
+                    }
+                    if (indexColor === 0){
+                        Swal.fire('Vui lòng chọn ít nhất 1 màu sắc cho sản phẩm !', '', 'error');
+                        return;
+                    }
+                    $http.post("/api/sanpham",{
+                        code : $scope.form.product.code,
+                        name : $scope.form.product.name,
+                        description : $scope.form.description,
+                    }).then(function (product){
+                        // if (product.status === 200){
+                        //add image
+
+                        var img = new FormData();
+                        img.append("files",MainImage[0]);
+                        $http.post("/api/upload",img,{
+                            transformRequest: angular.identity,
+                            headers: {
+                                'Content-Type': undefined
+                            }
+                        }).then(function (upImage){
+                            $http.post("/api/image",{
+                                url : upImage.data[0],
+                                mainImage : true,
+                                idProduct : product.data.id
+                            }).then(function (image){
+                                var ListImage = document.getElementById("fileList").files;
                                 if (ListImage.length > 0){
                                     var img1 = new FormData();
                                     for (let i = 0; i < ListImage.length; i++) {
@@ -138,83 +180,90 @@ var app = angular.module("myApp",[]);
                                                 'Content-Type': undefined
                                             }
                                         }).then(function (imagelist){
-                                               $http.post("/api/image",{
-                                                   url : imagelist.data[i],
-                                                   mainImage : false,
-                                                   idProduct : product.data.id
-                                               });
+                                            $http.post("/api/image",{
+                                                url : imagelist.data[i],
+                                                mainImage : false,
+                                                idProduct : product.data.id
+                                            });
                                         })
                                     }
 
                                 }
+                            })
                         })
+
+                        //add product detail
+                        $http.post("/api/product",{
+                            price : $scope.form.price,
+                            weight: $scope.form.weight,
+                            discount : $scope.form.discount,
+                            description: $scope.form.description,
+                            idCategory : $scope.get("category"),
+                            idBrand : $scope.get("brand"),
+                            idDesign : $scope.get("design"),
+                            idProduct : product.data.id,
+                            idHeelcushion : $scope.get("heelcushion"),
+                            idShoelace : $scope.get("shoelace"),
+                            idSole : $scope.get("sole"),
+                            idToe : $scope.get("toe")
+                        }).then(function (productdetail){
+                            if (productdetail.status === 200){
+                                //add material
+                                let listMaterial = $scope.listMaterial;
+                                for (let i = 0; i < listMaterial.length; i++) {
+                                    var checkMaterial = document.getElementById('Material'+listMaterial[i].id);
+                                    if (checkMaterial.checked == true){
+                                        $http.post("/api/productdetail_material",{
+                                            idProductDetail : productdetail.data.id,
+                                            idMaterial : listMaterial[i].id
+                                        });
+                                    }
+                                }
+                                // add size and color
+
+                                let listColor = $scope.listColor;
+                                let listSize = $scope.listSize;
+                                for (let i = 0; i < listColor.length; i++) {
+                                    let color = document.getElementById('Color'+listColor[i].id);
+                                    if (color.checked == true){
+                                        for (let j = 0; j < listSize.length; j++) {
+                                            let quantity = document.getElementById('Color'+listColor[i].id + 'Size' + listSize[j].id).value;
+                                            if (quantity > 0){
+                                                $http.post("/api/productdetail_color_size",{
+                                                    idProductDetail: productdetail.data.id,
+                                                    idColor : listColor[i].id,
+                                                    idSize : listSize[j].id,
+                                                    quantity : quantity
+                                                })
+                                            }
+                                        }
+                                    }
+                                }
+                                Swal.fire('Thêm thành công !', '', 'success')
+                                setTimeout(() => {
+                                    location.href = "/admin/products/view";
+                                }, 2000);
+                            }
+                            if (productdetail.status === 500){
+                                Swal.fire('Thêm thất bại !', '', 'error')
+                            }
+
+
+                        })
+
+
+                        // }
+
                     })
-
-                    //add product detail
-                    $http.post("/api/product",{
-                        price : $scope.form.price,
-                        weight: $scope.form.weight,
-                        discount : $scope.form.discount,
-                        description: $scope.form.description,
-                        idCategory : $scope.form.category,
-                        idBrand : $scope.form.brand,
-                        idDesign : $scope.form.design,
-                        idProduct : product.data.id,
-                        idHeelcushion : $scope.form.heelcushion,
-                        idShoelace : $scope.form.shoelace,
-                        idSole : $scope.form.sole,
-                        idToe : $scope.form.toe
-                    }).then(function (productdetail){
-                     if (productdetail.status === 200){
-                         //add material
-                         let listMaterial = $scope.listMaterial;
-                         for (let i = 0; i < listMaterial.length; i++) {
-                             var checkMaterial = document.getElementById('Material'+listMaterial[i].id);
-                             if (checkMaterial.checked == true){
-                                 $http.post("/api/productdetail_material",{
-                                     idProductDetail : productdetail.data.id,
-                                     idMaterial : listMaterial[i].id
-                                 });
-                             }
-                         }
-                         // add size and color
-
-                         let listColor = $scope.listColor;
-                         let listSize = $scope.listSize;
-                         for (let i = 0; i < listColor.length; i++) {
-                             let color = document.getElementById('Color'+listColor[i].id);
-                             if (color.checked == true){
-                                 for (let j = 0; j < listSize.length; j++) {
-                                     let quantity = document.getElementById('Color'+listColor[i].id + 'Size' + listSize[j].id).value;
-                                     if (quantity > 0){
-                                         $http.post("/api/productdetail_color_size",{
-                                             idProductDetail: productdetail.data.id,
-                                             idColor : listColor[i].id,
-                                             idSize : listSize[j].id,
-                                             quantity : quantity
-                                         })
-                                     }
-                                 }
-                             }
-                         }
-
-                     }
-
-                        Swal.fire('Thêm thành công !', '', 'success')
-                        setTimeout(() => {
-                            location.href = "/admin/products/view";
-                        }, 2000);
-                    })
-
-
-                // }
-
-            }).catch(function (err){
-                if (err.status === 200){
-                    alert(err.data)
-                    $scope.validationErrors = err.data;
                 }
-            })
+            }).catch(function (err){
+
+                    if (err.status === 400){
+                        $scope.validationErrors = err.data;
+                    }
+
+                })
+
 
 
         }

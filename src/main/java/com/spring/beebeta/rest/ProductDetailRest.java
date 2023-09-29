@@ -2,10 +2,17 @@ package com.spring.beebeta.rest;
 
 import com.spring.beebeta.entity.ProductDetail;
 import com.spring.beebeta.request.ProductDetailRequest;
+import com.spring.beebeta.request.ValidateForm;
 import com.spring.beebeta.service.ProductDetailService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -45,8 +52,20 @@ public class ProductDetailRest {
         return ResponseEntity.ok(service.phanTrang(page));
     }
     @PostMapping
-    public ResponseEntity<?> add(@RequestBody ProductDetailRequest productDetail){
+    public ResponseEntity<?> add(@Valid @RequestBody ProductDetailRequest productDetail, BindingResult result){
+        if (result.hasErrors()){
+            List<ObjectError> list = result.getAllErrors();
+            return ResponseEntity.badRequest().body(list);
+        }
         return ResponseEntity.ok(service.add(productDetail));
+    }
+    @PostMapping("/validate")
+    public ResponseEntity<?> add(@Valid @RequestBody ValidateForm validateForm, BindingResult result){
+        if (result.hasErrors()){
+            List<ObjectError> list = result.getAllErrors();
+            return ResponseEntity.badRequest().body(list);
+        }
+        return ResponseEntity.ok(validateForm);
     }
     @PutMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id){
