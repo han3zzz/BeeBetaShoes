@@ -74,5 +74,8 @@ public class ProductDetailService {
         productDetail.setUpdateDate(new Date());
         return repository.save(productDetail);
     }
+    public ProductDetail getByCode(String code){
+        return repository.getByCode(code);
+    }
 
 }

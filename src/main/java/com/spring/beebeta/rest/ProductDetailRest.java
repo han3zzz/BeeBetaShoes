@@ -60,11 +60,27 @@ public class ProductDetailRest {
         return ResponseEntity.ok(service.add(productDetail));
     }
     @PostMapping("/validate")
-    public ResponseEntity<?> add(@Valid @RequestBody ValidateForm validateForm, BindingResult result){
+    public ResponseEntity<?> validate(@Valid @RequestBody ValidateForm validateForm, BindingResult result){
         if (result.hasErrors()){
             List<ObjectError> list = result.getAllErrors();
             return ResponseEntity.badRequest().body(list);
         }
+        if (service.getByCode(validateForm.getCode()) != null){
+            return ResponseEntity.notFound().build();
+
+        }
+
+
+        return ResponseEntity.ok(validateForm);
+    }
+    @PostMapping("/validateupdate")
+    public ResponseEntity<?> valid(@Valid @RequestBody ValidateForm validateForm, BindingResult result){
+        if (result.hasErrors()){
+            List<ObjectError> list = result.getAllErrors();
+            return ResponseEntity.badRequest().body(list);
+        }
+
+
         return ResponseEntity.ok(validateForm);
     }
     @PutMapping("/{id}")

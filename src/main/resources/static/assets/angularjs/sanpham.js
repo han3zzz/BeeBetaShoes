@@ -125,6 +125,7 @@ var app = angular.module("myApp",[]);
                 description : $scope.form.description
             }).then(function (vali){
                 if (vali.status === 200){
+                    //validate
                     $scope.validationErrors = [];
                     let indexMaterial = 0;
                     for (let i = 0; i < $scope.listMaterial.length; i++) {
@@ -147,6 +148,33 @@ var app = angular.module("myApp",[]);
                     if (indexColor === 0){
                         Swal.fire('Vui lòng chọn ít nhất 1 màu sắc cho sản phẩm !', '', 'error');
                         return;
+                    }
+                    // check size and color
+
+                    for (let i = 0; i < $scope.listColor.length; i++) {
+                        let color = document.getElementById('Color'+$scope.listColor[i].id);
+                        if (color.checked == true){
+                            let iddexQuantity = 0;
+                            for (let j = 0; j < $scope.listSize.length; j++) {
+                                let quantity = document.getElementById('Color'+$scope.listColor[i].id + 'Size' + $scope.listSize[j].id).value;
+                                if (quantity == 0){
+                                    iddexQuantity++;
+                                }
+                                if (quantity < 0 || quantity > 999){
+                                    Swal.fire('Số lượng size ' + $scope.listSize[j].name + ' màu '+$scope.listColor[i].name  +' phải lớn hơn bằng 0 và nhỏ hơn 999 !', '', 'error');
+                                    return;
+                                }
+                                if (quantity.trim() === ''){
+                                    Swal.fire('Số lượng size ' + $scope.listSize[j].name + ' màu '+$scope.listColor[i].name  +' không được bỏ trống !', '', 'error');
+                                    document.getElementById('Color'+$scope.listColor[i].id + 'Size' + $scope.listSize[j].id).value = 0;
+                                    return;
+                                }
+                            }
+                            if (iddexQuantity === $scope.listSize.length){
+                                Swal.fire('Vui lòng nhập số lượng kích thước tối thiểu cho màu '+$scope.listColor[i].name  +' !', '', 'error');
+                                return;
+                            }
+                        }
                     }
                     $http.post("/api/sanpham",{
                         code : $scope.form.product.code,
@@ -244,9 +272,11 @@ var app = angular.module("myApp",[]);
                                     location.href = "/admin/products/view";
                                 }, 2000);
                             }
-                           
 
 
+
+                        }).catch(function (error){
+                            Swal.fire('Thêm thất bại !', '', 'error')
                         })
 
 
@@ -255,10 +285,13 @@ var app = angular.module("myApp",[]);
                     })
                 }
             }).catch(function (err){
-
                     if (err.status === 400){
                         $scope.validationErrors = err.data;
                     }
+                if (err.status === 404){
+                    Swal.fire('Mã sản phẩm đã tồn tại !', '', 'error')
+                    $scope.validationErrors = [];
+                }
 
                 })
 
@@ -282,6 +315,9 @@ var app = angular.module("myApp",[]);
                             location.href = "/admin/products/view";
                             }, 1500);
                         }
+                        else{
+                            Swal.fire('Xóa thất bại !', '', 'error')
+                        }
                     })
 
                 }
@@ -293,25 +329,10 @@ var app = angular.module("myApp",[]);
         $scope.detail = function (){
             let id = document.getElementById("idProductDetail").value;
             $http.get("/api/product/"+id).then(function (detail){
-                $scope.masanpham = detail.data.product.code,
-                    $scope.tensanpham = detail.data.product.name,
-                    $scope.trongluong = detail.data.weight,
-                    $scope.giaban = detail.data.price,
-                    $scope.giamgia = detail.data.discount,
-                    $scope.mota = detail.data.description,
-                    $scope.danhmuc = detail.data.category.id,
-                    $scope.thuonghieu = detail.data.brand.id,
-                    $scope.muigiay = detail.data.toe.id,
-                    $scope.degiay = detail.data.sole.id,
-                    $scope.daygiay = detail.data.shoelace.id,
-                    $scope.lotgiay = detail.data.heelcushion.id
-                    $scope.thietke = detail.data.design.id
-
-
+                $scope.form = detail.data;
                     for (let i = 0; i < detail.data.productDetail_materials.length; i++) {
                         document.getElementById('Material'+detail.data.productDetail_materials[i].material.id).checked = true;
                     }
-
                 for (let i = 0; i < detail.data.productDetail_size_colors.length; i++) {
                     document.getElementById('Color'+detail.data.productDetail_size_colors[i].color.id).checked = true;
         }
@@ -335,115 +356,199 @@ var app = angular.module("myApp",[]);
         //update product
         $scope.update = function() {
             let id = document.getElementById("idProductDetail").value;
-            // clear material and color size
-            $http.delete("/api/productdetail_material/" + id);
-            $http.delete("/api/productdetail_color_size/" + id)
-            // update product detail
-            $http.put("/api/product/update/" + id, {
-                price: $scope.giaban,
-                weight: $scope.trongluong,
-                discount: $scope.giamgia,
-                description: $scope.mota,
-                idCategory: $scope.danhmuc,
-                idBrand: $scope.thuonghieu,
-                idDesign: $scope.thietke,
-                idHeelcushion: $scope.lotgiay,
-                idShoelace: $scope.daygiay,
-                idSole: $scope.degiay,
-                idToe: $scope.muigiay
-            }).then(function (productDetail) {
-
-                    //update product
-                    $http.put("/api/sanpham/" + productDetail.data.product.id,{
-                        name : $scope.tensanpham,
-                        description : $scope.mota
-                    }).then(function (product) {
-
-                        // update image
-                        var MainImage = document.getElementById("fileUpload").files;
-                        if (MainImage.length > 0) {
-                            $http.delete("/api/image/" + product.data.id)
-                            var img = new FormData();
-                            img.append("files", MainImage[0]);
-                            $http.post("/api/upload", img, {
-                                transformRequest: angular.identity,
-                                headers: {
-                                    'Content-Type': undefined
-                                }
-                            }).then(function (image) {
-                                $http.post("/api/image", {
-                                    url: image.data[0],
-                                    mainImage: true,
-                                    idProduct: product.data.id
-                                })
-                            })
+            $scope.get = function (name){
+                return document.getElementById(name).value;
+            }
+            //validate
+            $http.post("/api/product/validateupdate",{
+                code : $scope.form.product.code,
+                name : $scope.form.product.name,
+                price : $scope.form.price,
+                weight: $scope.form.weight,
+                discount : $scope.form.discount,
+                description : $scope.form.description
+            }).then(function (vali){
+                if (vali.status === 200){
+                    //validate
+                    $scope.validationErrors = [];
+                    let indexMaterial = 0;
+                    for (let i = 0; i < $scope.listMaterial.length; i++) {
+                        let checkIndexMaterial = document.getElementById('Material'+$scope.listMaterial[i].id);
+                        if (checkIndexMaterial.checked == true){
+                            indexMaterial++;
                         }
-                        var ListImage = document.getElementById("fileList").files;
-                        if (ListImage.length > 0) {
-                            $http.delete("/api/image/1/" + product.data.id);
-                            var img1 = new FormData();
-                            for (let i = 0; i < ListImage.length; i++) {
-                                img1.append("files", ListImage[i]);
-                                $http.post("/api/upload", img1, {
-                                    transformRequest: angular.identity,
-                                    headers: {
-                                        'Content-Type': undefined
-                                    }
-                                }).then(function (imagelist) {
-                                    $http.post("/api/image", {
-                                        url: imagelist.data[i],
-                                        mainImage: false,
-                                        idProduct: product.data.id
-                                    });
-                                })
-                            }
-
-                        }
-                    })
-                //update material
-                let listMaterial = $scope.listMaterial;
-                for (let i = 0; i < listMaterial.length; i++) {
-                    var checkMaterial = document.getElementById('Material'+listMaterial[i].id);
-                    if (checkMaterial.checked == true){
-                        $http.post("/api/productdetail_material",{
-                            idProductDetail : productDetail.data.id,
-                            idMaterial : listMaterial[i].id
-                        });
                     }
-                }
+                    let indexColor = 0;
+                    for (let i = 0; i < $scope.listColor.length; i++) {
+                        let checkIndexColor = document.getElementById('Color'+$scope.listColor[i].id);
+                        if (checkIndexColor.checked == true){
+                            indexColor++;
+                        }
+                    }
+                    if (indexMaterial === 0){
+                        Swal.fire('Vui lòng chọn ít nhất 1 chất liệu cho sản phẩm !', '', 'error');
+                        return;
+                    }
+                    if (indexColor === 0){
+                        Swal.fire('Vui lòng chọn ít nhất 1 màu sắc cho sản phẩm !', '', 'error');
+                        return;
+                    }
+                    // check size and color
 
-                        // update size and color
+                    for (let i = 0; i < $scope.listColor.length; i++) {
+                        let color = document.getElementById('Color'+$scope.listColor[i].id);
+                        if (color.checked == true){
+                            let iddexQuantity = 0;
+                            for (let j = 0; j < $scope.listSize.length; j++) {
+                                let quantity = document.getElementById('Color'+$scope.listColor[i].id + 'Size' + $scope.listSize[j].id).value;
+                                if (quantity == 0){
+                                    iddexQuantity++;
+                                }
+                                if (quantity < 0 || quantity > 999){
+                                    Swal.fire('Số lượng size ' + $scope.listSize[j].name + ' màu '+$scope.listColor[i].name  +' phải lớn hơn bằng 0 và nhỏ hơn 999 !', '', 'error');
+                                    return;
+                                }
+                                if (quantity.trim() === ''){
+                                    Swal.fire('Số lượng size ' + $scope.listSize[j].name + ' màu '+$scope.listColor[i].name  +' không được bỏ trống !', '', 'error');
+                                    document.getElementById('Color'+$scope.listColor[i].id + 'Size' + $scope.listSize[j].id).value = 0;
+                                    return;
+                                }
+                            }
+                            if (iddexQuantity === $scope.listSize.length){
+                                Swal.fire('Vui lòng nhập số lượng kích thước tối thiểu cho màu '+$scope.listColor[i].name  +' !', '', 'error');
+                                return;
+                            }
+                        }
+                    }
+                    Swal.fire({
+                        title: 'Bạn có chắc muốn sửa ?',
+                        showCancelButton: true,
+                        confirmButtonText: 'Sửa',
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            // clear material and color size
+                            $http.delete("/api/productdetail_material/" + id);
+                            $http.delete("/api/productdetail_color_size/" + id)
+                            // update product detail
+                            $http.put("/api/product/update/" + id, {
+                                price: $scope.form.price,
+                                weight: $scope.form.weight,
+                                discount: $scope.form.discount,
+                                description: $scope.form.description,
+                                idCategory: $scope.get("category"),
+                                idBrand: $scope.get("brand"),
+                                idDesign: $scope.get("design"),
+                                idHeelcushion: $scope.get("heelcushion"),
+                                idShoelace: $scope.get("shoelace"),
+                                idSole: $scope.get("sole"),
+                                idToe: $scope.get("toe")
+                            }).then(function (productDetail) {
 
-                        let listColor = $scope.listColor;
-                        let listSize = $scope.listSize;
-                        for (let i = 0; i < listColor.length; i++) {
-                            let color = document.getElementById('Color' + listColor[i].id);
-                            if (color.checked == true) {
-                                for (let j = 0; j < listSize.length; j++) {
-                                    let quantity = document.getElementById('Color' + listColor[i].id + 'Size' + listSize[j].id).value;
-                                    if (quantity > 0) {
-                                        $http.post("/api/productdetail_color_size", {
-                                            idProductDetail: productDetail.data.id,
-                                            idColor: listColor[i].id,
-                                            idSize: listSize[j].id,
-                                            quantity: quantity
+                                //update product
+                                $http.put("/api/sanpham/" + productDetail.data.product.id,{
+                                    name : $scope.form.product.name,
+                                    description : $scope.form.description
+                                }).then(function (product) {
+
+                                    // update image
+                                    var MainImage = document.getElementById("fileUpload").files;
+                                    if (MainImage.length > 0) {
+                                        $http.delete("/api/image/" + product.data.id)
+                                        var img = new FormData();
+                                        img.append("files", MainImage[0]);
+                                        $http.post("/api/upload", img, {
+                                            transformRequest: angular.identity,
+                                            headers: {
+                                                'Content-Type': undefined
+                                            }
+                                        }).then(function (image) {
+                                            $http.post("/api/image", {
+                                                url: image.data[0],
+                                                mainImage: true,
+                                                idProduct: product.data.id
+                                            })
                                         })
                                     }
+                                    var ListImage = document.getElementById("fileList").files;
+                                    if (ListImage.length > 0) {
+                                        $http.delete("/api/image/1/" + product.data.id);
+                                        var img1 = new FormData();
+                                        for (let i = 0; i < ListImage.length; i++) {
+                                            img1.append("files", ListImage[i]);
+                                            $http.post("/api/upload", img1, {
+                                                transformRequest: angular.identity,
+                                                headers: {
+                                                    'Content-Type': undefined
+                                                }
+                                            }).then(function (imagelist) {
+                                                $http.post("/api/image", {
+                                                    url: imagelist.data[i],
+                                                    mainImage: false,
+                                                    idProduct: product.data.id
+                                                });
+                                            })
+                                        }
+
+                                    }
+                                })
+                                //update material
+                                let listMaterial = $scope.listMaterial;
+                                for (let i = 0; i < listMaterial.length; i++) {
+                                    var checkMaterial = document.getElementById('Material'+listMaterial[i].id);
+                                    if (checkMaterial.checked == true){
+                                        $http.post("/api/productdetail_material",{
+                                            idProductDetail : productDetail.data.id,
+                                            idMaterial : listMaterial[i].id
+                                        });
+                                    }
                                 }
-                            }
 
+                                // update size and color
+
+                                let listColor = $scope.listColor;
+                                let listSize = $scope.listSize;
+                                for (let i = 0; i < listColor.length; i++) {
+                                    let color = document.getElementById('Color' + listColor[i].id);
+                                    if (color.checked == true) {
+                                        for (let j = 0; j < listSize.length; j++) {
+                                            let quantity = document.getElementById('Color' + listColor[i].id + 'Size' + listSize[j].id).value;
+                                            if (quantity > 0) {
+                                                $http.post("/api/productdetail_color_size", {
+                                                    idProductDetail: productDetail.data.id,
+                                                    idColor: listColor[i].id,
+                                                    idSize: listSize[j].id,
+                                                    quantity: quantity
+                                                })
+                                            }
+                                        }
+                                    }
+
+                                }
+
+
+                                Swal.fire('Sửa thành công !', '', 'success')
+                                setTimeout(() => {
+                                    location.href = "/admin/products/view";
+                                }, 2000);
+
+
+
+
+
+                            }).catch(function (error){
+                                Swal.fire('Sửa thất bại !', '', 'error')
+                            })
                         }
-
-
-                Swal.fire('Sửa thành công !', '', 'success')
-                setTimeout(() => {
-                    location.href = "/admin/products/view";
-                }, 2000);
-
-
-
+                    })
+                }
+            }).catch(function (err){
+                if (err.status === 400){
+                    $scope.validationErrors = err.data;
+                }
 
             })
+
         }
       // pagation
         $scope.pager = {
