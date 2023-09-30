@@ -1,17 +1,19 @@
 package com.spring.beebeta.rest;
 
-import com.spring.beebeta.entity.ProductDetail;
 import com.spring.beebeta.request.ProductDetailRequest;
 import com.spring.beebeta.request.ValidateForm;
+import com.spring.beebeta.service.ProductDetailExelService;
 import com.spring.beebeta.service.ProductDetailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -20,6 +22,8 @@ import java.util.List;
 public class ProductDetailRest {
     @Autowired
      ProductDetailService service;
+    @Autowired
+    ProductDetailExelService productDetailExelService;
     @GetMapping()
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(service.getAll());
@@ -82,6 +86,18 @@ public class ProductDetailRest {
 
 
         return ResponseEntity.ok(validateForm);
+    }
+
+    @PostMapping( value = "/importExel", consumes = "multipart/form-data")
+    public ResponseEntity<String> importExel(@RequestParam("file") MultipartFile file) throws IOException {
+        try{
+            productDetailExelService.importExel(file);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body("ok");
+        }
+        catch(IOException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
+        }
+
     }
     @PutMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id){

@@ -709,32 +709,37 @@ var app = angular.module("myApp",[]);
 
         //import exel
         $scope.importExel = function (){
-            Swal.fire("Đang phát triển...","","warning"); return;
-            document.getElementById('fileInput').click();
-            var reader = new FileReader();
-            reader.onloadend = async () => { // => reader.result
-                var workbook = new ExcelJS.Workbook();
-                await workbook.xlsx.load(reader.result);
-                const worksheet = workbook.getWorksheet('Sheet1');
-                worksheet.eachRow((row, index) => {
-                    if(index > 1){
-                        let student = {
-                            email: row.getCell(1).value,
-                            fullname: row.getCell(2).value,
-                            marks: +row.getCell(3).value,
-                            gender: true && row.getCell(4).value,
-                            country: row.getCell(5).value
+            // Swal.fire("Đang phát triển...","","warning"); return;
+            // document.getElementById('fileInput').click();
+            let file = document.getElementById("fileInput").files;
+
+               if (file.length === 0){
+                   Swal.fire("Vui lòng tải lên file Exel trước khi thêm !","","error");
+               }else{
+                   let form = new FormData();
+                   form.append("file",file[0]);
+                   $http.post("/api/product/importExel",form,{
+                       transformRequest: angular.identity,
+                       headers: {
+                           'Content-Type': undefined // Để để Angular tự động thiết lập Content-Type
+                       }
+                   }).catch(function (err){
+                        if (err.status === 500){
+                            Swal.fire('Có lỗi xảy ra vui lòng xem lại !', '', 'error')
                         }
-                        var url = "http://localhost:8080/rest/students";
-                        $http.post(url, student).then(resp => {
-                            console.log("Success", resp.data);
-                        }).catch(error => {
-                            console.log("Error", error);
-                        })
-                    }
-                });
-            };
-            reader.readAsArrayBuffer(files[0]);
+                   }).then(function (ok){
+                           Swal.fire('Thêm data từ Exel thành công !', '', 'success')
+                           setTimeout(() => {
+                               location.href = "/admin/products/view";
+                           }, 2000);
+
+                   })
+
+
+
+               }
+
+
         }
 
 
