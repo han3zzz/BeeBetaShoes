@@ -2,23 +2,22 @@ package com.spring.beebeta.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "RetunExchange")
-public class RetunExchange implements Serializable {
+@Table(name = "ReturnExchangeHistory")
+public class ReturnExchangeHistory implements Serializable {
     @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
@@ -37,27 +36,10 @@ public class RetunExchange implements Serializable {
     private String UpdateBy;
     @Column(name = "Status")
     private Integer Status;
-    @Column(name = "Code")
-    private String Code;
-    @Column(name = "Image")
-    private String Image;
     @Column(name = "Note")
     private String Note;
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "RequestDate")
-    private Date RequestDate;
-    @Column(name = "ProcessingDate")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date ProcessingDate;
-    @Column(name = "IsReturnExchange")
-    private Boolean IsReturnExchange;
     @ManyToOne
-    @JoinColumn(name = "IdCustomer")
+    @JoinColumn(name = "IdReturnExchange")
     @JsonBackReference
-    private Customer customer;
-    @OneToMany(mappedBy = "retunExchange")
-    private Set<ReturnExchangeHistory> returnExchangeHistorys = new HashSet<ReturnExchangeHistory>();
-
+    private RetunExchange retunExchange;
 }
