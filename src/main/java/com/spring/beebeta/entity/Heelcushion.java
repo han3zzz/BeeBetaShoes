@@ -3,9 +3,11 @@ package com.spring.beebeta.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,9 +24,13 @@ public class Heelcushion implements Serializable {
     @Column(name = "Id")
     private Integer Id;
     @Column(name = "CreateDate")
-    private Timestamp CreateDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date CreateDate;
     @Column(name = "UpdateDate")
-    private Timestamp UpdateDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date UpdateDate;
     @Column(name = "CreateBy")
     private String CreateBy;
     @Column(name = "UpdateBy")
