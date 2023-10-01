@@ -2,9 +2,11 @@ package com.spring.beebeta.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -18,9 +20,13 @@ public class Background implements Serializable {
     @Column(name = "Id")
     private Integer Id;
     @Column(name = "CreateDate")
-    private Timestamp CreateDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date CreateDate;
     @Column(name = "UpdateDate")
-    private Timestamp UpdateDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date UpdateDate;
     @Column(name = "CreateBy")
     private String CreateBy;
     @Column(name = "UpdateBy")

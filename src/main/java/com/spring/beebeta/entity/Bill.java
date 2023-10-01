@@ -3,10 +3,12 @@ package com.spring.beebeta.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,14 +26,22 @@ public class Bill implements Serializable {
     private Integer Id;
     @Column(name = "Code")
     private String Code;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "PurchaseDate")
-    private Timestamp PurchaseDate;
+    private Date PurchaseDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EstimatedDate")
-    private Timestamp EstimatedDate;
+    private Date EstimatedDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "PaymentDate")
-    private Timestamp PaymentDate;
+    private Date PaymentDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DelyveryDate")
-    private Timestamp DelyveryDate;
+    private Date DelyveryDate;
     @Column(name = "TotalPrice")
     private BigDecimal TotalPrice;
     @Column(name = "ShipPrice")
