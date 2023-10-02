@@ -59,5 +59,7 @@ public class RetunExchange implements Serializable {
     private Customer customer;
     @OneToMany(mappedBy = "retunExchange")
     private Set<ReturnExchangeHistory> returnExchangeHistorys = new HashSet<ReturnExchangeHistory>();
+    @OneToMany(mappedBy = "retunExchange")
+    private Set<ReturnExchangeDetail> returnExchangeDetails = new HashSet<ReturnExchangeDetail>();
 
 }

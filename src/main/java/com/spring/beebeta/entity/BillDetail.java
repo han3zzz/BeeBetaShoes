@@ -6,6 +6,8 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -34,4 +36,6 @@ public class BillDetail implements Serializable {
     @JoinColumn(name = "IdProductDetail")
     @JsonBackReference
     private ProductDetail productDetail;
+    @OneToMany(mappedBy = "billDetail")
+    private Set<ReturnExchangeDetail> returnExchangeDetails = new HashSet<ReturnExchangeDetail>();
 }
