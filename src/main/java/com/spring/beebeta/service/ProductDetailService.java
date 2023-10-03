@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -76,6 +77,10 @@ public class ProductDetailService {
     }
     public ProductDetail getByCode(String code){
         return repository.getByCode(code);
+    }
+
+    public List<ProductDetail> getProductByCategory(Integer id){
+        return repository.getProductByCategory(id);
     }
 
 }

@@ -111,4 +111,8 @@ public class ProductDetailRest {
     public ResponseEntity<?> getById(@PathVariable("id") Integer id){
         return ResponseEntity.ok(service.getById(id));
     }
+    @GetMapping("/category/{id}")
+    public ResponseEntity<?> getByIdCategory(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(service.getProductByCategory(id));
+    }
 }

@@ -40,6 +40,5 @@ public class ReturnExchangeHistory implements Serializable {
     private String Note;
     @ManyToOne
     @JoinColumn(name = "IdReturnExchange")
-    @JsonBackReference
     private RetunExchange retunExchange;
 }

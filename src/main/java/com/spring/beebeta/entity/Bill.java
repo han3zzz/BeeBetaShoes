@@ -1,6 +1,7 @@
 package com.spring.beebeta.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -60,19 +61,15 @@ public class Bill implements Serializable {
     private Integer IdCoupon;
     @ManyToOne
     @JoinColumn(name = "IdAddress")
-    @JsonBackReference
     private Address address;
     @ManyToOne
     @JoinColumn(name = "IdCustomer")
-    @JsonBackReference
     private Customer customer;
     @ManyToOne
     @JoinColumn(name = "IdEmployee")
-    @JsonBackReference
     private Employee employee;
     @ManyToOne
     @JoinColumn(name = "IdVoucher")
-    @JsonBackReference
     private Voucher voucher;
     @OneToMany(mappedBy = "bill")
     private Set<BillDetail> billDetails = new HashSet<BillDetail>();

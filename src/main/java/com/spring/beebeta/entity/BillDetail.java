@@ -1,6 +1,7 @@
 package com.spring.beebeta.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,8 +35,8 @@ public class BillDetail implements Serializable {
     private Bill bill;
     @ManyToOne
     @JoinColumn(name = "IdProductDetail")
-    @JsonBackReference
     private ProductDetail productDetail;
+    @JsonIgnore
     @OneToMany(mappedBy = "billDetail")
     private Set<ReturnExchangeDetail> returnExchangeDetails = new HashSet<ReturnExchangeDetail>();
 }

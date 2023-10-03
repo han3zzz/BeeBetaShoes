@@ -1,6 +1,7 @@
 package com.spring.beebeta.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,7 +18,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "RetunExchange")
+@Table(name = "ReturnExchange")
 public class RetunExchange implements Serializable {
     @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,7 +56,6 @@ public class RetunExchange implements Serializable {
     private Boolean IsReturnExchange;
     @ManyToOne
     @JoinColumn(name = "IdCustomer")
-    @JsonBackReference
     private Customer customer;
     @OneToMany(mappedBy = "retunExchange")
     private Set<ReturnExchangeHistory> returnExchangeHistorys = new HashSet<ReturnExchangeHistory>();

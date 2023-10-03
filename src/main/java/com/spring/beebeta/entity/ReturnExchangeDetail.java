@@ -1,6 +1,9 @@
 package com.spring.beebeta.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,7 +16,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 @Table(name = "ReturnExchangeDetail")
-public class ReturnExchangeDetail implements Serializable {
+public class ReturnExchangeDetail implements Serializable{
     @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")

@@ -19,4 +19,10 @@ public interface ColorRepository extends JpaRepository<Color,Integer> {
     public List<Color> searchByName(@Param("name") String name);
     @Query(value = "select e from Color e where e.Id = :id")
     public Color getById(@Param("id") Integer Id);
+    @Query(value = "Select c.Id from Color c\n" +
+            "join ProductDetail_Size_Color p on p.color.Id = c.Id \n" +
+            "join ProductDetail pd on pd.Id = p.productDetail.Id \n" +
+            "where pd.Id = :id \n" +
+            "Group by c.Id")
+    public List<Integer> getColorByProduct(@Param("id") Integer id);
 }

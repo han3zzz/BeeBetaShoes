@@ -6,6 +6,7 @@ import com.spring.beebeta.repository.ToeRepository;
 import com.spring.beebeta.request.ProductDetail_MaterialRequest;
 import com.spring.beebeta.request.ProductDetail_Size_ColorRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +15,10 @@ import java.util.List;
 public class ProductDetail_Size_ColorService {
     @Autowired
     ProductDetail_Size_ColorRepository repository;
+
+    public List<ProductDetail_Size_Color> getByColor(Integer IdProduct, Integer IdColor){
+        return repository.getAllByIdProductAndIdColor(IdProduct,IdColor);
+    }
 
     public ProductDetail_Size_Color add(ProductDetail_Size_ColorRequest request){
         ProductDetail_Size_Color productDetail_size_color = new ProductDetail_Size_Color();
@@ -28,6 +33,16 @@ public class ProductDetail_Size_ColorService {
         for(ProductDetail_Size_Color p : list){
             repository.delete(p);
         }
+    }
+
+    public Integer getQuantityByProduct(Integer id){
+        return repository.getQuantityByProduct(id);
+    }
+    public Integer getQuantityByProductAndColor(Integer id,Integer IdColor){
+        return repository.getQuantityByProductAndColor(id,IdColor);
+    }
+    public Integer getQuantityByProductAndColorAndSize(Integer id,Integer IdColor, Integer IdSize){
+        return repository.getQuantityByProductAndColorAndSize(id,IdColor,IdSize);
     }
 
 }

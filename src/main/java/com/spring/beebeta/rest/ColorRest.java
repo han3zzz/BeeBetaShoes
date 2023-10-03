@@ -24,6 +24,10 @@ public class ColorRest {
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(service.getAll());
     }
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getColorById(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(service.getColorByProduct(id));
+    }
 
     @GetMapping("/search/{name}")
     public ResponseEntity<?> getAllByProductName(@PathVariable("name") String name){

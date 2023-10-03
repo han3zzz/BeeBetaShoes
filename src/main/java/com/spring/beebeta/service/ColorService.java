@@ -20,6 +20,9 @@ public class ColorService {
     public List<Color> getAll(){
         return repository.getAll();
     }
+    public List<Integer> getColorByProduct(Integer Id){
+        return repository.getColorByProduct(Id);
+    }
 
     public List<Color> getAllbyName(String name){
         return repository.searchByName('%'+name+'%');

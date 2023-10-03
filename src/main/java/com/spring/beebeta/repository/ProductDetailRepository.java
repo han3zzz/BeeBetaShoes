@@ -25,4 +25,6 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail,Int
     public List<ProductDetail> getAllByFilter(@Param("idcolor") Integer IdColor , @Param("idsize") Integer IdSize,@Param("idmaterial") Integer IdMaterial,@Param("idcategory") Integer IdCategory , @Param("idbrand") Integer IdBrand ,@Param("idtoe") Integer IdToe,@Param("idsole") Integer IdSole,@Param("idshoelace") Integer IdShoelcae,@Param("idheelcushion") Integer IdHeelcushion,@Param("iddesign") Integer IdDesign,@Param("min") Double min ,@Param("max") Double max,@Param("minTL") Double minTL ,@Param("maxTL") Double maxTL);
     @Query("Select e from ProductDetail  e where e.product.Code = :code")
     public ProductDetail getByCode(@Param("code") String code);
+    @Query(value = "select  e from ProductDetail e where e.Status = 0 and e.category.Id = :id")
+    public List<ProductDetail> getProductByCategory(@Param("id") Integer id);
 }
