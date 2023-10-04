@@ -27,4 +27,5 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail,Int
     public ProductDetail getByCode(@Param("code") String code);
     @Query(value = "select  e from ProductDetail e where e.Status = 0 and e.category.Id = :id")
     public List<ProductDetail> getProductByCategory(@Param("id") Integer id);
+
 }

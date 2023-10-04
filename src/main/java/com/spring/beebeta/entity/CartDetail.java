@@ -33,6 +33,5 @@ public class CartDetail implements Serializable {
     private Cart cart;
     @ManyToOne
     @JoinColumn(name = "IdProductDetail")
-    @JsonBackReference
     private ProductDetail productDetail;
 }
