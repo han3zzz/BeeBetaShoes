@@ -1,8 +1,6 @@
 package com.spring.beebeta.repository;
 
 import com.spring.beebeta.entity.Category;
-import com.spring.beebeta.entity.Product;
-import com.spring.beebeta.entity.Size;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
