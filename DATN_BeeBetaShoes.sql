@@ -243,6 +243,7 @@ Create table ProductDetail_Color_Size(
 Create table Voucher(
                         Id int identity(1,1) not null primary key,
                         Code varchar(30),
+                        Name nvarchar(100),
                         TypeVoucher bit,
                         IsVoucher bit,
                         Discount int ,
@@ -292,6 +293,8 @@ Create table Bill(
                      Note nvarchar(255),
                      PayType int ,
                      PayStatus int,
+                     TypeStatus int,
+                     Status int,
                      CodeGHN varchar(30),
                      IdCoupon int,
                      IdAddress int foreign key references Address(Id),
@@ -387,4 +390,42 @@ Create table ReturnExchangeDetail(
                                      Id int identity(1,1) not null primary key,
                                      IdReturnExchange int foreign key references ReturnExchange(Id),
                                      IdOrderDetail int foreign key references BillDetail(Id)
+)
+Create table ProductDetailHistory(
+                                     Id int identity(1,1) primary key not null,
+                                     ImageMain varchar(max),
+	ImageList varchar(max),
+	UpdateDate datetime,
+	UpdateBy varchar(30),
+	Name nvarchar(100),
+	Price money,
+	Weight float,
+	Description nvarchar(255),
+	IdCategory int ,
+	IdBrand int,
+	IdToe int,
+	IdSole int,
+	IdShoelace int,
+	IdHeelcushion int ,
+	IdDesign int ,
+	IdMaterial varchar(max),
+	IdVoucher varchar(max),
+	IdColor_Size_Quantity varchar(max),
+	Discount int,
+	DiscountDate datetime,
+	SupplierName nvarchar(100),
+	SupplierPhone varchar(15),
+	SupplierAddress nvarchar(255),
+	SupplierAgree nvarchar(255),
+	IdProductDetail int foreign key references ProductDetail(Id)
+
+
+)
+Create table Supplier(
+                         Id int identity(1,1) not null primary key,
+                         Name nvarchar(100),
+                         Phone varchar(15),
+                         Address nvarchar(255),
+                         Agree nvarchar(255),
+                         IdProductDetail int foreign key references ProductDetail(Id)
 )

@@ -20,6 +20,12 @@ public class CartDetailService {
     public List<CartDetail> getCartByCustomer(Integer Id){
         return repository.getCartByCustomer(Id);
     }
+    public void deleteAllCart(Integer Id){
+        List<CartDetail> cartDetails = repository.getCartByCustomer(Id);
+        for (CartDetail cartDetail: cartDetails) {
+            repository.delete(cartDetail);
+        }
+    }
     public CartDetail addToCart(CartDetailRequest request){
         CartDetail cartDetail = new CartDetail();
         cartDetail.setCart(Cart.builder().Id(request.getIdCart()).build());

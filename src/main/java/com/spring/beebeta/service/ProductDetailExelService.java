@@ -109,6 +109,7 @@ public class ProductDetailExelService {
                           productDetail_size_colorRepository.save(productDetail_size_color);
                        }
                    }
+
                }
                 
             }

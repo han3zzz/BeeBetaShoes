@@ -27,6 +27,11 @@ public class CartRest {
         service.deleteToCart(id);
         return ResponseEntity.ok("ok");
     }
+    @DeleteMapping("/deleteAllCart/{id}")
+    public ResponseEntity<?> deleteAllCart(@PathVariable("id") Integer id){
+        service.deleteAllCart(id);
+        return ResponseEntity.ok("ok");
+    }
     @PostMapping
     public ResponseEntity<?> addToCart(@RequestBody CartDetailRequest cartDetail){
         return ResponseEntity.ok(service.addToCart(cartDetail));

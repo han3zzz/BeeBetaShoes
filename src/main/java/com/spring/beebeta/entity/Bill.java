@@ -59,6 +59,10 @@ public class Bill implements Serializable {
     private String CodeGHN;
     @Column(name = "IdCoupon")
     private Integer IdCoupon;
+    @Column(name = "Status")
+    private Integer Status;
+    @Column(name = "TypeStatus")
+    private Integer TypeStatus;
     @ManyToOne
     @JoinColumn(name = "IdAddress")
     private Address address;

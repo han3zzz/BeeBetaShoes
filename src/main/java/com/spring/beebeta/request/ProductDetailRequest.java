@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Date;
+
 @Getter
 @Setter
 public class ProductDetailRequest {
@@ -23,4 +25,5 @@ public class ProductDetailRequest {
     private Integer IdHeelcushion;
     private Integer IdDesign;
     private Integer IdShoelace;
+    private Date DiscountDate;
 }

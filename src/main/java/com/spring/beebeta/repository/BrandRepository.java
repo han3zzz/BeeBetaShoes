@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface BrandRepository extends JpaRepository<Brand,Integer> {
-    @Query(value = "Select e from Brand e where e.Status = 0")
+    @Query(value = "Select e from Brand e where e.Status = 0 order by e.CreateDate desc ")
     public List<Brand> getAll();
     @Query(value = "Select e from Brand e where e.Status = 0 and e.Name like :name")
     public List<Brand> searchByName(@Param("name") String name);

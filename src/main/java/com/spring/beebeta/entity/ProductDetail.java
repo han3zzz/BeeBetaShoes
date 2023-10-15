@@ -33,6 +33,10 @@ public class ProductDetail implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Temporal(TemporalType.TIMESTAMP)
     private Date UpdateDate;
+    @Column(name = "DiscountDate")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date DiscountDate;
     @Column(name = "CreateBy")
     private String CreateBy;
     @Column(name = "UpdateBy")
@@ -74,9 +78,14 @@ public class ProductDetail implements Serializable {
     @OneToMany(mappedBy = "productDetail")
     private Set<ProductFault> productFaults = new HashSet<ProductFault>();
     @OneToMany(mappedBy = "productDetail")
+    private Set<Supplier> suppliers = new HashSet<Supplier>();
+    @OneToMany(mappedBy = "productDetail")
     private Set<ProductDetail_Material> productDetail_materials = new HashSet<ProductDetail_Material>();
     @OneToMany(mappedBy = "productDetail")
     private Set<ProductDetail_Size_Color> productDetail_size_colors = new HashSet<ProductDetail_Size_Color>();
+    @OneToMany(mappedBy = "productDetail")
+    private Set<ProductDetailHistory> productDetailHistories = new HashSet<ProductDetailHistory>();
+    @JsonIgnore
     @OneToMany(mappedBy = "productDetail")
     private Set<BillDetail> billDetails = new HashSet<BillDetail>();
     @JsonIgnore

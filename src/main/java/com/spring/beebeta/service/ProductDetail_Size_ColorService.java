@@ -5,6 +5,7 @@ import com.spring.beebeta.repository.ProductDetail_Size_ColorRepository;
 import com.spring.beebeta.repository.ToeRepository;
 import com.spring.beebeta.request.ProductDetail_MaterialRequest;
 import com.spring.beebeta.request.ProductDetail_Size_ColorRequest;
+import com.spring.beebeta.response.ProductDetailResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,15 @@ public class ProductDetail_Size_ColorService {
     public List<ProductDetail_Size_Color> getByColor(Integer IdProduct, Integer IdColor){
         return repository.getAllByIdProductAndIdColor(IdProduct,IdColor);
     }
+    public List<ProductDetailResponse> getAll(){
+        return repository.getAll();
+    }
+    public List<ProductDetailResponse> getAllByNameAndCodeProduct(String keyword,Integer idColor,Integer IdSize){
+        return repository.getAllByNameAndCodeProduct('%'+keyword+'%',idColor,IdSize);
+    }
+    public ProductDetailResponse getByIdd(Integer id){
+        return repository.getByIdd(id);
+    }
 
     public ProductDetail_Size_Color add(ProductDetail_Size_ColorRequest request){
         ProductDetail_Size_Color productDetail_size_color = new ProductDetail_Size_Color();
@@ -28,6 +38,12 @@ public class ProductDetail_Size_ColorService {
         productDetail_size_color.setQuantity(request.getQuantity());
         return repository.save(productDetail_size_color);
     }
+    public ProductDetail_Size_Color updateQuantity(Integer id,Integer IdColor, Integer IdSize,Integer quanity){
+        ProductDetail_Size_Color productDetail_size_color =repository.getByProductAndColorAndSize(id,IdColor,IdSize);
+        productDetail_size_color.setQuantity(quanity);
+        return repository.save(productDetail_size_color);
+    }
+
     public void delete(Integer idProductDetail){
         List<ProductDetail_Size_Color> list = repository.getAllById(idProductDetail);
         for(ProductDetail_Size_Color p : list){

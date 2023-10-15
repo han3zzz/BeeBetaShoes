@@ -6,6 +6,7 @@ import com.spring.beebeta.request.ProductDetail_Size_ColorRequest;
 import com.spring.beebeta.service.ProductDetail_MaterialService;
 import com.spring.beebeta.service.ProductDetail_Size_ColorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,18 @@ public class ProductDetail_Color_SizeRest {
     @GetMapping("/getbycolor")
     public ResponseEntity<?> getByColor(@RequestParam("IdProduct") Integer IdProduct , @RequestParam("IdColor") Integer IdColor){
         return ResponseEntity.ok(service.getByColor(IdProduct,IdColor));
+    }
+    @GetMapping("/getall")
+    public ResponseEntity<?> getall(){
+        return ResponseEntity.ok(service.getAll());
+    }
+    @GetMapping("/getbyid/{id}")
+    public ResponseEntity<?> getbyid(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(service.getByIdd(id));
+    }
+    @GetMapping("/getallbykeyword")
+    public ResponseEntity<?> getbyid(@RequestParam(value = "keyword",required = false) String keyword,@RequestParam(value = "idColor",required = false) Integer idCololor,@RequestParam(value = "idSize",required = false) Integer idSize){
+        return ResponseEntity.ok(service.getAllByNameAndCodeProduct(keyword,idCololor,idSize));
     }
     @GetMapping("/getQuantityProduct")
     public ResponseEntity<?> getQuantityProduct(@RequestParam("IdProduct") Integer IdProduct){
@@ -35,6 +48,10 @@ public class ProductDetail_Color_SizeRest {
     @PostMapping()
     public ResponseEntity<?> add(@RequestBody ProductDetail_Size_ColorRequest request){
         return ResponseEntity.ok(service.add(request));
+    }
+    @PutMapping("/updateQuantity")
+    public ResponseEntity<?> updateQuantity(@RequestParam("IdProduct") Integer IdProduct, @RequestParam("IdColor") Integer IdColor, @RequestParam("IdSize") Integer IdSize, @RequestParam("Quantity") Integer Quanity){
+        return ResponseEntity.ok(service.updateQuantity(IdProduct,IdColor,IdSize,Quanity));
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id){

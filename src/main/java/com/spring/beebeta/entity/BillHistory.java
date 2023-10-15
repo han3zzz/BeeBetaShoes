@@ -38,6 +38,5 @@ public class BillHistory implements Serializable {
     private String Note;
     @ManyToOne
     @JoinColumn(name = "IdOrder")
-    @JsonBackReference
     private Bill bill;
 }

@@ -12,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface ToeRepository extends JpaRepository<Toe,Integer> {
-    @Query(value = "Select e from Toe e where e.Status = 0")
+    @Query(value = "Select e from Toe e where e.Status = 0 order by e.CreateDate desc ")
     public List<Toe> getAll();
     @Query(value = "Select e from Toe e where e.Status = 0 and e.Name like :name")
     public List<Toe> searchByName(@Param("name") String name);

@@ -63,4 +63,9 @@ public class CustomerService {
         Customer customer = customerRepository.getById(Id);
         return customer;
     }
+    // de tai khach hang
+    public Customer getByUsername(String username){
+        Customer customer = customerRepository.getByUsername(username);
+        return customer;
+    }
 }

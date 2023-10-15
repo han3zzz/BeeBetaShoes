@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface HeelcushionRepository extends JpaRepository<Heelcushion,Integer> {
-    @Query(value = "Select e from Heelcushion e where e.Status = 0")
+    @Query(value = "Select e from Heelcushion e where e.Status = 0 order by e.CreateDate desc ")
     public List<Heelcushion> getAll();
     @Query(value = "Select e from Heelcushion e where e.Status = 0 and e.Name like :name")
     public List<Heelcushion> searchByName(@Param("name") String name);

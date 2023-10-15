@@ -30,6 +30,7 @@ public class BillDetail implements Serializable {
     private Integer IdColor;
     @Column(name = "IdSize")
     private Integer IdSize;
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "IdOrder")
     private Bill bill;

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface SoleRepository extends JpaRepository<Sole,Integer> {
-    @Query(value = "Select e from Sole e where e.Status = 0")
+    @Query(value = "Select e from Sole e where e.Status = 0 order by e.CreateDate desc ")
     public List<Sole> getAll();
     @Query(value = "Select e from Sole e where e.Status = 0 and e.Name like :name")
     public List<Sole> searchByName(@Param("name") String name);

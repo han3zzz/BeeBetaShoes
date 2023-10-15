@@ -35,7 +35,7 @@ public class ProductDetailRest {
         return ResponseEntity.ok(service.getAllbyProductName(name));
     }
     @GetMapping("/filter")
-    public ResponseEntity<?> getAllByFilter(@RequestParam(name = "idcategory",required = false) Integer IdCategory,
+    public ResponseEntity<?> getAllByFilter(@RequestParam(name = "name",required = false) String name,@RequestParam(name = "idcategory",required = false) Integer IdCategory,
                                             @RequestParam(name = "idmaterial",required = false) Integer IdMaterial,
                                             @RequestParam(name = "idcolor",required = false) Integer IdColor,
                                             @RequestParam(name = "idsize",required = false) Integer IdSize,
@@ -50,7 +50,7 @@ public class ProductDetailRest {
                                             @RequestParam("minTL") Double minTL,
                                             @RequestParam("maxTL") Double maxTL){
 
-        return ResponseEntity.ok(service.getAllbyFilter(IdColor,IdSize,IdMaterial,IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign,min,max,minTL,maxTL));
+        return ResponseEntity.ok(service.getAllbyFilter(name,IdColor,IdSize,IdMaterial,IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign,min,max,minTL,maxTL));
     }
 
     @GetMapping("/phantrang")
@@ -117,4 +117,17 @@ public class ProductDetailRest {
     public ResponseEntity<?> getByIdCategory(@PathVariable("id") Integer id){
         return ResponseEntity.ok(service.getProductByCategory(id));
     }
+    @GetMapping("/quantitySold/{id}")
+    public ResponseEntity<?> quantitySold(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(service.quantitySold(id));
+    }
+    @GetMapping("/totalSold/{id}")
+    public ResponseEntity<?> totalSold(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(service.totalSold(id));
+    }
+    @GetMapping("/getVoucher")
+    public ResponseEntity<?> getVoucher(){
+        return ResponseEntity.ok(service.getVoucher());
+    }
+
 }

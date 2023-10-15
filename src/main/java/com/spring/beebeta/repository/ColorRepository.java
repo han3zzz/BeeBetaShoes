@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface ColorRepository extends JpaRepository<Color,Integer> {
-    @Query(value = "Select e from Color e where e.Status = 0")
+    @Query(value = "Select e from Color e where e.Status = 0 order by e.CreateDate desc ")
     public List<Color> getAll();
     @Query(value = "Select e from Color e where e.Status = 0 and e.Name like :name")
     public List<Color> searchByName(@Param("name") String name);

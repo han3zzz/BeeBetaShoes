@@ -20,7 +20,6 @@ public class Product_Voucher implements Serializable {
     private Integer Id;
     @ManyToOne
     @JoinColumn(name = "IdVoucher")
-    @JsonBackReference
     private Voucher voucher;
     @ManyToOne
     @JoinColumn(name = "IdProduct")

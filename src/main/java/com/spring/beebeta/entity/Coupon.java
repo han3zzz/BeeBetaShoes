@@ -18,6 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "Coupon")
+@Builder
 public class Coupon implements Serializable {
     @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

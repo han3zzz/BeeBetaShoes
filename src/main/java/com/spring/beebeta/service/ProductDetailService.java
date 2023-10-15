@@ -25,8 +25,8 @@ public class ProductDetailService {
     public List<ProductDetail> getAllbyProductName(String name){
         return repository.getAllByProductName('%'+name+'%');
     }
-    public List<ProductDetail> getAllbyFilter(Integer IdColor,Integer IdSize,Integer IdMaterial,Integer IdCategory, Integer IdBrand , Integer IdToe, Integer IdSole,Integer IdShoelace,Integer IdHeelcushion, Integer IdDesign,Double min , Double max,Double minTL , Double maxTL){
-        return repository.getAllByFilter(IdColor,IdSize,IdMaterial,IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign,min,max,minTL,maxTL);
+    public List<ProductDetail> getAllbyFilter(String name,Integer IdColor,Integer IdSize,Integer IdMaterial,Integer IdCategory, Integer IdBrand , Integer IdToe, Integer IdSole,Integer IdShoelace,Integer IdHeelcushion, Integer IdDesign,Double min , Double max,Double minTL , Double maxTL){
+        return repository.getAllByFilter('%'+name+'%',IdColor,IdSize,IdMaterial,IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign,min,max,minTL,maxTL);
     }
     public Page<ProductDetail> phanTrang(Integer page){
         Pageable pageable = PageRequest.of(page,10);
@@ -50,6 +50,7 @@ public class ProductDetailService {
         productDetail.setSole(Sole.builder().Id(request.getIdSole()).build());
         productDetail.setHeelcushion(Heelcushion.builder().Id(request.getIdHeelcushion()).build());
         productDetail.setShoelace(Shoelace.builder().Id(request.getIdShoelace()).build());
+        productDetail.setDiscountDate(request.getDiscountDate());
         productDetail.setCreateDate(new Date());
         productDetail.setStatus(0);
         return repository.save(productDetail);
@@ -72,6 +73,7 @@ public class ProductDetailService {
         productDetail.setSole(Sole.builder().Id(request.getIdSole()).build());
         productDetail.setHeelcushion(Heelcushion.builder().Id(request.getIdHeelcushion()).build());
         productDetail.setShoelace(Shoelace.builder().Id(request.getIdShoelace()).build());
+        productDetail.setDiscountDate(request.getDiscountDate());
         productDetail.setUpdateDate(new Date());
         return repository.save(productDetail);
     }
@@ -82,6 +84,17 @@ public class ProductDetailService {
     public List<ProductDetail> getProductByCategory(Integer id){
         return repository.getProductByCategory(id);
     }
+
+    public Integer quantitySold(@Param("id") Integer id){
+        return repository.quantitySold(id);
+    }
+    public Double totalSold(@Param("id") Integer id){
+        return repository.totalSale(id);
+    }
+    public List<Voucher> getVoucher(){
+        return repository.getVoucher();
+    }
+
 
 
 }

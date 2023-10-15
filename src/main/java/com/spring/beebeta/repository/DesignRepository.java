@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface DesignRepository extends JpaRepository<Design,Integer> {
-    @Query(value = "Select e from Design e where e.Status = 0")
+    @Query(value = "Select e from Design e where e.Status = 0 order by e.CreateDate desc ")
     public List<Design> getAll();
     @Query(value = "Select e from Design e where e.Status = 0 and e.Name like :name")
     public List<Design> searchByName(@Param("name") String name);

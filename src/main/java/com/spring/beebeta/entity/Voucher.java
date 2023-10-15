@@ -1,5 +1,6 @@
 package com.spring.beebeta.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,6 +34,8 @@ public class Voucher implements Serializable {
     private Integer Status;
     @Column(name = "Code")
     private String Code;
+    @Column(name = "Name")
+    private String Name;
     @Column(name = "TypeVoucher")
     private Boolean TypeVoucher;
     @Column(name = "IsVoucher")
@@ -45,6 +48,7 @@ public class Voucher implements Serializable {
     private Timestamp StartDate;
     @Column(name = "EndDate")
     private Timestamp EndDate;
+    @JsonIgnore
     @OneToMany(mappedBy = "voucher")
     private Set<Product_Voucher> product_vouchers = new HashSet<Product_Voucher>();
     @OneToMany(mappedBy = "voucher")
