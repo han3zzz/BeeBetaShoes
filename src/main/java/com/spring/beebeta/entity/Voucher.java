@@ -3,10 +3,12 @@ package com.spring.beebeta.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,9 +47,13 @@ public class Voucher implements Serializable {
     @Column(name = "Cash")
     private BigDecimal Cash;
     @Column(name = "StartDate")
-    private Timestamp StartDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(TemporalType.DATE)
+    private Date StartDate;
     @Column(name = "EndDate")
-    private Timestamp EndDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @Temporal(TemporalType.DATE)
+    private Date EndDate;
     @JsonIgnore
     @OneToMany(mappedBy = "voucher")
     private Set<Product_Voucher> product_vouchers = new HashSet<Product_Voucher>();
