@@ -60,5 +60,8 @@ public class ProductDetail_Size_ColorService {
     public Integer getQuantityByProductAndColorAndSize(Integer id,Integer IdColor, Integer IdSize){
         return repository.getQuantityByProductAndColorAndSize(id,IdColor,IdSize);
     }
+    public List<ProductDetailResponse> getByProduct(Integer id){
+        return repository.getByProduct(id);
+    }
 
 }

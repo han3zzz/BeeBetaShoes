@@ -95,6 +95,10 @@ public class ProductDetailService {
         return repository.getVoucher();
     }
 
+    public List<Voucher> getAllVoucher(){
+        return repository.getAllVoucher();
+    }
+
 
 
 }

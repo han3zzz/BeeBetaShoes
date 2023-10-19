@@ -129,5 +129,9 @@ public class ProductDetailRest {
     public ResponseEntity<?> getVoucher(){
         return ResponseEntity.ok(service.getVoucher());
     }
+    @GetMapping("/getAllVoucher")
+    public ResponseEntity<?> getAllVoucher(){
+        return ResponseEntity.ok(service.getAllVoucher());
+    }
 
 }

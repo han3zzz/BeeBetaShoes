@@ -48,6 +48,7 @@ public class BillService {
         bill.setAddress(Address.builder().Id(request.getIdAddress()).build());
         bill.setCustomer(Customer.builder().Id(request.getIdCustomer()).build());
         bill.setStatus(request.getStatus());
+        bill.setTypeStatus(request.getTypeStatus());
         return repository.save(bill);
 
     }
@@ -79,6 +80,7 @@ public class BillService {
         Bill bill = new Bill();
         bill.setCode(genCode());
         bill.setPurchaseDate(new Date());
+        bill.setTypeStatus(request.getTypeStatus());
         bill.setStatus(request.getStatus());
         bill.setEmployee(Employee.builder().Id(request.getIdEmployee()).build());
         return repository.save(bill);

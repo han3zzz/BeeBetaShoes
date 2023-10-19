@@ -25,4 +25,8 @@ public class ProductVoucherRest {
         service.delete(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
+    @GetMapping("/getbyproduct/{id}")
+    public ResponseEntity<?> getbyproduct(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(service.getAllByProduct(id));
+    }
 }

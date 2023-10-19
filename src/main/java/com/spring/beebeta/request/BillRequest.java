@@ -19,5 +19,6 @@ public class BillRequest {
     private Integer IdAddress;
     private Integer IdCustomer;
     private Integer Status;
+    private Integer TypeStatus;
 
 }

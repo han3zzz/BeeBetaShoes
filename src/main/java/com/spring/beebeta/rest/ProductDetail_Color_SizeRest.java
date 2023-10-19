@@ -28,6 +28,10 @@ public class ProductDetail_Color_SizeRest {
     public ResponseEntity<?> getbyid(@PathVariable("id") Integer id){
         return ResponseEntity.ok(service.getByIdd(id));
     }
+    @GetMapping("/getbyproduct/{id}")
+    public ResponseEntity<?> getbyproduct(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(service.getByProduct(id));
+    }
     @GetMapping("/getallbykeyword")
     public ResponseEntity<?> getbyid(@RequestParam(value = "keyword",required = false) String keyword,@RequestParam(value = "idColor",required = false) Integer idCololor,@RequestParam(value = "idSize",required = false) Integer idSize){
         return ResponseEntity.ok(service.getAllByNameAndCodeProduct(keyword,idCololor,idSize));

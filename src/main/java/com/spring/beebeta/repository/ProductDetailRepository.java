@@ -43,4 +43,8 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail,Int
             "and e.Status = 0")
     public List<Voucher> getVoucher();
 
+    @Query(value = "Select e from Voucher  e " +
+            "where e.Status = 0")
+    public List<Voucher> getAllVoucher();
+
 }

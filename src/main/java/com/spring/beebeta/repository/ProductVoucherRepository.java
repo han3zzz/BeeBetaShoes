@@ -12,4 +12,5 @@ import java.util.List;
 public interface ProductVoucherRepository extends JpaRepository<Product_Voucher,Integer> {
     @Query("select e from Product_Voucher e where e.product.Id = :id")
     public List<Product_Voucher> getByProduct(@Param("id") Integer id);
+
 }

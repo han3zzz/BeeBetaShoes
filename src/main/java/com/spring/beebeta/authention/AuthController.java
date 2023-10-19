@@ -1,17 +1,17 @@
 package com.spring.beebeta.authention;
 
+import com.spring.beebeta.entity.Customer;
 import com.spring.beebeta.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
@@ -24,7 +24,7 @@ public class AuthController {
     @Autowired
     private CustomerService service;
 
-    @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest, BindingResult result) {
         String token = null;
         if (result.hasErrors()){
@@ -33,16 +33,20 @@ public class AuthController {
         }
         // Xác thực thông tin đăng nhập ở đây (ví dụ: kiểm tra tên người dùng và mật khẩu)
         // Nếu xác thực thành công, phát sinh mã JWT và trả về cho người dùng
-
-        if (service.getByUsername(loginRequest.getUsername()) == null){
+        Customer customer = service.getByUsername(loginRequest.getUsername());
+        if (customer == null){
              return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("errorMessage");
 
         }
-        if (!service.getByUsername(loginRequest.getUsername()).getPassword().equals(loginRequest.getPassword())){
+        if (!customer.getPassword().equals(loginRequest.getPassword())){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("errorMessage");
         }
+
         token = jwtTokenUtil.generateToken(loginRequest.getUsername());
-        return ResponseEntity.ok(new TokenResponse(token));
+        Map<String, Object> tokenMap = new HashMap<String, Object>();
+        tokenMap.put("token",token);
+        tokenMap.put("user",customer);
+        return new ResponseEntity<Map<String,Object>>(tokenMap,HttpStatus.OK);
     }
     @GetMapping("/get")
     public ResponseEntity<?> getByToken(@RequestParam("token") String token) {

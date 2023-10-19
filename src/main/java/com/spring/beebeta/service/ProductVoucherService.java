@@ -27,4 +27,7 @@ public class ProductVoucherService {
             repository.delete(product_voucher);
         }
     }
+    public List<Product_Voucher> getAllByProduct(Integer id){
+        return repository.getByProduct(id);
+    }
 }

@@ -1,5 +1,6 @@
 package com.spring.beebeta.rest;
 
+import com.spring.beebeta.request.AddressKhachLe;
 import com.spring.beebeta.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,5 +24,9 @@ public class AddressRest {
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getAddressById(@PathVariable("id") Integer id){
         return ResponseEntity.ok(service.getAddressById(id));
+    }
+    @PostMapping()
+    public ResponseEntity<?> add(@RequestBody AddressKhachLe addressKhachLe){
+        return ResponseEntity.ok(service.add(addressKhachLe));
     }
 }
