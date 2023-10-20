@@ -1,12 +1,11 @@
 package com.spring.beebeta.service;
 
-import com.spring.beebeta.entity.Address;
-import com.spring.beebeta.entity.Bill;
-import com.spring.beebeta.entity.Customer;
-import com.spring.beebeta.entity.Employee;
+import com.spring.beebeta.entity.*;
 import com.spring.beebeta.repository.BillRepository;
 import com.spring.beebeta.request.BillRequest;
 import com.spring.beebeta.request.BillTaiQuayRequest;
+import com.spring.beebeta.request.BillTaiQuayUpdateRequest;
+import com.spring.beebeta.request.UpdateThanhToanTaiQuay;
 import com.spring.beebeta.response.BillAllResponse;
 import com.spring.beebeta.response.BillResponse;
 import com.spring.beebeta.response.BillTaiQuayResponse;
@@ -49,6 +48,43 @@ public class BillService {
         bill.setCustomer(Customer.builder().Id(request.getIdCustomer()).build());
         bill.setStatus(request.getStatus());
         bill.setTypeStatus(request.getTypeStatus());
+        return repository.save(bill);
+
+    }
+    public Bill update(String code, BillTaiQuayUpdateRequest request){
+        Bill bill = repository.getByCode(code);
+        bill.setNote(request.getNote());
+        bill.setShipPrice(request.getShipPrice());
+        bill.setTotalPrice(request.getTotalPrice());
+        bill.setTotalPriceLast(request.getTotalPriceLast());
+        bill.setPayStatus(request.getPayStatus());
+        bill.setPayType(request.getPayType());
+        bill.setIdCoupon(request.getIdCoupon());
+        bill.setAddress(Address.builder().Id(request.getIdAddress()).build());
+        bill.setStatus(request.getStatus());
+        bill.setPaymentDate(request.getPaymentDate());
+        bill.setDelyveryDate(request.getDelyveryDate());
+
+        if(request.getIdVoucher() != 0 && request.getIdVoucher() != null){
+            bill.setVoucher(Voucher.builder().Id(request.getIdVoucher()).build());
+        }
+        return repository.save(bill);
+    }
+    public Bill updateStatus(String code, UpdateThanhToanTaiQuay request){
+        Bill bill = repository.getByCode(code);
+
+        bill.setStatus(request.getStatus());
+        bill.setDelyveryDate(request.getDeliveryDate());
+        bill.setPayStatus(request.getPayStatus());
+        bill.setPaymentDate(request.getPaymentDate());
+        return repository.save(bill);
+
+    }
+    public Bill updateStatus1(String code, UpdateThanhToanTaiQuay request){
+        Bill bill = repository.getByCode(code);
+        bill.setDelyveryDate(new Date());
+        bill.setPayStatus(request.getPayStatus());
+        bill.setPaymentDate(new Date());
         return repository.save(bill);
 
     }

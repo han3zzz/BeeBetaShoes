@@ -57,6 +57,7 @@ public class Voucher implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "voucher")
     private Set<Product_Voucher> product_vouchers = new HashSet<Product_Voucher>();
+    @JsonIgnore
     @OneToMany(mappedBy = "voucher")
     private Set<Bill> bills = new HashSet<Bill>();
 }

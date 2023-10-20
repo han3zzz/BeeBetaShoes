@@ -60,7 +60,7 @@ public class Customer implements Serializable {
     @JsonBackReference
     @OneToMany(mappedBy = "customer")
     private Set<Address> addresses = new HashSet<Address>();
-    @JsonBackReference
+    @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private Set<Bill> bills = new HashSet<Bill>();
     @JsonBackReference

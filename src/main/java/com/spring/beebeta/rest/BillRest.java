@@ -1,9 +1,6 @@
 package com.spring.beebeta.rest;
 
-import com.spring.beebeta.request.BillDetailRequest;
-import com.spring.beebeta.request.BillRequest;
-import com.spring.beebeta.request.BillTaiQuayRequest;
-import com.spring.beebeta.request.CartDetailRequest;
+import com.spring.beebeta.request.*;
 import com.spring.beebeta.service.BillDetailService;
 import com.spring.beebeta.service.BillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +41,18 @@ public class BillRest {
     @PutMapping("/updateBillDetail/{id}")
     public ResponseEntity<?> updateBillDetail(@PathVariable("id") Integer id,@RequestBody BillDetailRequest billDetailRequest){
         return ResponseEntity.ok(billDetailService.updateBillDetail(id,billDetailRequest));
+    }
+    @PutMapping("/updateBillTaiQuay/{code}")
+    public ResponseEntity<?> updateBillTaiQuay(@PathVariable("code") String code,@RequestBody BillTaiQuayUpdateRequest request){
+        return ResponseEntity.ok(service.update(code,request));
+    }
+    @PutMapping("/updateStatus/{code}")
+    public ResponseEntity<?> updateStatus(@PathVariable("code") String code,@RequestBody UpdateThanhToanTaiQuay request){
+        return ResponseEntity.ok(service.updateStatus(code,request));
+    }
+    @PutMapping("/updateStatus1/{code}")
+    public ResponseEntity<?> updateStatus1(@PathVariable("code") String code,@RequestBody UpdateThanhToanTaiQuay request){
+        return ResponseEntity.ok(service.updateStatus1(code,request));
     }
     @PutMapping("/{code}")
     public ResponseEntity<?> addToBillDetail(@PathVariable("code") String code){

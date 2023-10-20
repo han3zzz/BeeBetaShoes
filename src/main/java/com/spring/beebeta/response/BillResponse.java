@@ -24,4 +24,5 @@ public interface BillResponse {
     Integer getIdVoucher();
     Integer getIdEmployee();
     Integer getStatus();
+    Integer getTypeStatus();
 }

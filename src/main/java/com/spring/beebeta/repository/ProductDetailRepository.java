@@ -29,7 +29,7 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail,Int
     public ProductDetail getByCode(@Param("code") String code);
     @Query(value = "select  e from ProductDetail e where e.Status = 0 and e.category.Id = :id")
     public List<ProductDetail> getProductByCategory(@Param("id") Integer id);
-    @Query(value = "Select COUNT(b.productDetail.Id) from BillDetail b \n" +
+    @Query(value = "Select SUM(b.Quantity) from BillDetail b \n" +
             "join Bill  c on c.Id = b.bill.Id \n" +
             "where b.productDetail.Id = :id and c.Status = 3")
     public Integer quantitySold(@Param("id") Integer id);

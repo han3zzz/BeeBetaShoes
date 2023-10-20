@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AddressKhachLe {
+    private Integer Id;
     private String Fullname;
     private String Phone;
     private String Address;

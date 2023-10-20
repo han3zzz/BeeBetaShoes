@@ -58,6 +58,7 @@ public class Employee implements Serializable {
     @JoinColumn(name = "IdRole")
     @JsonBackReference
     private Role role;
+    @JsonIgnore
     @OneToMany(mappedBy = "employee")
     private Set<Bill> bills = new HashSet<Bill>();
 }
