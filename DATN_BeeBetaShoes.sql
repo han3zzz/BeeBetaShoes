@@ -421,11 +421,11 @@ Create table ProductDetailHistory(
 
 
 )
-Create table Supplier(
-                         Id int identity(1,1) not null primary key,
-                         Name nvarchar(100),
-                         Phone varchar(15),
-                         Address nvarchar(255),
-                         Agree nvarchar(255),
-                         IdProductDetail int foreign key references ProductDetail(Id)
+create table OperationHistory(
+                                 Id int identity(1,1) not null primary key,
+                                 CreateDate datetime,
+                                 CreateBy nvarchar(100),
+                                 IdProductDetail int,
+                                 Status int
+
 )

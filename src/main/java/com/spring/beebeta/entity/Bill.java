@@ -77,6 +77,7 @@ public class Bill implements Serializable {
     private Voucher voucher;
     @OneToMany(mappedBy = "bill")
     private Set<BillDetail> billDetails = new HashSet<BillDetail>();
+    @JsonIgnore
     @OneToMany(mappedBy = "bill")
     private Set<BillHistory> billHistories = new HashSet<BillHistory>();
 

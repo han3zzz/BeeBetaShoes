@@ -43,7 +43,7 @@ public interface ProductDetail_Size_ColorRepository extends JpaRepository<Produc
     @Query(value = "Select p.Id,p.IdProductDetail,p.IdColor,p.IdSize,p.Quantity from ProductDetail_Color_Size p \n" +
             "             join ProductDetail c on p.IdProductDetail = c.Id\n" +
             " join Product pro on pro.Id = c.IdProduct\n" +
-            "             where c.Status = 0 and (pro.Code like :keyword or :keyword is null) or (pro.Name like :keyword or :keyword is null) and (p.IdColor = :idColor or :idColor is null) and (p.IdSize = :idSize or :idSize is null)  order by c.CreateDate asc", nativeQuery = true)
+            "             where c.Status = 0 and (pro.Code like :keyword or pro.Name like :keyword or :keyword is null) and (p.IdColor = :idColor or :idColor is null) and (p.IdSize = :idSize or :idSize is null)  order by c.CreateDate asc", nativeQuery = true)
     List<ProductDetailResponse> getAllByNameAndCodeProduct(@Param("keyword") String keyword,@Param("idColor") Integer idColor , @Param("idSize") Integer idSize);
 
     @Query(value = "Select p.Id,p.IdProductDetail,p.IdColor,p.IdSize,p.Quantity from ProductDetail_Color_Size p \n" +

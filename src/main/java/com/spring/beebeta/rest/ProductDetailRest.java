@@ -28,6 +28,10 @@ public class ProductDetailRest {
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(service.getAll());
     }
+    @GetMapping("/findAll")
+    public ResponseEntity<?> findAll(){
+        return ResponseEntity.ok(service.findAll());
+    }
 
 
     @GetMapping("/search/{name}")

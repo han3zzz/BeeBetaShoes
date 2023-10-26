@@ -60,11 +60,15 @@ public class BillService {
         bill.setPayStatus(request.getPayStatus());
         bill.setPayType(request.getPayType());
         bill.setIdCoupon(request.getIdCoupon());
-        bill.setAddress(Address.builder().Id(request.getIdAddress()).build());
+       if(request.getIdAddress() != 0){
+           bill.setAddress(Address.builder().Id(request.getIdAddress()).build());
+       }
         bill.setStatus(request.getStatus());
         bill.setPaymentDate(request.getPaymentDate());
         bill.setDelyveryDate(request.getDelyveryDate());
-
+        if(request.getIdCustomer() != 0){
+            bill.setCustomer(Customer.builder().Id(request.getIdCustomer()).build());
+        }
         if(request.getIdVoucher() != 0 && request.getIdVoucher() != null){
             bill.setVoucher(Voucher.builder().Id(request.getIdVoucher()).build());
         }
@@ -91,9 +95,14 @@ public class BillService {
     public Bill updateStatusPay(String code){
     Bill bill = repository.getByCode(code);
     bill.setPayStatus(1);
-    bill.setStatus(1);
+    bill.setStatus(0);
     bill.setPaymentDate(new Date());
     return repository.save(bill);
+    }
+    public Bill updateStatus(String code,Integer status){
+        Bill bill = repository.getByCode(code);
+        bill.setStatus(status);
+        return repository.save(bill);
     }
     public void huyBill(String code){
         Bill bill = repository.getByCode(code);
@@ -120,5 +129,8 @@ public class BillService {
         bill.setStatus(request.getStatus());
         bill.setEmployee(Employee.builder().Id(request.getIdEmployee()).build());
         return repository.save(bill);
+    }
+    public List<BillResponse> getAll(){
+        return repository.getAll();
     }
 }

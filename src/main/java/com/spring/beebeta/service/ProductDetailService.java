@@ -4,6 +4,8 @@ import com.spring.beebeta.entity.*;
 import com.spring.beebeta.repository.ProductDetailRepository;
 import com.spring.beebeta.request.ProductDetailRequest;
 import jakarta.persistence.Id;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -98,6 +100,52 @@ public class ProductDetailService {
     public List<Voucher> getAllVoucher(){
         return repository.getAllVoucher();
     }
+    public List<ProductDetail> findAll(){
+        return repository.findAll();
+    }
+
+
+//    public List<ProductDetail> searchProductDetails(String name, Integer idMaterial, Integer idColor, Integer idSize, Integer idCategory, Integer idBrand, Integer idToe, Integer idSole, Integer idShoelace, Integer idHeelcushion, Integer idDesign, Double min, Double max, Double minTL, Double maxTL) {
+//        FullTextEntityManager fullTextEntityManager = Search.getFullTextEntityManager(entityManager);
+//        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory().buildQueryBuilder().forEntity(ProductDetail.class).get();
+//
+//        BooleanJunction<?> bool = queryBuilder.bool();
+//
+//        if (name != null) {
+//            bool.must(queryBuilder.keyword().onField("product.name").matching(name).createQuery());
+//            bool.must(queryBuilder.keyword().onField("product.code").matching(name).createQuery());
+//        }
+//
+//        if (idMaterial != null) {
+//            bool.must(queryBuilder.keyword().onField("material.id").matching(idMaterial).createQuery());
+//        }
+//
+//        if (idColor != null) {
+//            bool.must(queryBuilder.keyword().onField("color.id").matching(idColor).createQuery());
+//        }
+//
+//        if (idSize != null) {
+//            bool.must(queryBuilder.keyword().onField("size.id").matching(idSize).createQuery());
+//        }
+//
+//        // Thêm các điều kiện tương tự cho các trường khác ở đây
+//
+//        if (min != null && max != null) {
+//            bool.must(queryBuilder.range().onField("price").from(min).to(max).createQuery());
+//        }
+//
+//        if (minTL != null && maxTL != null) {
+//            bool.must(queryBuilder.range().onField("weight").from(minTL).to(maxTL).createQuery());
+//        }
+//
+//        bool.must(queryBuilder.keyword().onField("status").matching(0).createQuery());
+//
+//        FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(bool.createQuery(), ProductDetail.class);
+//        fullTextQuery.setSort(new Sort(new SortField("createDate", SortField.Type.LONG, true))); // Sắp xếp theo createDate giảm dần
+//
+//        return fullTextQuery.getResultList();
+//
+//}
 
 
 

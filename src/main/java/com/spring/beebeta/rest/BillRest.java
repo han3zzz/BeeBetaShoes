@@ -58,6 +58,10 @@ public class BillRest {
     public ResponseEntity<?> addToBillDetail(@PathVariable("code") String code){
         return ResponseEntity.ok(service.updateStatusPay(code));
     }
+    @PutMapping("/updatestatus")
+    public ResponseEntity<?> updatestatus(@RequestParam("code") String code,@RequestParam("status") Integer status){
+        return ResponseEntity.ok(service.updateStatus(code,status));
+    }
     @GetMapping("/huy/{code}")
     public ResponseEntity<?> huyBill(@PathVariable("code") String code){
         service.huyBill(code);
@@ -88,6 +92,11 @@ public class BillRest {
     public ResponseEntity<?> getallbyproduct(@PathVariable("id") Integer id){
         return ResponseEntity.ok(billDetailService.getAllByIdProduct(id));
     }
+    @GetMapping("/getall")
+    public ResponseEntity<?> getall(){
+        return ResponseEntity.ok(service.getAll());
+    }
+
 
 
 

@@ -37,7 +37,6 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail,Int
             "join Bill  c on c.Id = b.bill.Id \n" +
             "where b.productDetail.Id = :id and c.Status = 3")
     public Double totalSale(@Param("id") Integer id);
-
     @Query(value = "Select e from Voucher e \n" +
             "where e.IsVoucher = true\n" +
             "and e.Status = 0")
