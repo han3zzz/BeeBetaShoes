@@ -25,10 +25,12 @@ public class ProductDetailService {
         return repository.getAll();
     }
     public List<ProductDetail> getAllbyProductName(String name){
-        return repository.getAllByProductName('%'+name+'%');
+        return repository.getAllByProductName("\"" + name + "\"");
     }
-    public List<ProductDetail> getAllbyFilter(String name,Integer IdColor,Integer IdSize,Integer IdMaterial,Integer IdCategory, Integer IdBrand , Integer IdToe, Integer IdSole,Integer IdShoelace,Integer IdHeelcushion, Integer IdDesign,Double min , Double max,Double minTL , Double maxTL){
-        return repository.getAllByFilter('%'+name+'%',IdColor,IdSize,IdMaterial,IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign,min,max,minTL,maxTL);
+    public List<ProductDetail> getAllbyFilter(String name,Integer IdColor,Integer IdSize,Integer IdMaterial,Integer IdCategory, Integer IdBrand , Integer IdToe, Integer IdSole,Integer IdShoelace,Integer IdHeelcushion, Integer IdDesign,Double min , Double max,Double minTL , Double maxTL,Integer soLuong,Integer soLuong1){
+        String text = name == null ? "null" : "\"" + name + "\"";
+        System.out.println(text);
+        return repository.getAllByFilter(text,IdColor,IdSize,IdMaterial,IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign,min,max,minTL,maxTL,soLuong,soLuong1);
     }
     public Page<ProductDetail> phanTrang(Integer page){
         Pageable pageable = PageRequest.of(page,10);
