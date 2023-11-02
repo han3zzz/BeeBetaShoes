@@ -56,7 +56,6 @@ public class Employee implements Serializable {
     private String Email;
     @ManyToOne
     @JoinColumn(name = "IdRole")
-    @JsonBackReference
     private Role role;
     @JsonIgnore
     @OneToMany(mappedBy = "employee")

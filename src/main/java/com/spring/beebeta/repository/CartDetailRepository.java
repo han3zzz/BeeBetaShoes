@@ -1,5 +1,6 @@
 package com.spring.beebeta.repository;
 
+import com.spring.beebeta.entity.Cart;
 import com.spring.beebeta.entity.CartDetail;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,7 +17,6 @@ public interface CartDetailRepository extends JpaRepository<CartDetail,Integer> 
     public CartDetail getById(@Param("id") Integer id);
     @Query(value = "Select e.Quantity from CartDetail e where e.Id = :id")
     public Integer getQuantityByCartDetail(@Param("id") Integer id);
-
 
 
 

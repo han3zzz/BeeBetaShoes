@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer , Integer> {
@@ -21,4 +22,6 @@ public interface CustomerRepository extends JpaRepository<Customer , Integer> {
     public Customer getById(@Param("id") Integer Id);
     @Query(value = "select e from Customer e where e.Username = :username")
     public Customer getByUsername(@Param("username") String username);
+    @Query(value = "select e from Customer e where e.Username = :username")
+    public Optional<Customer> getByUsernamejwt(@Param("username") String username);
 }

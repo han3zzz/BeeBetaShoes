@@ -40,5 +40,10 @@ public class CartRest {
     public ResponseEntity<?> updateToCart(@RequestBody CartDetailRequest cartDetail,@PathVariable("id") Integer id){
         return ResponseEntity.ok(service.updateToCart(cartDetail,id));
     }
+    @GetMapping("/getCartByCustomer/{id}")
+    public ResponseEntity<?> getCartByIdCustomer(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(service.getByIdCart(id));
+    }
+
 
 }

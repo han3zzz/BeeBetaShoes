@@ -4,6 +4,7 @@ import com.spring.beebeta.entity.Employee;
 import com.spring.beebeta.repository.EmployeeRepository;
 import com.spring.beebeta.request.EmployeeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,5 +57,8 @@ public class EmployeeService {
     public Employee getById(Integer Id){
         Employee employee = repository.getById(Id);
         return employee;
+    }
+    public Employee getByUsername(String username){
+        return repository.getByUsername(username);
     }
 }

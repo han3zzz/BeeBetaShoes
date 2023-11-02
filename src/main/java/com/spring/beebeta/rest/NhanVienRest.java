@@ -56,4 +56,8 @@ public class NhanVienRest {
     public ResponseEntity<?> delete(@PathVariable("id") Integer Id){
         return ResponseEntity.ok(service.delete(Id));
     }
+    @GetMapping("/getByUsername/{usernmae}")
+    public ResponseEntity<?> getByUsername(@PathVariable("usernmae") String name){
+        return ResponseEntity.ok(service.getByUsername(name));
+    }
 }

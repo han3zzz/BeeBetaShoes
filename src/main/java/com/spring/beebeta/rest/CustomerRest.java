@@ -55,6 +55,9 @@ public class CustomerRest {
     }
 
 
-
+    @GetMapping("/getByUsername/{username}")
+    public ResponseEntity<?> getByUsername(@PathVariable("username") String username){
+        return ResponseEntity.ok(service.getByUsername(username));
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.spring.beebeta.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,6 +38,7 @@ public class Role implements Serializable {
     private Integer Status;
     @Column(name = "Name")
     private String Name;
+    @JsonIgnore
     @OneToMany(mappedBy = "role")
     private Set<Employee> employees = new HashSet<Employee>();
 }
