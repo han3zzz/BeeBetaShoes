@@ -16,6 +16,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name = "Role")
 public class Role implements Serializable {
     @jakarta.persistence.Id

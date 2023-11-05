@@ -1,6 +1,7 @@
 package com.spring.beebeta.service;
 
 import com.spring.beebeta.entity.Employee;
+import com.spring.beebeta.entity.Role;
 import com.spring.beebeta.repository.EmployeeRepository;
 import com.spring.beebeta.request.EmployeeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class EmployeeService {
         employee.setPhone(request.getPhone());
         employee.setEmail(request.getEmail());
         employee.setStatus(0);
+        employee.setRole(Role.builder().Id(request.getIdRole()).build());
         return repository.save(employee);
     }
 
@@ -45,6 +47,7 @@ public class EmployeeService {
         employee.setGender(request.getGender());
         employee.setPhone(request.getPhone());
         employee.setEmail(request.getEmail());
+        employee.setRole(Role.builder().Id(request.getIdRole()).build());
         return repository.save(employee);
     }
 
