@@ -2,6 +2,7 @@ package com.spring.beebeta.rest;
 
 import com.spring.beebeta.entity.CartDetail;
 import com.spring.beebeta.request.CartDetailRequest;
+import com.spring.beebeta.request.CartRequest;
 import com.spring.beebeta.service.CartDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -43,6 +44,10 @@ public class CartRest {
     @GetMapping("/getCartByCustomer/{id}")
     public ResponseEntity<?> getCartByIdCustomer(@PathVariable("id") Integer id){
         return ResponseEntity.ok(service.getByIdCart(id));
+    }
+    @PostMapping("/addCart")
+    public ResponseEntity<?> addCart(@RequestBody CartRequest request){
+        return ResponseEntity.ok(service.addCart(request));
     }
 
 

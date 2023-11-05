@@ -2,10 +2,12 @@ package com.spring.beebeta.service;
 
 import com.spring.beebeta.entity.Cart;
 import com.spring.beebeta.entity.CartDetail;
+import com.spring.beebeta.entity.Customer;
 import com.spring.beebeta.entity.ProductDetail;
 import com.spring.beebeta.repository.CartDetailRepository;
 import com.spring.beebeta.repository.CartRepository;
 import com.spring.beebeta.request.CartDetailRequest;
+import com.spring.beebeta.request.CartRequest;
 import com.spring.beebeta.response.CartDetailResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -58,6 +60,13 @@ public class CartDetailService {
 
     public Cart getByIdCart(Integer id){
         return cartRepository.getByIdCart(id);
+    }
+
+    public  Cart addCart(CartRequest
+                         request){
+        Cart cart = new Cart();
+        cart.setCustomer(Customer.builder().Id(request.getIdCustomer()).build());
+        return cartRepository.save(cart);
     }
 
 
