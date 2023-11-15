@@ -47,6 +47,7 @@ public class EmployeeService {
         employee.setGender(request.getGender());
         employee.setPhone(request.getPhone());
         employee.setEmail(request.getEmail());
+        employee.setStatus(1);
         employee.setRole(Role.builder().Id(request.getIdRole()).build());
         return repository.save(employee);
     }

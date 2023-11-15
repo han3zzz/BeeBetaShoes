@@ -14,7 +14,7 @@ import java.util.List;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/employee")
-public class NhanVienRest {
+public class EmployeeRest {
 
     @Autowired
     EmployeeService service;
