@@ -24,4 +24,9 @@ public interface CustomerRepository extends JpaRepository<Customer , Integer> {
     public Customer getByUsername(@Param("username") String username);
     @Query(value = "select e from Customer e where e.Username = :username")
     public Optional<Customer> getByUsernamejwt(@Param("username") String username);
+    @Query(value = "Select c.Id,c.Code,c.Fullname,c.Username,c.Password,c.Image,c.Gender,c.Phone,c.Email,c.CreateDate,c.UpdateDate,c.CreateBy,c.UpdateBy,c.Status from Customer c\n" +
+            "left join Bill b on b.IdCustomer = c.Id\n" +
+            "left join BillDetail bd on bd.IdOrder = b.Id\n" +
+            "where c.Id = :IdCustomer and bd.IdProductDetail = :IdProductDetail and b.Status = 3", nativeQuery = true)
+    public Customer checkDanhGia(@Param("IdCustomer") Integer IdCustomer , @Param("IdProductDetail") Integer IdProductDetail);
 }

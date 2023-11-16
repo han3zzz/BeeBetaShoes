@@ -1,6 +1,7 @@
 package com.spring.beebeta.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,6 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "Rating")
+@Builder
 public class Rating implements Serializable {
     @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +42,13 @@ public class Rating implements Serializable {
     private String Note;
     @Column(name = "Score")
     private Integer Score;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "IdProductDetail")
+    private ProductDetail productDetail;
+    @ManyToOne
+    @JoinColumn(name = "IdCustomer")
+    private Customer customer;
     @OneToMany(mappedBy = "rating")
-    private Set<RatingImage> ratings = new HashSet<RatingImage>();
+    private Set<RatingImage> ratingImages = new HashSet<RatingImage>();
 }

@@ -22,4 +22,5 @@ public class BillTaiQuayUpdateRequest {
     private Date PaymentDate;
     private Date DelyveryDate;
     private Integer IdCustomer;
+    private Integer TypeStatus;
 }

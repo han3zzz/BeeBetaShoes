@@ -83,6 +83,8 @@ public class ProductDetail implements Serializable {
     private Set<ProductDetail_Size_Color> productDetail_size_colors = new HashSet<ProductDetail_Size_Color>();
     @OneToMany(mappedBy = "productDetail")
     private Set<ProductDetailHistory> productDetailHistories = new HashSet<ProductDetailHistory>();
+    @OneToMany(mappedBy = "productDetail")
+    private Set<Rating> ratings = new HashSet<Rating>();
     @JsonIgnore
     @OneToMany(mappedBy = "productDetail")
     private Set<BillDetail> billDetails = new HashSet<BillDetail>();

@@ -6,13 +6,12 @@ import com.spring.beebeta.request.BillRequest;
 import com.spring.beebeta.request.BillTaiQuayRequest;
 import com.spring.beebeta.request.BillTaiQuayUpdateRequest;
 import com.spring.beebeta.request.UpdateThanhToanTaiQuay;
-import com.spring.beebeta.response.BillAllResponse;
-import com.spring.beebeta.response.BillResponse;
-import com.spring.beebeta.response.BillTaiQuayResponse;
+import com.spring.beebeta.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -24,12 +23,8 @@ public class BillService {
 
     public String genCode(){
         // Tạo đối tượng Random
-        String code = "HD";
-        Random random = new Random();
-        for (int i = 0 ; i < 9 ; i++){
-            Integer so = random.nextInt(9);
-            code  += String.valueOf(so);
-        }
+        long timestamp = Instant.now().getEpochSecond();
+        String code = "HD" + timestamp;
     return code;
     }
 
@@ -45,7 +40,9 @@ public class BillService {
         bill.setPayType(request.getPayType());
         bill.setIdCoupon(request.getIdCoupon());
         bill.setAddress(Address.builder().Id(request.getIdAddress()).build());
-        bill.setCustomer(Customer.builder().Id(request.getIdCustomer()).build());
+        if(request.getIdCustomer() != -1){
+            bill.setCustomer(Customer.builder().Id(request.getIdCustomer()).build());
+        }
         bill.setStatus(request.getStatus());
         bill.setTypeStatus(request.getTypeStatus());
         return repository.save(bill);
@@ -72,6 +69,7 @@ public class BillService {
         if(request.getIdVoucher() != 0 && request.getIdVoucher() != null){
             bill.setVoucher(Voucher.builder().Id(request.getIdVoucher()).build());
         }
+        bill.setTypeStatus(request.getTypeStatus());
         return repository.save(bill);
     }
     public Bill updateStatus(String code, UpdateThanhToanTaiQuay request){
@@ -109,6 +107,10 @@ public class BillService {
         bill.setStatus(4);
         repository.save(bill);
     }
+    public void deleteBill(String code){
+        Bill bill = repository.getByCode(code);
+        repository.delete(bill);
+    }
     public List<BillResponse> getBillByCustomer(Integer status , Integer idCustomer){
         return repository.getBillByCustomer(status,idCustomer);
     }
@@ -132,5 +134,21 @@ public class BillService {
     }
     public List<BillResponse> getAll(){
         return repository.getAll();
+    }
+
+    public TKNgay getTKNgay(){
+        return repository.getThongKeNgay();
+    }
+    public TKThang getTKThang(){
+        return repository.getThongKeThang();
+    }
+    public TKSLThang getTKSLThang(){
+        return repository.getThongKeSoLuongThang();
+    }
+    public List<TKSoLuongHD> getTKSoLuongHD(String tungay, String denngay){
+        return repository.getTKSoLuongHD(tungay,denngay);
+    }
+    public List<TKSoLuongSanPham> getTKSoLuongSanPham(String tungay, String denngay){
+        return repository.getTKSoLuongSanPham(tungay,denngay);
     }
 }

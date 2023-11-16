@@ -1,6 +1,7 @@
 package com.spring.beebeta.service;
 
 import com.spring.beebeta.entity.Bill;
+import com.spring.beebeta.entity.BillDetail;
 import com.spring.beebeta.entity.BillHistory;
 import com.spring.beebeta.repository.BillHistoryRepository;
 import com.spring.beebeta.request.BillHistoryRequest;
@@ -27,5 +28,13 @@ public class BillHistoryService {
     }
     public List<BillHistoryResponse> getAllByBill(String code){
         return repository.getAllByBill(code);
+    }
+    public void deleteBillDetailByCode(String code){
+        List<BillHistory> list = repository.getAllByBillCode(code);
+        for (BillHistory billHistory: list
+        ) {
+            repository.delete(billHistory);
+
+        }
     }
 }

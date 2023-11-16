@@ -6,6 +6,7 @@ import com.spring.beebeta.repository.BillRepository;
 import com.spring.beebeta.request.BillDetailRequest;
 import com.spring.beebeta.request.CartDetailRequest;
 import com.spring.beebeta.response.BillDaBanResponse;
+import com.spring.beebeta.response.TKSanPham;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
@@ -41,12 +42,24 @@ public class BillDetailService {
         BillDetail billDetail = repository.getById(id);
         repository.delete(billDetail);
     }
+    public void deleteBillDetailByCode(String code){
+        List<BillDetail> list = repository.getAllByBill(code);
+        for (BillDetail billDetail: list
+             ) {
+            repository.delete(billDetail);
+
+        }
+    }
     public BillDetail getById(Integer id){
         BillDetail billDetail = repository.getById(id);
         return billDetail;
     }
     public List<BillDaBanResponse> getAllByIdProduct(Integer id){
         return repository.getAllByIdProduct(id);
+    }
+
+    public List<TKSanPham> getTKSanPham(){
+        return repository.getTKSanPham();
     }
 
 }

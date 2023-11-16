@@ -24,6 +24,9 @@ public class ProductDetailService {
     public List<ProductDetail> getAll(){
         return repository.getAll();
     }
+    public List<ProductDetail> getAllBanChay(){
+        return repository.getAllBanChay();
+    }
     public List<ProductDetail> getAllbyProductName(String name){
         return repository.getAllByProductName("\"" + name + "\"");
     }
@@ -85,8 +88,8 @@ public class ProductDetailService {
         return repository.getByCode(code);
     }
 
-    public List<ProductDetail> getProductByCategory(Integer id){
-        return repository.getProductByCategory(id);
+    public List<ProductDetail> getProductByCategory(Integer id,Integer idBrand ,Integer idDesign, Integer idToe, Integer idSole,Integer idShoelcae,Integer idHeelcushion){
+        return repository.getProductByCategory(id,idBrand,idDesign,idToe,idSole,idShoelcae,idHeelcushion);
     }
 
     public Integer quantitySold(@Param("id") Integer id){

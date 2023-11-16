@@ -10,9 +10,9 @@ import java.math.BigDecimal;
 @Setter
 
 public class ValidateForm {
-    @NotBlank(message = "Mã không được bỏ trống !")
-    @Size(max = 30,message = "Mã có độ dài nhỏ hơn hoặc bằng 30 kí tự")
-    @Size(min = 5,message = "Mã lớn hơn 5 kí tự")
+//    @NotBlank(message = "Mã không được bỏ trống !")
+//    @Size(max = 30,message = "Mã có độ dài nhỏ hơn hoặc bằng 30 kí tự")
+//    @Size(min = 5,message = "Mã lớn hơn 5 kí tự")
     private String Code;
     @NotBlank(message = "Tên không được bỏ trống !")
     @Size(max = 100,message = "Tên có độ dài nhỏ hơn hoặc bằng 100 kí tự")

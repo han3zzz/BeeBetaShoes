@@ -61,6 +61,9 @@ public class CartDetailService {
     public Cart getByIdCart(Integer id){
         return cartRepository.getByIdCart(id);
     }
+    public Cart getByIdCustomer(Integer id){
+        return cartRepository.getByIdCustomer(id);
+    }
 
     public  Cart addCart(CartRequest
                          request){

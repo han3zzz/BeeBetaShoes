@@ -1,8 +1,10 @@
 package com.spring.beebeta.service;
 
 import com.spring.beebeta.entity.Address;
+import com.spring.beebeta.entity.Customer;
 import com.spring.beebeta.repository.AddressRepository;
 import com.spring.beebeta.request.AddressKhachLe;
+import com.spring.beebeta.request.AddressRequest;
 import com.spring.beebeta.response.AddressResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,5 +42,21 @@ public class AddressService {
         return  repository.save(address);
     }
 
+    public Address addAddress(AddressRequest request){
+        Address address = new Address();
+        address.setAddress(request.getAddress());
+        address.setFullname(request.getFullname());
+        address.setPhone(request.getPhone());
+        address.setCityName(request.getCityName());
+        address.setDistrictName(request.getDistrictName());
+        address.setWardName(request.getWardName());
+        address.setCityId(request.getCityId());
+        address.setDistrictId(request.getDistrictId());
+        address.setWardId(request.getWardId());
+        address.setCustomer(Customer.builder().Id(request.getIdCustomer()).build());
+        address.setCreateDate(new Date());
+        address.setStatus(0);
+        return  repository.save(address);
+    }
 }
 

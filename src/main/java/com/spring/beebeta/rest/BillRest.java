@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/bill")
@@ -95,6 +97,43 @@ public class BillRest {
     @GetMapping("/getall")
     public ResponseEntity<?> getall(){
         return ResponseEntity.ok(service.getAll());
+    }
+    @GetMapping("/gettkngay")
+    public ResponseEntity<?> gettkngay(){
+        return ResponseEntity.ok(service.getTKNgay());
+    }
+    @GetMapping("/gettkthang")
+    public ResponseEntity<?> gettkthang(){
+        return ResponseEntity.ok(service.getTKThang());
+    }
+    @GetMapping("/gettkslthang")
+    public ResponseEntity<?> gettkslthang(){
+        return ResponseEntity.ok(service.getTKSLThang());
+    }
+    @GetMapping("/gettksanpham")
+    public ResponseEntity<?> gettksanpham(){
+        return ResponseEntity.ok(billDetailService.getTKSanPham());
+    }
+    @GetMapping("/gettksoluonghd")
+    public ResponseEntity<?> gettksoluonghd(@RequestParam("tungay")String tungay,
+                                            @RequestParam("denngay") String denngay){
+        return ResponseEntity.ok(service.getTKSoLuongHD(tungay,denngay));
+    }
+    @GetMapping("/gettksoluongsp")
+    public ResponseEntity<?> gettksoluongsp(@RequestParam("tungay")String tungay,
+                                            @RequestParam("denngay") String denngay){
+        return ResponseEntity.ok(service.getTKSoLuongSanPham(tungay,denngay));
+    }
+
+    @DeleteMapping("/deletebill/{code}")
+    public ResponseEntity<?> deletebill(@PathVariable("code") String code){
+        service.deleteBill(code);
+         return ResponseEntity.ok(HttpStatus.OK);
+    }
+    @DeleteMapping("/deletebilldetail/{code}")
+    public ResponseEntity<?> deletebilldetail(@PathVariable("code") String code){
+        billDetailService.deleteBillDetailByCode(code);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 

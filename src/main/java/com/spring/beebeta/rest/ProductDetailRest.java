@@ -6,6 +6,7 @@ import com.spring.beebeta.service.ProductDetailExelService;
 import com.spring.beebeta.service.ProductDetailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -27,6 +28,10 @@ public class ProductDetailRest {
     @GetMapping()
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(service.getAll());
+    }
+    @GetMapping("/getAllBanChay")
+    public ResponseEntity<?> getAllBanChay(){
+        return ResponseEntity.ok(service.getAllBanChay());
     }
     @GetMapping("/findAll")
     public ResponseEntity<?> findAll(){
@@ -119,9 +124,15 @@ public class ProductDetailRest {
     public ResponseEntity<?> getById(@PathVariable("id") Integer id){
         return ResponseEntity.ok(service.getById(id));
     }
-    @GetMapping("/category/{id}")
-    public ResponseEntity<?> getByIdCategory(@PathVariable("id") Integer id){
-        return ResponseEntity.ok(service.getProductByCategory(id));
+    @GetMapping("/category")
+    public ResponseEntity<?> getByIdCategory(@RequestParam("id") Integer id,
+                                             @RequestParam("idBrand") Integer idBrand ,
+                                             @RequestParam("idDesign") Integer idDesign,
+                                             @RequestParam("idToe") Integer idToe,
+                                             @RequestParam("idSole") Integer idSole,
+                                             @RequestParam("idShoelace") Integer idShoelcae,
+                                             @RequestParam("idHeelcushion") Integer idHeelcushion){
+        return ResponseEntity.ok(service.getProductByCategory(id,idBrand,idDesign,idToe,idSole,idShoelcae,idHeelcushion));
     }
     @GetMapping("/quantitySold/{id}")
     public ResponseEntity<?> quantitySold(@PathVariable("id") Integer id){

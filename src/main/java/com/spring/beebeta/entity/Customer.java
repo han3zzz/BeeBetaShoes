@@ -63,6 +63,9 @@ public class Customer implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "customer")
     private Set<Bill> bills = new HashSet<Bill>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer")
+    private Set<Rating> ratings = new HashSet<Rating>();
     @JsonBackReference
     @OneToMany(mappedBy = "customer")
     private Set<RetunExchange> retunExchanges = new HashSet<RetunExchange>();

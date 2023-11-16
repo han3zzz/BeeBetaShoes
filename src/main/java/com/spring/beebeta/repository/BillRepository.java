@@ -1,14 +1,13 @@
 package com.spring.beebeta.repository;
 
 import com.spring.beebeta.entity.Bill;
-import com.spring.beebeta.response.BillAllResponse;
-import com.spring.beebeta.response.BillResponse;
-import com.spring.beebeta.response.BillTaiQuayResponse;
+import com.spring.beebeta.response.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -32,4 +31,52 @@ public interface BillRepository extends JpaRepository<Bill,Integer> {
             "where b.Status = 0 or b.Status = 1 or b.Status = 2 or b.Status = 3 or b.Status = 4 or b.Status = 5  order by b.PurchaseDate desc", nativeQuery = true)
     public List<BillResponse> getAll();
 
+
+    @Query(value = "Select COUNT(b.Id) as 'SoLuong', SUM(b.TotalPrice) as 'DoanhThu' from Bill b\n" +
+            "where b.Status = 3 and CONVERT(DATE, b.PurchaseDate) = CONVERT(DATE, GETDATE())", nativeQuery = true)
+    public TKNgay getThongKeNgay();
+    @Query(value = "SELECT COUNT(b.Id) as 'SoLuong', SUM(b.TotalPrice) as 'DoanhThu'\n" +
+            "FROM Bill b\n" +
+            "WHERE b.Status = 3 AND MONTH(b.PurchaseDate) = MONTH(GETDATE()) AND YEAR(b.PurchaseDate) = YEAR(GETDATE())", nativeQuery = true)
+    public TKThang getThongKeThang();
+    @Query(value = "Select SUM(bi.Quantity) as 'SoLuong' from BillDetail bi\n" +
+            "join Bill b on b.Id = bi.IdOrder\n" +
+            "WHERE b.Status = 3 AND MONTH(b.PurchaseDate) = MONTH(GETDATE()) AND YEAR(b.PurchaseDate) = YEAR(GETDATE())",nativeQuery = true)
+    public TKSLThang getThongKeSoLuongThang();
+
+    @Query(value = "WITH DateTable AS (\n" +
+            "    SELECT \n" +
+            "        DATEADD(DAY, number, :tungay) AS DateInInterval\n" +
+            "    FROM master.dbo.spt_values\n" +
+            "    WHERE type = 'P'\n" +
+            "        AND DATEADD(DAY, number, :tungay) <= :denngay\n" +
+            ")\n" +
+            "\n" +
+            "SELECT \n" +
+            "CAST(DateTable.DateInInterval AS DATE) AS PurchaseDay,\n" +
+            "    COUNT(Bill.PurchaseDate) AS NumberOfBills\n" +
+            "FROM DateTable\n" +
+            "LEFT JOIN Bill ON CONVERT(DATE, Bill.PurchaseDate) = DateTable.DateInInterval\n" +
+            "GROUP BY CAST(DateTable.DateInInterval AS DATE)\n" +
+            "ORDER BY PurchaseDay",nativeQuery = true)
+    public List<TKSoLuongHD> getTKSoLuongHD(@Param("tungay")String tungay, @Param("denngay") String denngay);
+
+    @Query(value = "WITH DateTable AS (\n" +
+            "    SELECT \n" +
+            "        DATEADD(DAY, number, :tungay) AS DateInInterval\n" +
+            "    FROM master.dbo.spt_values\n" +
+            "    WHERE type = 'P'\n" +
+            "        AND DATEADD(DAY, number, :tungay) <= :denngay\n" +
+            ")\n" +
+            "\n" +
+            "SELECT \n" +
+            "    CAST(DateTable.DateInInterval AS DATE) AS PurchaseDay,\n" +
+            "    COALESCE(SUM(bi.Quantity), 0) AS SoLuong,\n" +
+            "    COALESCE(SUM(bi.Quantity * bi.UnitPrice), 0) AS DoanhThu\n" +
+            "FROM DateTable\n" +
+            "LEFT JOIN Bill b ON CONVERT(DATE, b.PurchaseDate) = DateTable.DateInInterval AND b.Status = 3\n" +
+            "LEFT JOIN BillDetail bi ON bi.IdOrder = b.Id\n" +
+            "GROUP BY CAST(DateTable.DateInInterval AS DATE)\n" +
+            "ORDER BY PurchaseDay",nativeQuery = true)
+    public List<TKSoLuongSanPham> getTKSoLuongSanPham(@Param("tungay")String tungay, @Param("denngay") String denngay);
 }

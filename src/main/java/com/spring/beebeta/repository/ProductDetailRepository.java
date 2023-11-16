@@ -16,6 +16,14 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail,Int
     public ProductDetail getById(@Param("id") Integer id);
     @Query(value = "Select e from ProductDetail e where e.Status = 0 Order by e.CreateDate desc")
     public List<ProductDetail> getAll();
+    @Query(value = "SELECT e.Id, e.Price, e.Discount, e.Description, e.CreateDate, e.UpdateDate, e.CreateBy, e.UpdateBy, e.Status, e.IdProduct, e.IdBrand, e.IdToe, e.IdShoelace, e.IdCategory, e.IdHeelcushion, e.IdSole, e.IdDesign, e.Weight, e.DiscountDate\n" +
+            "FROM ProductDetail e\n" +
+            "JOIN BillDetail bd ON bd.IdProductDetail = e.Id\n" +
+            "JOIN Bill b ON b.Id = bd.IdOrder\n" +
+            "WHERE e.Status = 0 AND b.Status = 3 AND b.PaymentDate >= DATEADD(DAY, -30, GETDATE()) \n" +
+            "GROUP BY e.Id, e.Price, e.Discount, e.Description, e.CreateDate, e.UpdateDate, e.CreateBy, e.UpdateBy, e.Status, e.IdProduct, e.IdBrand, e.IdToe, e.IdShoelace, e.IdCategory, e.IdHeelcushion, e.IdSole, e.IdDesign, e.Weight, e.DiscountDate\n" +
+            "ORDER BY SUM(bd.Quantity) DESC;",nativeQuery = true)
+    public List<ProductDetail> getAllBanChay();
     @Query(value = "Select e.Id,e.Price,e.Discount,e.Description,e.CreateDate,e.UpdateDate,e.CreateBy,e.UpdateBy,e.Status,e.IdProduct,e.IdBrand,e.IdToe,e.IdShoelace,e.IdCategory,e.IdHeelcushion,e.IdSole,e.IdDesign,e.Weight,e.DiscountDate from ProductDetail e \n" +
             "join Product p on p.Id = e.IdProduct\n" +
             "where e.Status = 0\n" +
@@ -41,8 +49,8 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail,Int
     public List<ProductDetail> getAllByFilter(@Param("name") String name,@Param("idcolor") Integer IdColor , @Param("idsize") Integer IdSize,@Param("idmaterial") Integer IdMaterial,@Param("idcategory") Integer IdCategory , @Param("idbrand") Integer IdBrand ,@Param("idtoe") Integer IdToe,@Param("idsole") Integer IdSole,@Param("idshoelace") Integer IdShoelcae,@Param("idheelcushion") Integer IdHeelcushion,@Param("iddesign") Integer IdDesign,@Param("min") Double min ,@Param("max") Double max,@Param("minTL") Double minTL ,@Param("maxTL") Double maxTL,@Param("soLuong") Integer soLuong,@Param("soLuong1") Integer soLuong1);
     @Query("Select e from ProductDetail  e where e.product.Code = :code")
     public ProductDetail getByCode(@Param("code") String code);
-    @Query(value = "select  e from ProductDetail e where e.Status = 0 and e.category.Id = :id")
-    public List<ProductDetail> getProductByCategory(@Param("id") Integer id);
+    @Query(value = "select  e from ProductDetail e where e.Status = 0 and e.category.Id = :id or e.brand.Id = :idBrand or e.design.Id = :idDesign or e.toe.Id = :idToe or e.sole.Id = :idSole or e.shoelace.Id = :idShoelcae or e.heelcushion.Id = :idHeelcushion")
+    public List<ProductDetail> getProductByCategory(@Param("id") Integer id,@Param("idBrand") Integer idBrand , @Param("idDesign") Integer idDesign, @Param("idToe") Integer idToe, @Param("idSole") Integer idSole,@Param("idShoelcae") Integer idShoelcae,@Param("idHeelcushion") Integer idHeelcushion);
     @Query(value = "Select SUM(b.Quantity) from BillDetail b \n" +
             "join Bill  c on c.Id = b.bill.Id \n" +
             "where b.productDetail.Id = :id and c.Status = 3")

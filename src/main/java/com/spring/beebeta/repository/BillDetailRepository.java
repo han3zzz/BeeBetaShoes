@@ -3,6 +3,7 @@ package com.spring.beebeta.repository;
 import com.spring.beebeta.entity.Bill;
 import com.spring.beebeta.entity.BillDetail;
 import com.spring.beebeta.response.BillDaBanResponse;
+import com.spring.beebeta.response.TKSanPham;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +23,15 @@ public interface BillDetailRepository extends JpaRepository<BillDetail,Integer> 
             "where bd.IdProductDetail = :id and b.Status = 3\n" +
             "group by bd.IdColor,bd.IdSize ", nativeQuery = true)
     public List<BillDaBanResponse> getAllByIdProduct(@Param("id") Integer id);
+
+
+    @Query(value = "Select pm.Url  ,pro.Code, pro.Name , SUM(bi.Quantity) as 'SoLuong', SUM(bi.Quantity * bi.UnitPrice) as 'DoanhThu' from BillDetail bi\n" +
+            "join Bill b on b.Id = bi.IdOrder\n" +
+            "join ProductDetail p on p.Id = bi.IdProductDetail\n" +
+            "join Product pro on pro.Id = p.IdProduct\n" +
+            "join ProductImage pm on pm.IdProduct = pro.Id\n" +
+            "WHERE b.Status = 3 and pm.MainImage = 1\n" +
+            "Group by pm.Url  ,pro.Code, pro.Name\n" +
+            "order by SUM(bi.Quantity) desc", nativeQuery = true)
+    public List<TKSanPham> getTKSanPham();
 }

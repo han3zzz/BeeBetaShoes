@@ -43,7 +43,7 @@ public class CartRest {
     }
     @GetMapping("/getCartByCustomer/{id}")
     public ResponseEntity<?> getCartByIdCustomer(@PathVariable("id") Integer id){
-        return ResponseEntity.ok(service.getByIdCart(id));
+        return ResponseEntity.ok(service.getByIdCustomer(id));
     }
     @PostMapping("/addCart")
     public ResponseEntity<?> addCart(@RequestBody CartRequest request){

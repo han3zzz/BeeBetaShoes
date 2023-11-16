@@ -3,6 +3,7 @@ package com.spring.beebeta.rest;
 import com.spring.beebeta.request.BillHistoryRequest;
 import com.spring.beebeta.service.BillHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,5 +20,10 @@ public class BillHistoryRest {
     @GetMapping("/{code}")
     public ResponseEntity<?> getallbybill(@PathVariable("code") String code){
         return ResponseEntity.ok(billHistoryService.getAllByBill(code));
+    }
+    @DeleteMapping("/deletebillhistory/{code}")
+    public ResponseEntity<?> deletebillhistory(@PathVariable("code") String code){
+        billHistoryService.deleteBillDetailByCode(code);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 }
