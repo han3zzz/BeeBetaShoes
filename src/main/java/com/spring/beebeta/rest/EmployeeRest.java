@@ -1,9 +1,12 @@
 package com.spring.beebeta.rest;
 
+import com.spring.beebeta.request.CapNhatProfile;
 import com.spring.beebeta.request.EmployeeRequest;
+import com.spring.beebeta.request.ForgetForm;
 import com.spring.beebeta.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -59,5 +62,24 @@ public class EmployeeRest {
     @GetMapping("/getByUsername/{usernmae}")
     public ResponseEntity<?> getByUsername(@PathVariable("usernmae") String name){
         return ResponseEntity.ok(service.getByUsername(name));
+    }
+    @PutMapping("/forget")
+    public ResponseEntity<?> forget(@Valid @RequestBody ForgetForm form, BindingResult result){
+        if (result.hasErrors()){
+            List<ObjectError> list = result.getAllErrors();
+            return ResponseEntity.badRequest().body(list);
+        }
+        if(!form.getEmail().equals(service.getByUsername(form.getUsername()).getEmail())){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("err");
+        }
+        return ResponseEntity.ok(service.forget(form));
+    }
+    @PutMapping("/updateprofile/{id}")
+    public ResponseEntity<?> updateprofile(@PathVariable("id") Integer id, @Valid @RequestBody CapNhatProfile form, BindingResult result){
+        if (result.hasErrors()){
+            List<ObjectError> list = result.getAllErrors();
+            return ResponseEntity.badRequest().body(list);
+        }
+        return ResponseEntity.ok(service.updateprofile(id,form));
     }
 }

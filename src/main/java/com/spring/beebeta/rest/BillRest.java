@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @CrossOrigin("*")
@@ -50,7 +51,8 @@ public class BillRest {
     }
     @PutMapping("/updateStatus/{code}")
     public ResponseEntity<?> updateStatus(@PathVariable("code") String code,@RequestBody UpdateThanhToanTaiQuay request){
-        return ResponseEntity.ok(service.updateStatus(code,request));
+        service.updateStatus(code,request);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
     @PutMapping("/updateStatus1/{code}")
     public ResponseEntity<?> updateStatus1(@PathVariable("code") String code,@RequestBody UpdateThanhToanTaiQuay request){
@@ -60,9 +62,20 @@ public class BillRest {
     public ResponseEntity<?> addToBillDetail(@PathVariable("code") String code){
         return ResponseEntity.ok(service.updateStatusPay(code));
     }
-    @PutMapping("/updatestatus")
-    public ResponseEntity<?> updatestatus(@RequestParam("code") String code,@RequestParam("status") Integer status){
-        return ResponseEntity.ok(service.updateStatus(code,status));
+    @PutMapping("/updatestatusbill")
+    public ResponseEntity<?> updatestatus3(@RequestBody UpdateBillStatus updateBillStatus){
+        service.updateStatus(updateBillStatus);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+    @PutMapping("/updateDiaChi")
+    public ResponseEntity<?> updateDiaChi(@RequestParam("Code") String Code, @RequestParam("IdAddress") Integer IdDiachi){
+        service.updateDiaChi(Code,IdDiachi);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+    @PutMapping("/updateTongTien")
+    public ResponseEntity<?> updateTongTien(@RequestParam("Code") String Code, @RequestParam("Money")BigDecimal money){
+        service.updateTongTien(Code,money);
+        return ResponseEntity.ok(HttpStatus.OK);
     }
     @GetMapping("/huy/{code}")
     public ResponseEntity<?> huyBill(@PathVariable("code") String code){

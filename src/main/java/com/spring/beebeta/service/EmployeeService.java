@@ -1,19 +1,27 @@
 package com.spring.beebeta.service;
 
+import com.spring.beebeta.entity.Customer;
 import com.spring.beebeta.entity.Employee;
 import com.spring.beebeta.entity.Role;
 import com.spring.beebeta.repository.EmployeeRepository;
+import com.spring.beebeta.request.CapNhatProfile;
+import com.spring.beebeta.request.ChangeForm;
 import com.spring.beebeta.request.EmployeeRequest;
+import com.spring.beebeta.request.ForgetForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class EmployeeService {
     @Autowired
     EmployeeRepository repository;
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final SecureRandom random = new SecureRandom();
     public List<Employee> getAll(){
         return repository.getAll();
     }
@@ -64,5 +72,41 @@ public class EmployeeService {
     }
     public Employee getByUsername(String username){
         return repository.getByUsername(username);
+    }
+
+    public static String generateRandomString(int length) {
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(CHARACTERS.length());
+            char randomChar = CHARACTERS.charAt(randomIndex);
+            sb.append(randomChar);
+        }
+        return sb.toString();
+    }
+    // quên mật khẩu
+    public Employee forget(ForgetForm form){
+        Employee employee = repository.getByUsername(form.getUsername());
+        employee.setPassword(generateRandomString(8));
+        employee.setUpdateDate(new Date());
+        return repository.save(employee);
+    }
+    // đổi mật khẩu
+    public Employee change(Integer idEmployee, ChangeForm form){
+        Employee employee = repository.getById(idEmployee);
+        employee.setPassword(form.getRePasswordMoi());
+        employee.setUpdateDate(new Date());
+        return repository.save(employee);
+    }
+
+    //cập nhật profile
+    public Employee updateprofile(Integer idEmployee, CapNhatProfile form){
+        Employee employee = repository.getById(idEmployee);
+        employee.setFullname(form.getFullname());
+        employee.setEmail(form.getEmail());
+        employee.setPhone(form.getPhone());
+        employee.setGender(form.getGender());
+        employee.setImage(form.getImage());
+        employee.setUpdateDate(new Date());
+        return repository.save(employee);
     }
 }

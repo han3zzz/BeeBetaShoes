@@ -333,7 +333,9 @@ Create table Rating(
                        UpdateDate Datetime,
                        CreateBy varchar(30),
                        UpdateBy varchar(30),
-                       Status int
+                       Status int,
+                       IdProductDetail int foreign key references ProductDetail(Id),
+                       IdCustomer int foreign key references Customer(Id)
 
 )
 Create table RatingImage(

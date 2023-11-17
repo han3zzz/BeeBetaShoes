@@ -34,6 +34,7 @@ public class ProductDetail_Color_SizeRest {
     }
     @GetMapping("/getallbykeyword")
     public ResponseEntity<?> getbyid(@RequestParam(value = "keyword",required = false) String keyword,@RequestParam(value = "idColor",required = false) Integer idCololor,@RequestParam(value = "idSize",required = false) Integer idSize){
+        System.out.println(service.getAllByNameAndCodeProduct(keyword,idCololor,idSize).size());
         return ResponseEntity.ok(service.getAllByNameAndCodeProduct(keyword,idCololor,idSize));
     }
     @GetMapping("/getQuantityProduct")

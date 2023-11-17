@@ -2,15 +2,13 @@ package com.spring.beebeta.service;
 
 import com.spring.beebeta.entity.*;
 import com.spring.beebeta.repository.BillRepository;
-import com.spring.beebeta.request.BillRequest;
-import com.spring.beebeta.request.BillTaiQuayRequest;
-import com.spring.beebeta.request.BillTaiQuayUpdateRequest;
-import com.spring.beebeta.request.UpdateThanhToanTaiQuay;
+import com.spring.beebeta.request.*;
 import com.spring.beebeta.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -97,9 +95,19 @@ public class BillService {
     bill.setPaymentDate(new Date());
     return repository.save(bill);
     }
-    public Bill updateStatus(String code,Integer status){
-        Bill bill = repository.getByCode(code);
-        bill.setStatus(status);
+    public Bill updateStatus(UpdateBillStatus updateBillStatus){
+        Bill bill = repository.getByCode(updateBillStatus.getCode());
+        bill.setStatus(updateBillStatus.getStatus());
+        return repository.save(bill);
+    }
+    public Bill updateDiaChi(String Code , Integer IdDiachi){
+        Bill bill = repository.getByCode(Code);
+        bill.setAddress(Address.builder().Id(IdDiachi).build());
+        return repository.save(bill);
+    }
+    public Bill updateTongTien(String Code , BigDecimal money){
+        Bill bill = repository.getByCode(Code);
+        bill.setTotalPrice(money);
         return repository.save(bill);
     }
     public void huyBill(String code){

@@ -24,7 +24,11 @@ public class ProductDetail_Size_ColorService {
         return repository.getAll();
     }
     public List<ProductDetailResponse> getAllByNameAndCodeProduct(String keyword,Integer idColor,Integer IdSize){
-        return repository.getAllByNameAndCodeProduct('%'+keyword+'%',idColor,IdSize);
+        String key = null;
+        if(keyword != null){
+            key = '%'+keyword+'%';
+        }
+        return repository.getAllByNameAndCodeProduct(key,idColor,IdSize);
     }
     public ProductDetailResponse getByIdd(Integer id){
         return repository.getByIdd(id);
