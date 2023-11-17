@@ -37,6 +37,15 @@ public class BillRest {
     public ResponseEntity<?> billAll(){
         return ResponseEntity.ok(service.getAllBill());
     }
+    @GetMapping("/billAllFilter")
+    public ResponseEntity<?> billAllFilter(@RequestParam(value = "status",required = false) Integer Status,
+                                           @RequestParam(value = "payStatus",required = false) Integer payStatus,
+                                           @RequestParam(value = "payType",required = false) Integer payType,
+                                           @RequestParam(value = "typeStatus",required = false) Integer typeStatus,
+                                           @RequestParam(value = "tungay",required = false) String tungay,
+                                           @RequestParam(value = "denngay",required = false) String denngay){
+        return ResponseEntity.ok(service.getBillFilter(Status,payStatus,payType,typeStatus,tungay,denngay));
+    }
     @PostMapping("/addBillDetail")
     public ResponseEntity<?> addToBillDetail(@RequestBody BillDetailRequest billDetailRequest){
         return ResponseEntity.ok(billDetailService.addBillDetail(billDetailRequest));

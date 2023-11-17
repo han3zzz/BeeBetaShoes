@@ -80,6 +80,9 @@ public class BillService {
         return repository.save(bill);
 
     }
+    public List<BillResponse> getBillFilter(Integer status,Integer payStatus,Integer payType,Integer typeStatus,String tungay,String denngay ){
+        return repository.getBillFilter(status,payStatus,payType,typeStatus,tungay,denngay);
+    }
     public Bill updateStatus1(String code, UpdateThanhToanTaiQuay request){
         Bill bill = repository.getByCode(code);
         bill.setDelyveryDate(new Date());
