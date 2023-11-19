@@ -74,6 +74,7 @@ public class EmployeeRest {
         }
         return ResponseEntity.ok(service.forget(form));
     }
+
     @PutMapping("/updateprofile/{id}")
     public ResponseEntity<?> updateprofile(@PathVariable("id") Integer id, @Valid @RequestBody CapNhatProfile form, BindingResult result){
         if (result.hasErrors()){
@@ -82,4 +83,13 @@ public class EmployeeRest {
         }
         return ResponseEntity.ok(service.updateprofile(id,form));
     }
+
+    @GetMapping("/filter")
+    public ResponseEntity<?> getAllByFilter(@RequestParam(name = "idRole") Integer idRole){
+        return ResponseEntity.ok(service.getAllByFilter(idRole));
+    }
+
+
+
+
 }

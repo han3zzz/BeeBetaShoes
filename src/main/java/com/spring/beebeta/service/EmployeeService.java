@@ -109,4 +109,8 @@ public class EmployeeService {
         employee.setUpdateDate(new Date());
         return repository.save(employee);
     }
+
+    public List<Employee> getAllByFilter(Integer idRole){
+        return repository.getEmployeeByRole(idRole);
+    }
 }
