@@ -46,6 +46,9 @@ public class Voucher implements Serializable {
     private Integer Discount;
     @Column(name = "Cash")
     private BigDecimal Cash;
+    @Column(name = "Minimum")
+    private Integer Minimum;
+
     @Column(name = "StartDate")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Temporal(TemporalType.DATE)

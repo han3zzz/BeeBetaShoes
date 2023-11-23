@@ -6,6 +6,8 @@ import com.spring.beebeta.request.VoucherRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +42,7 @@ public class VoucherService {
         voucher.setStartDate(request.getStartDate());
         voucher.setEndDate(request.getEndDate());
         voucher.setStatus(0);
+        voucher.setMinimum(Integer.valueOf(request.getMinimum()));
 
         return repository.save(voucher);
     }
@@ -59,6 +62,7 @@ public class VoucherService {
         voucher.setStartDate(request.getStartDate());
         voucher.setEndDate(request.getEndDate());
         voucher.setStatus(0);
+        voucher.setMinimum(Integer.valueOf(request.getMinimum()));
         return repository.save(voucher);
     }
 

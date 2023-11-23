@@ -2,11 +2,13 @@ package com.spring.beebeta.rest;
 
 import com.spring.beebeta.request.VoucherRequest;
 import com.spring.beebeta.service.VoucherService;
+import io.grpc.internal.JsonUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,11 +37,13 @@ public class VoucherRest {
     }
     @PostMapping()
     public ResponseEntity<?> add(@Valid @RequestBody VoucherRequest request, BindingResult result){
+        System.out.println(request.toString());
         if (result.hasErrors()){
             List<ObjectError> list = result.getAllErrors();
             return ResponseEntity.badRequest().body(list);
         }
         return ResponseEntity.ok(service.add(request));
+
     }
 
     @PutMapping("/update/{id}")
