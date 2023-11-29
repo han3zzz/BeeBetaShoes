@@ -171,6 +171,7 @@ Create table ProductDetail(
                               Weight float,
                               Price money,
                               Discount int ,
+                              DiscountDate Datetime,
                               Description nvarchar(255),
                               CreateDate Datetime,
                               UpdateDate Datetime,

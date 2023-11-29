@@ -29,6 +29,9 @@ public class BillHistoryService {
     public List<BillHistoryResponse> getAllByBill(String code){
         return repository.getAllByBill(code);
     }
+    public List<BillHistoryResponse> getAllByBill1(String code){
+        return repository.getAllByBill1(code);
+    }
     public void deleteBillDetailByCode(String code){
         List<BillHistory> list = repository.getAllByBillCode(code);
         for (BillHistory billHistory: list

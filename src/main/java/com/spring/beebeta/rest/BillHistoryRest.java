@@ -21,6 +21,10 @@ public class BillHistoryRest {
     public ResponseEntity<?> getallbybill(@PathVariable("code") String code){
         return ResponseEntity.ok(billHistoryService.getAllByBill(code));
     }
+    @GetMapping("/get/{code}")
+    public ResponseEntity<?> getallbybill1(@PathVariable("code") String code){
+        return ResponseEntity.ok(billHistoryService.getAllByBill1(code));
+    }
     @DeleteMapping("/deletebillhistory/{code}")
     public ResponseEntity<?> deletebillhistory(@PathVariable("code") String code){
         billHistoryService.deleteBillDetailByCode(code);
