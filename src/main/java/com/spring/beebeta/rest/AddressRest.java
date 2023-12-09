@@ -34,4 +34,8 @@ public class AddressRest {
     public ResponseEntity<?> addAddresss(@RequestBody AddressRequest request){
         return ResponseEntity.ok(service.addAddress(request));
     }
+    @PutMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(service.delete(id));
+    }
 }

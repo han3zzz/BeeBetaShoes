@@ -48,6 +48,9 @@ public class AuthController1 {
         if (!employee.getPassword().equals(loginRequest.getPassword())){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("errorMessage");
         }
+        if(employee.getStatus() != 0){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("errorMessage");
+        }
 
         token = jwtTokenUtil.generateToken(loginRequest.getUsername());
         Map<String, Object> tokenMap = new HashMap<String, Object>();

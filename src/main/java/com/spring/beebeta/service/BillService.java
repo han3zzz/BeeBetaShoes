@@ -162,4 +162,7 @@ public class BillService {
     public List<TKSoLuongSanPham> getTKSoLuongSanPham(String tungay, String denngay){
         return repository.getTKSoLuongSanPham(tungay,denngay);
     }
+    public List<TKHoaDonStatus> getTKSoLuongHDStatus(String tungay, String denngay){
+        return repository.getTKSoLuongHDStatus(tungay,denngay);
+    }
 }

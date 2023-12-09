@@ -3,7 +3,9 @@ package com.spring.beebeta.repository;
 import com.spring.beebeta.entity.Product;
 import com.spring.beebeta.entity.ProductDetail;
 import com.spring.beebeta.entity.Voucher;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -17,12 +19,12 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail,Int
     @Query(value = "Select e from ProductDetail e where e.Status = 0 Order by e.CreateDate desc")
     public List<ProductDetail> getAll();
     @Query(value = "SELECT e.Id, e.Price, e.Discount, e.Description, e.CreateDate, e.UpdateDate, e.CreateBy, e.UpdateBy, e.Status, e.IdProduct, e.IdBrand, e.IdToe, e.IdShoelace, e.IdCategory, e.IdHeelcushion, e.IdSole, e.IdDesign, e.Weight, e.DiscountDate\n" +
-            "FROM ProductDetail e\n" +
-            "JOIN BillDetail bd ON bd.IdProductDetail = e.Id\n" +
-            "JOIN Bill b ON b.Id = bd.IdOrder\n" +
-            "WHERE e.Status = 0 AND b.Status = 3 AND b.PaymentDate >= DATEADD(DAY, -30, GETDATE()) \n" +
-            "GROUP BY e.Id, e.Price, e.Discount, e.Description, e.CreateDate, e.UpdateDate, e.CreateBy, e.UpdateBy, e.Status, e.IdProduct, e.IdBrand, e.IdToe, e.IdShoelace, e.IdCategory, e.IdHeelcushion, e.IdSole, e.IdDesign, e.Weight, e.DiscountDate\n" +
-            "ORDER BY SUM(bd.Quantity) DESC;",nativeQuery = true)
+            "            FROM ProductDetail e\n" +
+            "           JOIN BillDetail bd ON bd.IdProductDetail = e.Id\n" +
+            "            JOIN Bill b ON b.Id = bd.IdOrder\n" +
+            "            WHERE e.Status = 0 AND b.Status = 3 AND b.PaymentDate >= DATEADD(DAY, -30, GETDATE()) \n" +
+            "            GROUP BY e.Id, e.Price, e.Discount, e.Description, e.CreateDate, e.UpdateDate, e.CreateBy, e.UpdateBy, e.Status, e.IdProduct, e.IdBrand, e.IdToe, e.IdShoelace, e.IdCategory, e.IdHeelcushion, e.IdSole, e.IdDesign, e.Weight, e.DiscountDate\n" +
+            "            ORDER BY SUM(bd.Quantity) DESC",nativeQuery = true)
     public List<ProductDetail> getAllBanChay();
     @Query(value = "Select e.Id,e.Price,e.Discount,e.Description,e.CreateDate,e.UpdateDate,e.CreateBy,e.UpdateBy,e.Status,e.IdProduct,e.IdBrand,e.IdToe,e.IdShoelace,e.IdCategory,e.IdHeelcushion,e.IdSole,e.IdDesign,e.Weight,e.DiscountDate from ProductDetail e \n" +
             "join Product p on p.Id = e.IdProduct\n" +
@@ -67,5 +69,10 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail,Int
     @Query(value = "Select e from Voucher  e " +
             "where e.Status = 0")
     public List<Voucher> getAllVoucher();
+
+    @Modifying
+    @Transactional
+    @Query(value = "Update ProductDetail set Discount = 0 , DiscountDate = null WHERE DiscountDate <= GETDATE() + 1",nativeQuery = true)
+    public void updateDiscount();
 
 }

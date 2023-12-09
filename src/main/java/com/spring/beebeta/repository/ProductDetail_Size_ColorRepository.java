@@ -26,7 +26,7 @@ public interface ProductDetail_Size_ColorRepository extends JpaRepository<Produc
             "where p.productDetail.Id = :id and p.color.Id = :idcolor")
     Integer getQuantityByProductAndColor(@Param("id") Integer id,@Param("idcolor") Integer idcolor);
     @Query(value = "Select SUM(p.Quantity) from ProductDetail_Size_Color p\n" +
-            "where p.productDetail.Id = :id and p.color.Id = :idcolor and p.size.Id = :idsize")
+            "where p.productDetail.Id = :id and p.color.Id = :idcolor and p.size.Id = :idsize and p.productDetail.Status = 0")
     Integer getQuantityByProductAndColorAndSize(@Param("id") Integer id,@Param("idcolor") Integer idcolor,@Param("idsize") Integer idsize);
     @Query(value = "Select p from ProductDetail_Size_Color p\n" +
             "where p.productDetail.Id = :id and p.color.Id = :idcolor and p.size.Id = :idsize")

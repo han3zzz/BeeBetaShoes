@@ -58,5 +58,11 @@ public class AddressService {
         address.setStatus(0);
         return  repository.save(address);
     }
+    public Address delete(Integer Id){
+        Address address = repository.getAddressById(Id);
+        address.setStatus(1);
+
+       return repository.save(address);
+    }
 }
 

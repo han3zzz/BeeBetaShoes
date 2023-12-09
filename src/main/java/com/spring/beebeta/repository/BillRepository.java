@@ -16,7 +16,7 @@ public interface BillRepository extends JpaRepository<Bill,Integer> {
     public Bill getByCode(@Param("code") String code);
     @Query(value = "Select b.Id , b.Code,b.PurchaseDate, b.EstimatedDate, b.PaymentDate, b.DelyveryDate, b.TotalPrice, b.ShipPrice ,b.TotalPriceLast, b.Note, b.PayType, b.PayStatus,b.IdCoupon, b.IdAddress , b.IdCustomer, b.IdVoucher , b.IdEmployee ,b.Status from Bill b \n" +
             "join Customer c on c.Id = b.IdCustomer " +
-            "where (b.Status = :status or :status is null) and c.Id = :idCustomer", nativeQuery = true)
+            "where (b.Status = :status or :status is null) and c.Id = :idCustomer order by b.PurchaseDate desc", nativeQuery = true)
     public List<BillResponse> getBillByCustomer(@Param("status") Integer status , @Param("idCustomer") Integer idCustomer);
     @Query(value = "Select b.Id , b.Code,b.PurchaseDate, b.EstimatedDate, b.PaymentDate, b.DelyveryDate, b.TotalPrice, b.ShipPrice ,b.TotalPriceLast, b.Note, b.PayType, b.PayStatus,b.IdCoupon, b.IdAddress , b.IdCustomer, b.IdVoucher , b.IdEmployee ,b.Status, b.TypeStatus from Bill b \n" +
             "where b.Code = :code order by b.PurchaseDate desc", nativeQuery = true)
@@ -35,10 +35,10 @@ public interface BillRepository extends JpaRepository<Bill,Integer> {
     public List<BillResponse> getAll();
 
 
-    @Query(value = "Select COUNT(b.Id) as 'SoLuong', SUM(b.TotalPrice) as 'DoanhThu' from Bill b\n" +
+    @Query(value = "Select COUNT(b.Id) as 'SoLuong', SUM(b.TotalPrice - b.TotalPriceLast) as 'DoanhThu' from Bill b\n" +
             "where b.Status = 3 and CONVERT(DATE, b.PurchaseDate) = CONVERT(DATE, GETDATE())", nativeQuery = true)
     public TKNgay getThongKeNgay();
-    @Query(value = "SELECT COUNT(b.Id) as 'SoLuong', SUM(b.TotalPrice) as 'DoanhThu'\n" +
+    @Query(value = "SELECT COUNT(b.Id) as 'SoLuong', SUM(b.TotalPrice - b.TotalPriceLast) as 'DoanhThu'\n" +
             "FROM Bill b\n" +
             "WHERE b.Status = 3 AND MONTH(b.PurchaseDate) = MONTH(GETDATE()) AND YEAR(b.PurchaseDate) = YEAR(GETDATE())", nativeQuery = true)
     public TKThang getThongKeThang();
@@ -54,15 +54,19 @@ public interface BillRepository extends JpaRepository<Bill,Integer> {
             "    WHERE type = 'P'\n" +
             "        AND DATEADD(DAY, number, :tungay) <= :denngay\n" +
             ")\n" +
-            "\n" +
             "SELECT \n" +
-            "CAST(DateTable.DateInInterval AS DATE) AS PurchaseDay,\n" +
-            "    COUNT(Bill.PurchaseDate) AS NumberOfBills\n" +
+            "    CAST(DateTable.DateInInterval AS DATE) AS PurchaseDay,\n" +
+            "    COUNT(CASE WHEN Bill.Status = 0 THEN 1 ELSE NULL END) AS NumberOfBillsStatus0,\n" +
+            "    COUNT(CASE WHEN Bill.Status = 1 THEN 1 ELSE NULL END) AS NumberOfBillsStatus1,\n" +
+            "    COUNT(CASE WHEN Bill.Status = 2 THEN 1 ELSE NULL END) AS NumberOfBillsStatus2,\n" +
+            "    COUNT(CASE WHEN Bill.Status = 3 THEN 1 ELSE NULL END) AS NumberOfBillsStatus3,\n" +
+            "    COUNT(CASE WHEN Bill.Status = 4 THEN 1 ELSE NULL END) AS NumberOfBillsStatus4\n" +
             "FROM DateTable\n" +
             "LEFT JOIN Bill ON CONVERT(DATE, Bill.PurchaseDate) = DateTable.DateInInterval\n" +
             "GROUP BY CAST(DateTable.DateInInterval AS DATE)\n" +
-            "ORDER BY PurchaseDay",nativeQuery = true)
-    public List<TKSoLuongHD> getTKSoLuongHD(@Param("tungay")String tungay, @Param("denngay") String denngay);
+            "ORDER BY PurchaseDay;\n", nativeQuery = true)
+    public List<TKSoLuongHD> getTKSoLuongHD(@Param("tungay") String tungay, @Param("denngay") String denngay);
+
 
     @Query(value = "WITH DateTable AS (\n" +
             "    SELECT \n" +
@@ -75,12 +79,29 @@ public interface BillRepository extends JpaRepository<Bill,Integer> {
             "SELECT \n" +
             "    CAST(DateTable.DateInInterval AS DATE) AS PurchaseDay,\n" +
             "    COALESCE(SUM(bi.Quantity), 0) AS SoLuong,\n" +
-            "    COALESCE(SUM(bi.Quantity * bi.UnitPrice), 0) AS DoanhThu\n" +
+            "    COALESCE(SUM(b.TotalPrice - b.TotalPriceLast), 0) AS DoanhThu\n" +
             "FROM DateTable\n" +
             "LEFT JOIN Bill b ON CONVERT(DATE, b.PurchaseDate) = DateTable.DateInInterval AND b.Status = 3\n" +
             "LEFT JOIN BillDetail bi ON bi.IdOrder = b.Id\n" +
             "GROUP BY CAST(DateTable.DateInInterval AS DATE)\n" +
             "ORDER BY PurchaseDay",nativeQuery = true)
     public List<TKSoLuongSanPham> getTKSoLuongSanPham(@Param("tungay")String tungay, @Param("denngay") String denngay);
+    @Query(value = "WITH DateTable AS (\n" +
+            "    SELECT \n" +
+            "        DATEADD(DAY, number, :tungay) AS DateInInterval\n" +
+            "    FROM master.dbo.spt_values\n" +
+            "    WHERE type = 'P'\n" +
+            "        AND DATEADD(DAY, number, :tungay) <= :denngay\n" +
+            ")\n" +
+            "\n" +
+            "SELECT \n" +
+            "    COUNT(CASE WHEN Bill.Status = 0 THEN 1 ELSE NULL END) AS NumberOfBillsStatus0,\n" +
+            "    COUNT(CASE WHEN Bill.Status = 1 THEN 1 ELSE NULL END) AS NumberOfBillsStatus1,\n" +
+            "    COUNT(CASE WHEN Bill.Status = 2 THEN 1 ELSE NULL END) AS NumberOfBillsStatus2,\n" +
+            "    COUNT(CASE WHEN Bill.Status = 3 THEN 1 ELSE NULL END) AS NumberOfBillsStatus3,\n" +
+            "    COUNT(CASE WHEN Bill.Status = 4 THEN 1 ELSE NULL END) AS NumberOfBillsStatus4\n" +
+            "FROM DateTable\n" +
+            "LEFT JOIN Bill ON CONVERT(DATE, Bill.PurchaseDate) = DateTable.DateInInterval;\n",nativeQuery = true)
+    public List<TKHoaDonStatus> getTKSoLuongHDStatus(@Param("tungay")String tungay, @Param("denngay") String denngay);
 
 }

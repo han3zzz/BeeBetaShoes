@@ -1,9 +1,6 @@
 package com.spring.beebeta.response;
 
-import java.util.Date;
-
-public interface TKSoLuongHD {
-    String getPurchaseDay();
+public interface TKHoaDonStatus {
     Integer getNumberOfBillsStatus0();
     Integer getNumberOfBillsStatus1();
     Integer getNumberOfBillsStatus2();
