@@ -51,8 +51,21 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail,Int
     public List<ProductDetail> getAllByFilter(@Param("name") String name,@Param("idcolor") Integer IdColor , @Param("idsize") Integer IdSize,@Param("idmaterial") Integer IdMaterial,@Param("idcategory") Integer IdCategory , @Param("idbrand") Integer IdBrand ,@Param("idtoe") Integer IdToe,@Param("idsole") Integer IdSole,@Param("idshoelace") Integer IdShoelcae,@Param("idheelcushion") Integer IdHeelcushion,@Param("iddesign") Integer IdDesign,@Param("min") Double min ,@Param("max") Double max,@Param("minTL") Double minTL ,@Param("maxTL") Double maxTL,@Param("soLuong") Integer soLuong,@Param("soLuong1") Integer soLuong1);
     @Query("Select e from ProductDetail  e where e.product.Code = :code")
     public ProductDetail getByCode(@Param("code") String code);
-    @Query(value = "select  e from ProductDetail e where e.Status = 0 and e.category.Id = :id or e.brand.Id = :idBrand or e.design.Id = :idDesign or e.toe.Id = :idToe or e.sole.Id = :idSole or e.shoelace.Id = :idShoelcae or e.heelcushion.Id = :idHeelcushion")
-    public List<ProductDetail> getProductByCategory(@Param("id") Integer id,@Param("idBrand") Integer idBrand , @Param("idDesign") Integer idDesign, @Param("idToe") Integer idToe, @Param("idSole") Integer idSole,@Param("idShoelcae") Integer idShoelcae,@Param("idHeelcushion") Integer idHeelcushion);
+    @Query(value = "SELECT e FROM ProductDetail e " +
+            "WHERE e.Status = 0 " +
+            "AND (e.category.Id = :id OR e.brand.Id = :idBrand OR e.design.Id = :idDesign " +
+            "OR e.toe.Id = :idToe OR e.sole.Id = :idSole OR e.shoelace.Id = :idShoelcae " +
+            "OR e.heelcushion.Id = :idHeelcushion) " +
+            "AND e.Id <> :idProduct " +
+            "ORDER BY e.CreateDate DESC")
+    public List<ProductDetail> getProductByCategory(@Param("id") Integer id,
+                                                    @Param("idBrand") Integer idBrand,
+                                                    @Param("idDesign") Integer idDesign,
+                                                    @Param("idToe") Integer idToe,
+                                                    @Param("idSole") Integer idSole,
+                                                    @Param("idShoelcae") Integer idShoelcae,
+                                                    @Param("idHeelcushion") Integer idHeelcushion,
+                                                    @Param("idProduct") Integer idProduct);
     @Query(value = "Select SUM(b.Quantity) from BillDetail b \n" +
             "join Bill  c on c.Id = b.bill.Id \n" +
             "where b.productDetail.Id = :id and c.Status = 3")

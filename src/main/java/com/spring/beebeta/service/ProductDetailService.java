@@ -88,8 +88,8 @@ public class ProductDetailService {
         return repository.getByCode(code);
     }
 
-    public List<ProductDetail> getProductByCategory(Integer id,Integer idBrand ,Integer idDesign, Integer idToe, Integer idSole,Integer idShoelcae,Integer idHeelcushion){
-        return repository.getProductByCategory(id,idBrand,idDesign,idToe,idSole,idShoelcae,idHeelcushion);
+    public List<ProductDetail> getProductByCategory(Integer id,Integer idBrand ,Integer idDesign, Integer idToe, Integer idSole,Integer idShoelcae,Integer idHeelcushion,Integer idProduct){
+        return repository.getProductByCategory(id,idBrand,idDesign,idToe,idSole,idShoelcae,idHeelcushion,idProduct);
     }
 
     public Integer quantitySold(@Param("id") Integer id){

@@ -131,8 +131,9 @@ public class ProductDetailRest {
                                              @RequestParam("idToe") Integer idToe,
                                              @RequestParam("idSole") Integer idSole,
                                              @RequestParam("idShoelace") Integer idShoelcae,
-                                             @RequestParam("idHeelcushion") Integer idHeelcushion){
-        return ResponseEntity.ok(service.getProductByCategory(id,idBrand,idDesign,idToe,idSole,idShoelcae,idHeelcushion));
+                                             @RequestParam("idHeelcushion") Integer idHeelcushion,
+                                             @RequestParam("idProduct") Integer idProduct){
+        return ResponseEntity.ok(service.getProductByCategory(id,idBrand,idDesign,idToe,idSole,idShoelcae,idHeelcushion,idProduct));
     }
     @GetMapping("/quantitySold/{id}")
     public ResponseEntity<?> quantitySold(@PathVariable("id") Integer id){
