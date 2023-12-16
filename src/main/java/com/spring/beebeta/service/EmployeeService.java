@@ -8,7 +8,11 @@ import com.spring.beebeta.request.CapNhatProfile;
 import com.spring.beebeta.request.ChangeForm;
 import com.spring.beebeta.request.EmployeeRequest;
 import com.spring.beebeta.request.ForgetForm;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +26,17 @@ public class EmployeeService {
     EmployeeRepository repository;
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final SecureRandom random = new SecureRandom();
+    @Cacheable(value = "employeeCache", key = "'getAll'")
     public List<Employee> getAll(){
         return repository.getAll();
     }
-
+    @Cacheable(value = "employeeCache", key = "#name")
     public List<Employee> getAllbyName(String name){
         return repository.searchByName('%'+name+'%');
     }
-
+    @Transactional
+    @CachePut(value = "employeeCache", key = "#request.code")
+    @CacheEvict(value = "employeeCache", key = "'getAll'", allEntries = true)
     public Employee add(EmployeeRequest request){
         Employee employee = new Employee();
         employee.setCode(request.getCode());
@@ -44,7 +51,9 @@ public class EmployeeService {
         employee.setRole(Role.builder().Id(request.getIdRole()).build());
         return repository.save(employee);
     }
-
+    @Transactional
+    @CachePut(value = "employeeCache", key = "#request.code")
+    @CacheEvict(value = "employeeCache", key = "'getAll'", allEntries = true)
     public Employee update(Integer id,EmployeeRequest request){
         Employee employee = repository.getById(id);
         employee.setCode(request.getCode());
@@ -59,17 +68,19 @@ public class EmployeeService {
         employee.setRole(Role.builder().Id(request.getIdRole()).build());
         return repository.save(employee);
     }
-
+    @Transactional
+    @CacheEvict(value = "employeeCache", key = "'getAll'", allEntries = true)
     public Employee delete(Integer Id){
         Employee employee = repository.getById(Id);
         employee.setStatus(1);
         return repository.save(employee);
     }
-
+    @Cacheable(value = "employeeCache", key = "#Id")
     public Employee getById(Integer Id){
         Employee employee = repository.getById(Id);
         return employee;
     }
+    @Cacheable(value = "employeeCache", key = "#username")
     public Employee getByUsername(String username){
         return repository.getByUsername(username);
     }

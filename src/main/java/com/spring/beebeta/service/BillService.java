@@ -113,6 +113,11 @@ public class BillService {
         bill.setTotalPrice(money);
         return repository.save(bill);
     }
+    public Bill updatePhiShip(UpdateBillShipPrice updateBillShipPrice){
+        Bill bill = repository.getByCode(updateBillShipPrice.getCode());
+        bill.setShipPrice(updateBillShipPrice.getMoney());
+        return repository.save(bill);
+    }
     public void huyBill(String code){
         Bill bill = repository.getByCode(code);
         bill.setStatus(4);

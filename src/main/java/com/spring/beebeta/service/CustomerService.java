@@ -6,7 +6,11 @@ import com.spring.beebeta.entity.Sole;
 import com.spring.beebeta.repository.CustomerRepository;
 import com.spring.beebeta.request.*;
 import com.spring.beebeta.rest.CustomerRest;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -21,15 +25,20 @@ public class CustomerService {
     private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final SecureRandom random = new SecureRandom();
     // hien thi tat ca
+    @Cacheable(value = "customerCache", key = "'getAll'")
     public List<Customer> getAll(){
         return customerRepository.getAll();
     }
 
     // Tim khach hang
+    @Cacheable(value = "customerCache", key = "#fullname")
     public List<Customer> getAllbyFullName(String fullname){
         return customerRepository.searchByFullName('%'+fullname+'%');
     }
     // add khach hang
+    @Transactional
+    @CachePut(value = "customerCache", key = "#reques.code")
+    @CacheEvict(value = "customerCache", key = "'getAll'", allEntries = true)
     public Customer add(CustomerReques reques){
         Customer customer = new Customer();
         customer.setCode(reques.getCode());
@@ -44,6 +53,9 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
     // update khach hang
+    @Transactional
+    @CachePut(value = "customerCache", key = "#reques.code")
+    @CacheEvict(value = "customerCache", key = "'getAll'", allEntries = true)
     public  Customer update(Integer id , CustomerReques reques){
         Customer customer = customerRepository.getById(id);
         customer.setCode(reques.getCode());
@@ -58,17 +70,21 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
     // xoa khach hang
+    @Transactional
+    @CacheEvict(value = "customerCache", key = "'getAll'", allEntries = true)
     public  Customer delete(Integer id ){
         Customer customer = customerRepository.getById(id);
         customer.setStatus(1);
         return  customerRepository.save(customer);
     }
     // de tai khach hang
+    @Cacheable(value = "customerCache", key = "#Id")
     public Customer getById(Integer Id){
         Customer customer = customerRepository.getById(Id);
         return customer;
     }
     // de tai khach hang
+    @Cacheable(value = "customerCache", key = "#username")
     public Customer getByUsername(String username){
         Customer customer = customerRepository.getByUsername(username);
         return customer;

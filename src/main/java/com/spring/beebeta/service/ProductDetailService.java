@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,19 +23,41 @@ import java.util.Optional;
 public class ProductDetailService {
     @Autowired
     ProductDetailRepository repository;
-    public List<ProductDetail> getAll(){
+    public List<ProductDetail> getAll() {
         return repository.getAll();
     }
     public List<ProductDetail> getAllBanChay(){
         return repository.getAllBanChay();
     }
     public List<ProductDetail> getAllbyProductName(String name){
-        return repository.getAllByProductName("\"" + name + "\"");
+        String [] spl = name.split(" ");
+        String text = "";
+        text += spl[0];
+        if(spl.length > 2){
+            for (int i = 1; i < spl.length - 1; i++) {
+                text += " near " +spl[i];
+            }
+        }
+        if(spl.length > 1){
+            text += " near " +spl[spl.length - 1];
+        }
+        return repository.getAllByProductName("\'" + text + "\'");
     }
     public List<ProductDetail> getAllbyFilter(String name,Integer IdColor,Integer IdSize,Integer IdMaterial,Integer IdCategory, Integer IdBrand , Integer IdToe, Integer IdSole,Integer IdShoelace,Integer IdHeelcushion, Integer IdDesign,Double min , Double max,Double minTL , Double maxTL,Integer soLuong,Integer soLuong1){
-        String text = name == null ? "null" : "\"" + name + "\"";
-        System.out.println(text);
-        return repository.getAllByFilter(text,IdColor,IdSize,IdMaterial,IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign,min,max,minTL,maxTL,soLuong,soLuong1);
+        String [] spl = name.split(" ");
+        String text = "";
+        text += spl[0];
+        if(spl.length > 2){
+            for (int i = 1; i < spl.length - 1; i++) {
+                text += " near " +spl[i];
+            }
+        }
+        if(spl.length > 1){
+            text += " near " +spl[spl.length - 1];
+        }
+
+        String text1 = text == null ? "null" : "\'" + text + "\'";
+        return repository.getAllByFilter(text1,IdColor,IdSize,IdMaterial,IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign,min,max,minTL,maxTL,soLuong,soLuong1);
     }
     public Page<ProductDetail> phanTrang(Integer page){
         Pageable pageable = PageRequest.of(page,10);

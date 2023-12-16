@@ -86,6 +86,11 @@ public class BillRest {
         service.updateTongTien(Code,money);
         return ResponseEntity.ok(HttpStatus.OK);
     }
+    @PutMapping("/updatePhiShip")
+    public ResponseEntity<?> updatePhiShip(@RequestBody UpdateBillShipPrice updateBillShipPrice){
+        service.updatePhiShip(updateBillShipPrice);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
     @GetMapping("/huy/{code}")
     public ResponseEntity<?> huyBill(@PathVariable("code") String code){
         service.huyBill(code);
