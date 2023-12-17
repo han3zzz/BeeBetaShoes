@@ -85,7 +85,7 @@ public class EmployeeRest {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<?> getAllByFilter(@RequestParam(name = "idRole") Integer idRole){
+    public ResponseEntity<?> getAllByFilter(@RequestParam(name = "idRole",required = false) Integer idRole){
         return ResponseEntity.ok(service.getAllByFilter(idRole));
     }
 
