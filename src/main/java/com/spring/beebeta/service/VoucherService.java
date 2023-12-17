@@ -68,7 +68,7 @@ public class VoucherService {
 
     public Voucher delete(Integer Id){
         Voucher voucher = repository.getById(Id);
-        voucher.setStatus(1);
+        voucher.setStatus(2);
         return repository.save(voucher);
     }
 
