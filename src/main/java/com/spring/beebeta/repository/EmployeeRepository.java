@@ -17,7 +17,7 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     @Query(value = "select e from Employee e where e.Username = :username")
     public Employee getByUsername(@Param("username") String username);
 
-    @Query(value = "select e from Employee e where (e.role.Id = :idRole or :idRole is null)")
+    @Query(value = "select e from Employee e where e.Status = 0 and (e.role.Id = :idRole or :idRole is null)")
     public List<Employee> getEmployeeByRole(@Param("idRole") Integer id);
 
     @Query(value = "Select e from Employee e where e.Status = :status")
