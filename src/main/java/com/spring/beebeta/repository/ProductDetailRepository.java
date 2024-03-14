@@ -18,6 +18,8 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail,Int
     public ProductDetail getById(@Param("id") Integer id);
     @Query(value = "Select e from ProductDetail e where e.Status = 0 Order by e.CreateDate desc")
     public List<ProductDetail> getAll();
+    @Query(value = "Select e from ProductDetail e where e.Status = 1 Order by e.CreateDate desc")
+    public List<ProductDetail> getAll1();
     @Query(value = "SELECT e.Id, e.Price, e.Discount, e.Description, e.CreateDate, e.UpdateDate, e.CreateBy, e.UpdateBy, e.Status, e.IdProduct, e.IdBrand, e.IdToe, e.IdShoelace, e.IdCategory, e.IdHeelcushion, e.IdSole, e.IdDesign, e.Weight, e.DiscountDate\n" +
             "            FROM ProductDetail e\n" +
             "           JOIN BillDetail bd ON bd.IdProductDetail = e.Id\n" +

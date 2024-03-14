@@ -26,6 +26,9 @@ public class ProductDetailService {
     public List<ProductDetail> getAll() {
         return repository.getAll();
     }
+    public List<ProductDetail> getAll1() {
+        return repository.getAll1();
+    }
     public List<ProductDetail> getAllBanChay(){
         return repository.getAllBanChay();
     }
@@ -92,6 +95,11 @@ public class ProductDetailService {
     public ProductDetail delete(Integer IdProductDetail){
         ProductDetail p = repository.getById(IdProductDetail);
         p.setStatus(1);
+        return repository.save(p);
+    }
+    public ProductDetail delete1(Integer IdProductDetail){
+        ProductDetail p = repository.getById(IdProductDetail);
+        p.setStatus(0);
         return repository.save(p);
     }
     public ProductDetail update(Integer id,ProductDetailRequest request){

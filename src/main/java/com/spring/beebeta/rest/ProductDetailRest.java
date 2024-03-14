@@ -29,6 +29,10 @@ public class ProductDetailRest {
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(service.getAll());
     }
+    @GetMapping("/getall1")
+    public ResponseEntity<?> getAll1(){
+        return ResponseEntity.ok(service.getAll1());
+    }
     @GetMapping("/getAllBanChay")
     public ResponseEntity<?> getAllBanChay(){
         return ResponseEntity.ok(service.getAllBanChay());
@@ -115,6 +119,10 @@ public class ProductDetailRest {
     @PutMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer id){
         return ResponseEntity.ok(service.delete(id));
+    }
+    @PutMapping("/khoiphuc/{id}")
+    public ResponseEntity<?> delete1(@PathVariable("id") Integer id){
+        return ResponseEntity.ok(service.delete1(id));
     }
     @PutMapping("/update/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Integer id,@RequestBody ProductDetailRequest request){
