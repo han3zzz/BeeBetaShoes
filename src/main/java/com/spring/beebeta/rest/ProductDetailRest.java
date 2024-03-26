@@ -48,7 +48,7 @@ public class ProductDetailRest {
         return ResponseEntity.ok(service.getAllbyProductName(name));
     }
     @GetMapping("/filter")
-    public ResponseEntity<?> getAllByFilter(@RequestParam(name = "name",required = false) String name,
+    public ResponseEntity<?> getAllByFilter(
                                             @RequestParam(name = "idcategory",required = false) Integer IdCategory,
                                             @RequestParam(name = "idmaterial",required = false) Integer IdMaterial,
                                             @RequestParam(name = "idcolor",required = false) Integer IdColor,
@@ -65,7 +65,7 @@ public class ProductDetailRest {
                                             @RequestParam("maxTL") Double maxTL,
                                             @RequestParam(name = "soLuong",required = false) Integer soLuong,
                                             @RequestParam(name = "soLuong1",required = false) Integer soLuong1){
-        return ResponseEntity.ok(service.getAllbyFilter(name,IdColor,IdSize,IdMaterial,IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign,min,max,minTL,maxTL,soLuong,soLuong1));
+        return ResponseEntity.ok(service.getAllbyFilter(IdColor,IdSize,IdMaterial,IdCategory,IdBrand,IdToe,IdSole,IdShoelace,IdHeelcushion,IdDesign,min,max,minTL,maxTL,soLuong,soLuong1));
     }
 
     @GetMapping("/phantrang")
