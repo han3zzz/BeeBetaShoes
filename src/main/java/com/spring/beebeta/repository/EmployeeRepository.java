@@ -10,6 +10,8 @@ import java.util.List;
 public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     @Query(value = "Select e from Employee e where e.Status = 0")
     public List<Employee> getAll();
+    @Query(value = "Select e from Employee e where e.Status = 1")
+    public List<Employee> getAll1();
     @Query(value = "Select e from Employee e where e.Fullname like :fullname")
     public List<Employee> searchByName(@Param("fullname") String fullname);
     @Query(value = "select e from Employee e where e.Id = :id")

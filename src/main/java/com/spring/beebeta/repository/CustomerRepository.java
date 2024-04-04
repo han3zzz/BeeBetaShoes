@@ -14,6 +14,8 @@ import java.util.Optional;
 public interface CustomerRepository extends JpaRepository<Customer , Integer> {
     @Query(value = "Select e from Customer e where e.Status = 0")
     public List<Customer> getAll();
+    @Query(value = "Select e from Customer e where e.Status = 1")
+    public List<Customer> getAll1();
 
     @Query(value = "select e from Customer e where e.Status = 0 and e.Fullname like :fullname" )
     public List<Customer> searchByFullName(@Param("fullname") String fullname);

@@ -27,6 +27,10 @@ public class CustomerRest {
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(service.getAll());
     }
+    @GetMapping("/getall1")
+    public ResponseEntity<?> getAll1(){
+        return ResponseEntity.ok(service.getAll1());
+    }
 
     @GetMapping("/search/{fullname}")
     public ResponseEntity<?> getAllByProductName(@PathVariable("fullname") String fullname){
@@ -55,6 +59,11 @@ public class CustomerRest {
     @PutMapping("/delete/{id}")
     public  ResponseEntity<?> delete(@PathVariable("id") Integer id ){
         return ResponseEntity.ok(service.delete(id));
+    }
+
+    @PutMapping("/khoiphuc/{id}")
+    public  ResponseEntity<?> khoiphuc(@PathVariable("id") Integer id ){
+        return ResponseEntity.ok(service.delete1(id));
     }
 
 

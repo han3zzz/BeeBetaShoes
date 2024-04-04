@@ -26,6 +26,10 @@ public class EmployeeRest {
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(service.getAll());
     }
+    @GetMapping("/getall1")
+    public ResponseEntity<?> getAll1(){
+        return ResponseEntity.ok(service.getAll1());
+    }
 
     @GetMapping("/search/{name}")
     public ResponseEntity<?> getAllByEmployee(@PathVariable("name") String name){
@@ -58,6 +62,10 @@ public class EmployeeRest {
     @PutMapping("/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Integer Id){
         return ResponseEntity.ok(service.delete(Id));
+    }
+    @PutMapping("/khoiphuc/{id}")
+    public ResponseEntity<?> khoiphuc(@PathVariable("id") Integer Id){
+        return ResponseEntity.ok(service.delete1(Id));
     }
     @GetMapping("/getByUsername/{usernmae}")
     public ResponseEntity<?> getByUsername(@PathVariable("usernmae") String name){
