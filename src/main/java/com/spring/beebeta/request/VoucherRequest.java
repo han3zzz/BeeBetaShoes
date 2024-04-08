@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Getter
@@ -28,9 +29,9 @@ public class VoucherRequest {
 
     private BigDecimal Cash;
     @NotNull(message = "Không được bỏ trống ngày bắt đầu ")
-    private Date StartDate;
+    private Timestamp StartDate;
     @NotNull(message = "Không được bỏ trống ngày kết thúc ")
-    private Date EndDate;
+    private Timestamp EndDate;
 //    @NotNull(message = "Hóa đơn áp dụng không được bỏ trống !")
 //    @Min(value = 1, message = "Hóa đơn áp dụng phải là số nguyên dương !")
     private Integer Minimum;

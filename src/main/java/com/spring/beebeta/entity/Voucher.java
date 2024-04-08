@@ -50,13 +50,13 @@ public class Voucher implements Serializable {
     private Integer Minimum;
 
     @Column(name = "StartDate")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @Temporal(TemporalType.DATE)
-    private Date StartDate;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+//    @Temporal(TemporalType.DATE)
+    private Timestamp StartDate;
     @Column(name = "EndDate")
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @Temporal(TemporalType.DATE)
-    private Date EndDate;
+//    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+//    @Temporal(TemporalType.DATE)
+    private Timestamp EndDate;
     @JsonIgnore
     @OneToMany(mappedBy = "voucher")
     private Set<Product_Voucher> product_vouchers = new HashSet<Product_Voucher>();

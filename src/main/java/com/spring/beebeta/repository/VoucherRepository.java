@@ -22,6 +22,6 @@ public interface VoucherRepository extends JpaRepository<Voucher, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "Update Voucher set Status = 1 WHERE EndDate <= GETDATE() + 1",nativeQuery = true)
+    @Query(value = "UPDATE Voucher SET Status = 1 WHERE EndDate <= DATEADD(MINUTE, 1, GETDATE())\n",nativeQuery = true)
     public void updateExpensive();
 }

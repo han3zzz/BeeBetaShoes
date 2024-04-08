@@ -31,6 +31,7 @@ public interface BillDetailRepository extends JpaRepository<BillDetail,Integer> 
             "join Product pro on pro.Id = p.IdProduct\n" +
             "join ProductImage pm on pm.IdProduct = pro.Id\n" +
             "WHERE b.Status = 3 and pm.MainImage = 1\n" +
+            "AND MONTH(b.PurchaseDate) = MONTH(GETDATE()) AND YEAR(b.PurchaseDate) = YEAR(GETDATE())\n" +
             "Group by pm.Url  ,pro.Code, pro.Name\n" +
             "order by SUM(bi.Quantity) desc", nativeQuery = true)
     public List<TKSanPham> getTKSanPham();
